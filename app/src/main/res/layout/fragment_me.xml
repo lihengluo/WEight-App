@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="fragment.Fragment_me"
+    android:background="@drawable/bg2"
+    >
+
+
+    <TextView
+        android:id="@+id/tv_1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/name"
+        android:maxEms="10"
+        android:maxLines="2"
+        android:textColor="#D5E0E8"
+        android:textSize="20sp"
+
+        android:gravity="center"
+        android:layout_marginTop="200dp"
+        />
+    <!--输入框-->
+    <EditText
+        android:id="@+id/et_1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:hint="@string/user_name"
+        android:maxLines="1"
+        android:padding="5dp"
+        android:layout_marginTop="300dp"
+        android:background="@drawable/bg_insert"
+        />
+
+    <EditText
+        android:id="@+id/et_2"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:hint="@string/user_key"
+        android:maxLines="1"
+        android:padding="5dp"
+        android:inputType="textPassword"
+        android:layout_marginTop="350dp"
+        android:background="@drawable/bg_insert"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="450dp"
+        >
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:text="登 录"
+            android:textColor="#EAE2E2"
+            android:background="@drawable/btn_left"
+            />
+
+        <Button
+            android:id="@+id/btn_logout"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="注册"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/btn_right"
+
+            />
+
+    </LinearLayout>
+    <!--按钮-->
+
+
+
+</FrameLayout>
