@@ -25,6 +25,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    buildFeatures {
+        viewBinding true
+    }
 }
 
 dependencies {
@@ -35,4 +38,10 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    implementation 'com.huawei.agconnect:agconnect-auth:1.7.1.300'
+    implementation 'com.huawei.agconnect:agconnect-core:1.7.1.300'
+    implementation 'com.huawei.agconnect:agconnect-function:1.7.1.300'
+    implementation 'com.huawei.agconnect:agconnect-storage:1.5.0.100'
+    implementation 'com.huawei.agconnect:agconnect-cloud-database:1.5.4.300'
 }
