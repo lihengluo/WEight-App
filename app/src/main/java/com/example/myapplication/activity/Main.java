@@ -16,8 +16,10 @@ public class Main extends AppCompatActivity {
 
     //声明控件
     private Button mybuttonlogin;
+    private Button mybuttonregister;
     private EditText myEtuser;
     private EditText myEtpassword;
+    private Button mybutttonskip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,8 @@ public class Main extends AppCompatActivity {
         mybuttonlogin = findViewById(R.id.btn_login);
         myEtuser = findViewById(R.id.et_1);
         myEtpassword = findViewById(R.id.et_2);
+        mybuttonlogin = findViewById(R.id.btn_reg);
+        mybutttonskip = findViewById(R.id.btn_skip);
 
         //实现跳转---方法1
         mybuttonlogin.setOnClickListener(new View.OnClickListener() {
@@ -50,8 +54,6 @@ public class Main extends AppCompatActivity {
                     //封装好的类
                     ToastUtil.showMessage(Main.this, ok);
 
-
-                    startActivity(intent);
                 }
                 else{ //弹出登录失败toast
                     //toast提升版 居中显示
@@ -64,7 +66,14 @@ public class Main extends AppCompatActivity {
             }
         });
 
-        //匹配对应用户名和密码进行登录操作
+        mybutttonskip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), Bottom_bar.class);
+                Toast toastcenter = Toast.makeText(getApplicationContext(), "已跳过登录阶段", Toast.LENGTH_SHORT);
+                startActivity(intent);
+            }
+        });
 
     }
 

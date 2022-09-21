@@ -14,5 +14,6 @@ public class Analyze extends AppCompatActivity {
         setContentView(R.layout.analyze);
 
 
+
     }
 }
