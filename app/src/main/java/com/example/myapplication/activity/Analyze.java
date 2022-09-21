@@ -17,8 +17,8 @@ public class Analyze extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.analyze);
 
-        cameraPicture = findViewById(R.id.same_picture);
-        cameraPicture.setImageBitmap(Camera.bitmap);
+//        cameraPicture = findViewById(R.id.same_picture);
+//        cameraPicture.setImageBitmap(Camera.bitmap);
 
     }
 }
