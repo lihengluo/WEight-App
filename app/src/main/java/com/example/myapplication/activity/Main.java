@@ -25,7 +25,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.function.CloudFunction;
 import com.huawei.agconnect.AGConnectInstance;
 import com.huawei.agconnect.AGConnectOptionsBuilder;
 
