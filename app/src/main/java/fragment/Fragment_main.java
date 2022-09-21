@@ -18,7 +18,7 @@ import android.widget.ImageView;
 import com.example.myapplication.R;
 import com.example.myapplication.activity.Albums;
 import com.example.myapplication.activity.Camera;
-import com.example.myapplication.activity.Main;
+import com.example.myapplication.activity.Bottom_bar;
 
 
 public class Fragment_main extends Fragment {
