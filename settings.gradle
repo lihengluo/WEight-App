@@ -3,6 +3,7 @@ pluginManagement {
         gradlePluginPortal()
         google()
         mavenCentral()
+        maven { url 'https://developer.huawei.com/repo/' }
     }
 }
 dependencyResolutionManagement {
@@ -10,10 +11,6 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-    }
-    repositories {
-        google()
-        jcenter()
         maven {url 'https://developer.huawei.com/repo/'}
     }
 }
