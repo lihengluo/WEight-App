@@ -92,6 +92,9 @@ public class Main extends AppCompatActivity {
             AGConnectOptionsBuilder builder = new AGConnectOptionsBuilder();
             InputStream in = getAssets().open("agconnect-services.json");    //如果使用了AGC插件，删除此行
             builder.setInputStream(in);
+            builder.setClientId("981817313709805184");
+            builder.setClientSecret("216C89C06BD713DC0F94A440D6ACDB4052B12B4468331D675F412EFFD60270DC");
+            builder.setApiKey("DAEDAOdUgkjCnRD4/xfDwBnv3MOJzw6aUT0CQ0VxUgfSPe99ZDD0lmvHfffuffK4uHp4bTYpQeXRdWDm2EXsH7I2G/O/0EuFy5Tzcw==");
             builder.setCPId("420086000304642213");
             builder.setProductId("99536292102615511");
             builder.setAppId("107062115");
