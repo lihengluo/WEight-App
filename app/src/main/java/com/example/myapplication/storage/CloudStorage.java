@@ -15,13 +15,9 @@ import java.util.concurrent.ExecutionException;
 public class CloudStorage {
     private static CloudStorage storage = null;
 
-    private AGCStorageManagement mAGCStorageManagement;
+    private final AGCStorageManagement mAGCStorageManagement = AGCStorageManagement.getInstance();
 
     private CloudStorage(){}
-
-    private void initAGCStorageManagement() {
-        mAGCStorageManagement = AGCStorageManagement.getInstance();
-    }
 
     private boolean uploadFile(StorageReference reference, File file) {
         UploadTask task = reference.putFile(file);
