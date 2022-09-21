@@ -1,133 +1,71 @@
 package com.example.myapplication.activity;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.example.myapplication.util.ToastUtil;
 import com.example.myapplication.R;
-import com.huawei.agconnect.AGConnectInstance;
-import com.huawei.agconnect.AGConnectOptionsBuilder;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
-import fragment.Fragment_main;
-import fragment.Fragment_me;
-
 
 public class Main extends AppCompatActivity {
 
     //声明控件
-    public static final int TAKE_PHOTO = 1;
-    public static final int CHOOSE_PHOTO = 2;
-    private ImageView picture;
-    //private EditText myfoodname;
-    private Intent intent1,intent2;
-
-    private TextView bottom_bar_text_1;
-    private ImageView bottom_bar_image_1;
-    private TextView bottom_bar_text_2;
-    private ImageView bottom_bar_image_2;
-    private RelativeLayout bottom_bar_1_btn;
-    private RelativeLayout bottom_bar_2_btn;
-    private Fragment_main fragment_main;
-    private RelativeLayout main_body;
-
+    private Button mybuttonlogin;
+    private EditText myEtuser;
+    private EditText myEtpassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //getSupportFragmentManager().beginTransaction().replace(R.id.main_body,new Fragment_main()).commit();
-        initView();//初始化数据
-        //对单选按钮进行监听，选中、未选中
-
         //找到控件
-        //initView();
-        fragment_main = new Fragment_main();
-        setMain();
+        mybuttonlogin = findViewById(R.id.btn_login);
+        myEtuser = findViewById(R.id.et_1);
+        myEtpassword = findViewById(R.id.et_2);
 
-
-        bottom_bar_1_btn.setOnClickListener(new View.OnClickListener() {
+        //实现跳转---方法1
+        mybuttonlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(view.getId() == R.id.bottom_bar_1_btn) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.main_body,new Fragment_main()).commit();
-                    setSelectStatus(0);
+                String username = myEtuser.getText().toString();
+                String password = myEtpassword.getText().toString();
+
+                //弹出内容设置
+                String ok = "登录成功!";
+                String fail = "密码或者账号有误，请重新登录！";
+
+                Intent intent = new Intent(getApplicationContext(), Bottom_bar.class);
+                //假设正确的账号和密码分别为llh,123456
+                if(username.equals("llh") && password.equals("123456")){ //如果正确的话进行跳转
+                    //toast普通版
+                    startActivity(intent);
+                    //Toast.makeText(getApplicationContext(), ok, Toast.LENGTH_SHORT).show();
+
+                    //封装好的类
+                    ToastUtil.showMessage(Main.this, ok);
+
+
+                    startActivity(intent);
+                }
+                else{ //弹出登录失败toast
+                    //toast提升版 居中显示
+                    Toast toastcenter = Toast.makeText(getApplicationContext(), fail, Toast.LENGTH_SHORT);
+                    toastcenter.setGravity(Gravity.CENTER, 0, 0);
+                    toastcenter.show();
+
+                    ToastUtil.showMessage(Main.this, fail);
                 }
             }
         });
-        bottom_bar_2_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.main_body,new Fragment_me()).commit();
-                if(view.getId() == R.id.bottom_bar_2_btn) setSelectStatus(1);
-            }
-        });
+
+        //匹配对应用户名和密码进行登录操作
 
     }
 
-    private void initView(){
-        bottom_bar_text_1 = findViewById(R.id.bottom_bar_text_1);
-        bottom_bar_image_1 = findViewById(R.id.bottom_bar_image_1);
-        bottom_bar_text_2 = findViewById(R.id.bottom_bar_text_2);
-        bottom_bar_image_2 = findViewById(R.id.bottom_bar_image_2);
-        bottom_bar_1_btn = findViewById(R.id.bottom_bar_1_btn);
-        bottom_bar_2_btn = findViewById(R.id.bottom_bar_2_btn);
-
-        main_body = findViewById(R.id.main_body);
-
-
-    }
-
-    private void setSelectStatus(int index) {
-        switch (index){
-            case 0:
-                //图片点击选择变换图片，颜色的改变，其他变为原来的颜色，并保持原有的图片
-                bottom_bar_image_1.setImageResource(R.drawable.main_select);
-                bottom_bar_text_1.setTextColor(Color.parseColor("#0097F7"));
-                //其他的文本颜色不变
-                bottom_bar_text_2.setTextColor(Color.parseColor("#666666"));
-                //图片也不变
-                bottom_bar_image_2.setImageResource(R.drawable.me_normal);
-                break;
-            case 1://同理如上
-                bottom_bar_image_1.setImageResource(R.drawable.main_normal);
-                bottom_bar_text_2.setTextColor(Color.parseColor("#0097F7"));
-                //其他的文本颜色不变
-                bottom_bar_text_1.setTextColor(Color.parseColor("#666666"));
-                //图片也不变
-                bottom_bar_image_2.setImageResource(R.drawable.me_select);
-                break;
-        }
-    }
-
-    //用于打开初始页面
-    private void setMain() {
-        //getSupportFragmentManager() -> beginTransaction() -> add -> (R.id.main_boy,显示课程 new CourseFragment()
-        this.getSupportFragmentManager().beginTransaction().add(R.id.main_body,fragment_main).commit();
-    }
 }
