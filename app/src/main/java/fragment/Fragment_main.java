@@ -42,6 +42,7 @@ public class Fragment_main extends Fragment {
 
         Button chooseFromAlbum = (Button) getView().findViewById(R.id.choose_from_album);
 
+
         //从相册读取
         chooseFromAlbum.setOnClickListener(new View.OnClickListener() {
             @Override
