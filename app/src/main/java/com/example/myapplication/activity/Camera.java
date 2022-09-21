@@ -55,7 +55,7 @@ public class Camera extends Activity {
     private EditText B1;
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
-
+    public static Bitmap bitmap;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +130,7 @@ public class Camera extends Activity {
                 if (requestCode == TAKE_PHOTO && resultCode == RESULT_OK ) {
                     try {
                         // 将图片解析成Bitmap对象
-                        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
+                        bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
                         cameraPicture.setImageBitmap(bitmap);
                         BitmapDrawable bmpDrawable = (BitmapDrawable) cameraPicture.getDrawable();
 
@@ -214,7 +214,7 @@ public class Camera extends Activity {
                 String A = A1.getText().toString();
                 String B = B1.getText().toString();
 
-                intent3 = new Intent(getApplicationContext(), ListTableActivity.class);
+                intent3 = new Intent(getApplicationContext(), Analyze.class);
 //                            System.out.println(A.toString());
 //                            System.out.println(B.toString());
                 if (A.isEmpty() || B.isEmpty()) {
