@@ -17,13 +17,6 @@ public class CloudStorage {
 
     private AGCStorageManagement mAGCStorageManagement;
 
-    public static synchronized CloudStorage getStorage() {
-        if (storage == null) {
-            storage = new CloudStorage();
-        }
-        return storage;
-    }
-
     private CloudStorage(){}
 
     private void initAGCStorageManagement() {
@@ -42,6 +35,17 @@ public class CloudStorage {
 
     private StorageReference getFileReference(String path) {
         return mAGCStorageManagement.getStorageReference(path);
+    }
+
+    /**
+     * 获取云存储实例（调用方法：CloudStorage.getStorage()）
+     * @return 一个CloudStorage对象
+     */
+    public static synchronized CloudStorage getStorage() {
+        if (storage == null) {
+            storage = new CloudStorage();
+        }
+        return storage;
     }
 
     /**
