@@ -5,7 +5,7 @@
     android:background="#A5C8C1C1">
 
     <LinearLayout
-        android:layout_width="260dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:background="@drawable/ic_launcher_foreground"
@@ -13,12 +13,12 @@
 
         <TextView
             android:id="@+id/title"
-            android:layout_width="wrap_content"
+            android:layout_width="277dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="15dp"
             android:gravity="center"
-            android:text="请输入以下信息"
+            android:text="请估算以下参数信息（厘米）"
             android:textColor="@color/black"
             android:textSize="20sp" />
 
@@ -30,7 +30,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:gravity=""
-            android:hint="A:"
+            android:hint="容器直径"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:background="@drawable/bg_insert"/>
@@ -48,7 +48,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:gravity=""
-            android:hint="B:"
+            android:hint="容器与摄像头距离"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:background="@drawable/bg_insert"/>

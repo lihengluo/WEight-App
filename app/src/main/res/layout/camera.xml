@@ -27,9 +27,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginLeft="120dp"
+            android:layout_marginLeft="135dp"
             android:layout_marginTop="100dp"
-            android:text="图像检测"
+            android:text="开始分析"
             android:textSize="20dp" />
 
 
