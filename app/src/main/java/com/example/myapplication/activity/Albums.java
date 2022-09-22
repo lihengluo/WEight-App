@@ -96,15 +96,14 @@ public class Albums extends Activity {
 
                 //进行照片的处理
                 if (requestCode == CHOOSE_PHOTO && resultCode == RESULT_OK && null != data) {
-                    if (Build.VERSION.SDK_INT >= 19) { //版本要求
+                    if (true ||Build.VERSION.SDK_INT >= 19) { //版本要求
                         handleImageOnKitkat(data); //满足要求的以此种形式处理照片
                     } else {
                         handleImageBeforeKitKat(data);
                     }
                 }
                 else {
-                    intent2 = new Intent(getApplicationContext(), Main.class);
-                    startActivity(intent2);
+
                 }
             default:{
                 intent2 = new Intent(getApplicationContext(), Main.class);
@@ -204,7 +203,7 @@ public class Albums extends Activity {
                 String A = A1.getText().toString();
                 String B = B1.getText().toString();
 
-                intent3 = new Intent(getApplicationContext(), ListTableActivity.class);
+                intent3 = new Intent(getApplicationContext(), Analyze.class);
 //                            System.out.println(A.toString());
 //                            System.out.println(B.toString());
                 if (A.isEmpty() || B.isEmpty()) {

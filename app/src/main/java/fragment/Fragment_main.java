@@ -18,7 +18,7 @@ import android.widget.ImageView;
 import com.example.myapplication.R;
 import com.example.myapplication.activity.Albums;
 import com.example.myapplication.activity.Camera;
-import com.example.myapplication.activity.Main;
+import com.example.myapplication.activity.Bottom_bar;
 
 
 public class Fragment_main extends Fragment {
@@ -41,6 +41,7 @@ public class Fragment_main extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         Button chooseFromAlbum = (Button) getView().findViewById(R.id.choose_from_album);
+
 
         //从相册读取
         chooseFromAlbum.setOnClickListener(new View.OnClickListener() {
