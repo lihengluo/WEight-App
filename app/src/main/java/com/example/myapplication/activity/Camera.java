@@ -84,7 +84,7 @@ public class Camera extends Activity {
         // 如果Android版本大于等于7.0
         if (Build.VERSION.SDK_INT >= 24) {
             // 将File对象转换成一个封装过的Uri对象
-            imageUri = FileProvider.getUriForFile(this, "com.example.lenovo.cameraalbumtest.fileprovider", outputImage);
+            imageUri = FileProvider.getUriForFile(this, "cn.edu.hust.weight.fileprovider", outputImage);
             Log.d("MainActivity", outputImage.toString() + "手机系统版本高于Android7.0");
         } else {
             // 将File对象转换为Uri对象，这个Uri标识着output_image.jpg这张图片的本地真实路径
