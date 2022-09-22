@@ -38,30 +38,28 @@ public class CloudFunction {
     public String[] getTime() {
         final String[] time = new String[2];
 
-        mAGConnectFunction.wrap("get-now-time-$latest").call()
-                .addOnCompleteListener(new OnCompleteListener<FunctionResult>() {
-                    @Override
-                    public void onComplete(Task<FunctionResult> task) {
-                        if (task.isSuccessful()) {
-                            String value = task.getResult().getValue();
-                            try {
-                                JSONObject object = new JSONObject(value);
-                                time[0] = (String)object.get("Date");
-                                time[1] = (String)object.get("Time");
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            Exception e = task.getException();
-                            if (e instanceof AGCFunctionException) {
-                                AGCFunctionException functionException = (AGCFunctionException) e;
-                                int errCode = functionException.getCode();
-                                String message = functionException.getMessage();
-                                Log.e("CloudFunction getTime", "errorCode: " + errCode + ", message: " + message);
-                            }
-                        }
-                    }
-                });
+        Task<FunctionResult> task = mAGConnectFunction.wrap("get-now-time-$latest").call();
+        // 完成调用前循环等待
+        while (!task.isComplete())
+            ;
+        if (task.isSuccessful()) {
+            String value = task.getResult().getValue();
+            try {
+                JSONObject object = new JSONObject(value);
+                time[0] = (String)object.get("Date");
+                time[1] = (String)object.get("Time");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Exception e = task.getException();
+            if (e instanceof AGCFunctionException) {
+                AGCFunctionException functionException = (AGCFunctionException) e;
+                int errCode = functionException.getCode();
+                String message = functionException.getMessage();
+                Log.e("CloudFunction getTime", "errorCode: " + errCode + ", message: " + message);
+            }
+        }
 
         return time;
     }
