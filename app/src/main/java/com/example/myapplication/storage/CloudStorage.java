@@ -84,13 +84,8 @@ public class CloudStorage {
     public List<StorageReference> getFileList(String cloudDir) {
         StorageReference dirReference  = getFileReference(cloudDir);
         Task<ListResult> listTask = dirReference.listAll();
-        ListResult listResult;
-        try {
-            listResult = Tasks.await(listTask);
-        }
-        catch (ExecutionException | InterruptedException e) {
-            return null;
-        }
+        while (!listTask.isComplete());
+        ListResult listResult = listTask.getResult();
 
         return listResult.getFileList();
     }
