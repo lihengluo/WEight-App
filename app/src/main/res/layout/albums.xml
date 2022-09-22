@@ -24,13 +24,14 @@
 
         <Button
             android:id="@+id/pestDetection"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="150dp"
-            android:layout_marginTop="100dp"
-            android:text="图像检测"
-            android:textSize="20dp" />
-
+            android:layout_marginLeft="105dp"
+            android:gravity="center"
+            android:layout_marginTop="30dp"
+            android:text="开始分析"
+            android:textSize="20dp"
+            />
 
 
     </LinearLayout>

@@ -2,13 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#A5C8C1C1">
+    android:orientation="vertical"
+    android:background="@color/lightgray">
 
     <LinearLayout
-        android:layout_width="300dp"
+        android:layout_width="450dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:background="@drawable/ic_launcher_foreground"
+        android:background="@color/lightgray"
         android:orientation="vertical">
 
         <TextView
@@ -18,7 +19,7 @@
             android:layout_gravity="center"
             android:layout_margin="15dp"
             android:gravity="center"
-            android:text="请估算以下参数信息（厘米）"
+            android:text="请估算以下参数信息"
             android:textColor="@color/black"
             android:textSize="20sp" />
 
@@ -29,7 +30,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:gravity=""
+            android:gravity="center|left"
             android:hint="容器直径"
             android:textColor="@color/black"
             android:textSize="20sp"
@@ -47,7 +48,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:gravity=""
+            android:gravity="center|left"
             android:hint="容器与摄像头距离"
             android:textColor="@color/black"
             android:textSize="20sp"
@@ -69,15 +70,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@null"
                 android:gravity="center"
                 android:singleLine="true"
-                android:text="取消"
+                android:text="取 消"
                 android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:background="@drawable/btn_left"
+                />
 
             <View
-                android:layout_width="1px"
+                android:layout_width="10px"
                 android:layout_height="match_parent"
                 android:background="#E4E4E4" />
 
@@ -88,12 +90,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@null"
                 android:gravity="center"
                 android:singleLine="true"
                 android:text="确 定"
                 android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:background="@drawable/btn_right"/>
 
         </LinearLayout>
     </LinearLayout>

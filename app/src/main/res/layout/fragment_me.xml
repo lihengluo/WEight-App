@@ -7,6 +7,19 @@
     android:background="@drawable/bg3"
     >
 
+    <TextView
+        android:id="@+id/tv_1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="请选择查询日期"
+        android:maxEms="10"
+        android:maxLines="2"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginTop="100dp"
+        />
 
     <CalendarView
         android:id="@+id/calendarView"
@@ -39,7 +52,6 @@
             android:text="确认查询"
             android:layout_gravity="center"
             android:layout_marginLeft="0dp"
-            android:background="@drawable/btn_right"
 
             />
 

@@ -8,32 +8,31 @@
 
     <ImageView
         android:id="@+id/same_picture"
-        android:layout_width="200dp"
+        android:layout_width="170dp"
         android:layout_height="350dp"
         android:layout_below="@+id/pictureSave"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="-20dp"
         android:layout_marginTop="100dp"
-        android:src="@drawable/food"
-        />
+        android:layout_marginRight="-20dp"
+        android:src="@drawable/food" />
 
     <TextView
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:background="@drawable/bg_rectangle_corner"
-        android:layout_marginTop="188dp"
+        android:layout_marginTop="198dp"
         android:layout_marginRight="-17dp"
         />
 
     <TextView
         android:id="@+id/tx_1"
-        android:layout_width="182dp"
+        android:layout_width="170dp"
         android:layout_height="241dp"
         android:layout_marginTop="140dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/bg_fangkuang"
-        android:text="\n               分析结果      \n\n    食物名：        牛肉面\n    热量:              595大卡\n    碳水化合物:     85g\n    蛋白质:              30g\n    脂肪:                  16g\n
-   钙:                   1230mg\n    铁:                   4.515mg  \n  "
+        android:text="\n            分析结果      \n\n  食物名：      牛肉面\n  热量:            595大卡\n  碳水化合物:   85g\n  蛋白质:            30g\n  脂肪:                16g\n
+ 钙:                1230mg\n  铁:                4.515mg  \n  "
         android:textColor="@color/black"
         android:textSize="16sp" />
 
