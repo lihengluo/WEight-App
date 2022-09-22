@@ -1,14 +1,14 @@
-//apply plugin: 'com.android.application'
-//apply plugin: 'com.huawei.agconnect'
-plugins {
-    id 'com.android.application'
-
-}
+apply plugin: 'com.android.application'
+apply plugin: 'com.huawei.agconnect'
+//plugins {
+//    id 'com.android.application'
+//
+//}
 android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.example.myapplication"
+        applicationId "cn.edu.hust.weight"
         minSdk 28
         targetSdk 32
         versionCode 1

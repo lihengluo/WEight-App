@@ -43,7 +43,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.lenovo.cameraalbumtest.fileprovider"
+            android:authorities="cn.edu.hust.weight.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -55,7 +55,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.lenovo.cameraalbumtest.fileprovider"
+            android:authorities="cn.edu.hust.weight.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -70,7 +70,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.lenovo.cameraalbumtest.fileprovider"
+            android:authorities="cn.edu.hust.weight.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
