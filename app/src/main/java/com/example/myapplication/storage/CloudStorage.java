@@ -1,10 +1,14 @@
 package com.example.myapplication.storage;
 
+import android.util.Log;
+
 import com.huawei.agconnect.cloud.storage.core.AGCStorageManagement;
 import com.huawei.agconnect.cloud.storage.core.DownloadTask;
 import com.huawei.agconnect.cloud.storage.core.ListResult;
 import com.huawei.agconnect.cloud.storage.core.StorageReference;
 import com.huawei.agconnect.cloud.storage.core.UploadTask;
+import com.huawei.agconnect.exception.AGCException;
+import com.huawei.agconnect.function.AGCFunctionException;
 import com.huawei.hmf.tasks.Task;
 import com.huawei.hmf.tasks.Tasks;
 
@@ -23,6 +27,17 @@ public class CloudStorage {
         UploadTask task = reference.putFile(file);
         // 阻塞，直到上传完成才返回（不是好的方法，应该返回task，在UI线程中判断是否完成，展现等待效果）
         while(!task.isComplete());
+
+        if (!task.isSuccessful()) {
+            Exception e = task.getException();
+            if (e instanceof AGCException) {
+                AGCException agcException = (AGCException) e;
+                int errCode = agcException.getCode();
+                String message = agcException.getMessage();
+                Log.e("CloudStorage uploadFile", "errorCode: " + errCode + ", message: " + message);
+            }
+        }
+
         return task.isSuccessful();
     }
 
@@ -30,6 +45,17 @@ public class CloudStorage {
         DownloadTask task = reference.getFile(file);
         // 阻塞，直到下载完成才返回
         while(!task.isComplete());
+
+        if (!task.isSuccessful()) {
+            Exception e = task.getException();
+            if (e instanceof AGCException) {
+                AGCException agcException = (AGCException) e;
+                int errCode = agcException.getCode();
+                String message = agcException.getMessage();
+                Log.e("CloudStorage downloadFile", "errorCode: " + errCode + ", message: " + message);
+            }
+        }
+
         return task.isSuccessful();
     }
 
@@ -90,6 +116,17 @@ public class CloudStorage {
         Task<ListResult> listTask = dirReference.listAll();
         // 阻塞，直到列举文件完成才返回
         while (!listTask.isComplete());
+
+        if (!listTask.isSuccessful()) {
+            Exception e = listTask.getException();
+            if (e instanceof AGCException) {
+                AGCException agcException = (AGCException) e;
+                int errCode = agcException.getCode();
+                String message = agcException.getMessage();
+                Log.e("CloudStorage getFileList", "errorCode: " + errCode + ", message: " + message);
+            }
+            return null;
+        }
         ListResult listResult = listTask.getResult();
 
         return listResult.getFileList();

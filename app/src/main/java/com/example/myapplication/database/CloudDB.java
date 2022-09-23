@@ -13,6 +13,7 @@ import com.huawei.agconnect.cloud.database.CloudDBZoneObjectList;
 import com.huawei.agconnect.cloud.database.CloudDBZoneQuery;
 import com.huawei.agconnect.cloud.database.CloudDBZoneSnapshot;
 import com.huawei.agconnect.cloud.database.exceptions.AGConnectCloudDBException;
+import com.huawei.agconnect.exception.AGCException;
 import com.huawei.hmf.tasks.OnFailureListener;
 import com.huawei.hmf.tasks.OnSuccessListener;
 import com.huawei.hmf.tasks.Task;
@@ -53,6 +54,16 @@ public class CloudDB {
 
         while (!openDBZoneTask.isComplete());
 
+        if (!openDBZoneTask.isSuccessful()) {
+            Exception e = openDBZoneTask.getException();
+            if (e instanceof AGConnectCloudDBException) {
+                AGConnectCloudDBException cloudDBException = (AGConnectCloudDBException) e;
+                int errCode = cloudDBException.getCode();
+                String message = cloudDBException.getMessage();
+                Log.w("CloudDB openCloudZone", "errorCode: " + errCode + ", message: " + message);
+            }
+        }
+
         mCloudDBZone = openDBZoneTask.getResult();
 //        openDBZoneTask.addOnSuccessListener(new OnSuccessListener<CloudDBZone>() {
 //            @Override
@@ -84,6 +95,16 @@ public class CloudDB {
                 CloudDBZoneQuery.CloudDBZoneQueryPolicy.POLICY_QUERY_DEFAULT);
         while (!queryTask.isComplete());
 
+        if (!queryTask.isSuccessful()) {
+            Exception e = queryTask.getException();
+            if (e instanceof AGConnectCloudDBException) {
+                AGConnectCloudDBException cloudDBException = (AGConnectCloudDBException) e;
+                int errCode = cloudDBException.getCode();
+                String message = cloudDBException.getMessage();
+                Log.e("CloudDB queryDietRecord", "errorCode: " + errCode + ", message: " + message);
+            }
+        }
+
         CloudDBZoneObjectList<DietRecord> dietRecordCursor = queryTask.getResult().getSnapshotObjects();
         List<DietRecord> dietRecordList = new ArrayList<>();
         try {
@@ -111,6 +132,17 @@ public class CloudDB {
 
         Task<Integer> upsertTask = mCloudDBZone.executeUpsert(dietRecord);
         while (!upsertTask.isComplete());
+
+        if (!upsertTask.isSuccessful()) {
+            Exception e = upsertTask.getException();
+            if (e instanceof AGConnectCloudDBException) {
+                AGConnectCloudDBException cloudDBException = (AGConnectCloudDBException) e;
+                int errCode = cloudDBException.getCode();
+                String message = cloudDBException.getMessage();
+                Log.e("CloudDB upsertTask", "errorCode: " + errCode + ", message: " + message);
+            }
+        }
+
         return upsertTask.isSuccessful();
     }
 
