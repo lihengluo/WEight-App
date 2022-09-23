@@ -21,11 +21,15 @@ public class CloudStorage {
 
     private boolean uploadFile(StorageReference reference, File file) {
         UploadTask task = reference.putFile(file);
+        // 阻塞，直到上传完成才返回（不是好的方法，应该返回task，在UI线程中判断是否完成，展现等待效果）
+        while(!task.isComplete());
         return task.isSuccessful();
     }
 
     private boolean downloadFile(StorageReference reference, File file) {
         DownloadTask task = reference.getFile(file);
+        // 阻塞，直到下载完成才返回
+        while(!task.isComplete());
         return task.isSuccessful();
     }
 
@@ -84,6 +88,7 @@ public class CloudStorage {
     public List<StorageReference> getFileList(String cloudDir) {
         StorageReference dirReference  = getFileReference(cloudDir);
         Task<ListResult> listTask = dirReference.listAll();
+        // 阻塞，直到列举文件完成才返回
         while (!listTask.isComplete());
         ListResult listResult = listTask.getResult();
 
