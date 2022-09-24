@@ -27,7 +27,9 @@ phoneAuth.createUser("182xxxx7778", A);
 phoneAuth.signInWithPassword("182xxxx7778", "password");
 ```
 ##### 使用验证码登录
+```java
 phoneAuth.signInWithVerifyWord("182xxxx7778", "verifyCode");
+```
 
 #### 登出流程
 ```java
