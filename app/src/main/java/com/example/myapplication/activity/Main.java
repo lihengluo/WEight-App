@@ -1,18 +1,28 @@
 package com.example.myapplication.activity;
+import static android.content.ContentValues.TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.myapplication.upload.UploadEngine;
 import com.example.myapplication.util.ToastUtil;
 import com.example.myapplication.R;
 import com.huawei.agconnect.AGConnectInstance;
 import com.huawei.agconnect.AGConnectOptionsBuilder;
+
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,6 +48,14 @@ public class Main extends AppCompatActivity {
         mybuttonlogin = findViewById(R.id.btn_reg);
         mybutttonskip = findViewById(R.id.btn_skip);
 
+//        if (Build.VERSION.SDK_INT >= 23) {
+//            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+//                    checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1000);
+//                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1001);
+//            }
+//        }
+//        UploadEngine uploadEngine = new UploadEngine(Main.this.getApplicationContext());
         //实现跳转---方法1
         mybuttonlogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,6 +63,7 @@ public class Main extends AppCompatActivity {
                 String username = myEtuser.getText().toString();
                 String password = myEtpassword.getText().toString();
 
+//                uploadEngine.uploadToDetect(Environment.getExternalStorageDirectory() + "/Pictures/3.jpg", 24, 0.32, 0.6);
                 //弹出内容设置
                 String ok = "登录成功!";
                 String fail = "密码或者账号有误，请重新登录！";
