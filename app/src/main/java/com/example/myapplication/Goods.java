@@ -4,20 +4,20 @@ package com.example.myapplication;
 public class Goods {
     private String id;
     private String foodname;
-    private double heats;
-    private double fat;
-    private double protein;
-    private double Carbohydrates;
-    private double Ca;
-    private double Fe;
+    private float heats;
+    private float fat;
+    private float protein;
+    private float Carbohydrates;
+    private float Ca;
+    private float Fe;
 
 
     public Goods() {
         super();
     }
 
-    public Goods(String id, String foodname, double heats, double fat, double protein,
-                 double Carbohydrates, double Ca, double Fe) {
+    public Goods(String id, String foodname, float heats, float fat, float protein,
+                 float Carbohydrates, float Ca, float Fe) {
         super();
         this.id = id;
         this.foodname = foodname;
@@ -45,7 +45,7 @@ public class Goods {
         this.foodname = foodname;
     }
 
-    public double getHeats() {
+    public float getHeats() {
         return heats;
     }
 
@@ -53,7 +53,7 @@ public class Goods {
         this.heats = heats;
     }
 
-    public double getFat() {
+    public float getFat() {
         return fat;
     }
 
@@ -61,7 +61,7 @@ public class Goods {
         this.fat = fat;
     }
 
-    public double getProtein() {
+    public float getProtein() {
         return protein;
     }
 
@@ -69,7 +69,7 @@ public class Goods {
         this.protein = protein;
     }
 
-    public double getCarbohydrates() {
+    public float getCarbohydrates() {
         return Carbohydrates;
     }
 
@@ -77,13 +77,13 @@ public class Goods {
         this.Carbohydrates = Carbohydrates;
     }
 
-    public double getCa() { return Ca; }
+    public float getCa() { return Ca; }
 
     public void setCa(float Ca) {
         this.Ca = Ca;
     }
 
-    public double getFe() {
+    public float getFe() {
         return Fe;
     }
 

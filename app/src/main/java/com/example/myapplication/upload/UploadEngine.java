@@ -85,10 +85,10 @@ public class UploadEngine extends AUpDownloadEngine {
                 //listener.onSuccess("timeused:" + (System.currentTimeMillis() - startTime));
                 try {
                     JSONObject result_json = new JSONObject(response.getContent());
-                    Good = new Goods(result_json.getString("food_id"), result_json.getString("food_label"),
-                            result_json.getDouble("energy"), result_json.getDouble("fat"),
-                            result_json.getDouble("protein"), result_json.getDouble("carbohydrates"),
-                            result_json.getDouble("ca"), result_json.getDouble("fe"));
+                    Good = new Goods( result_json.getString("food_id"), result_json.getString("food_label"),
+                            (float) result_json.getDouble("energy"), (float) result_json.getDouble("fat"),
+                            (float)result_json.getDouble("protein"), (float) result_json.getDouble("carbohydrates"),
+                            (float)result_json.getDouble("ca"), (float) result_json.getDouble("fe"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
