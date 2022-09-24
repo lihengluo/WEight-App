@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -180,6 +181,16 @@ public class Camera extends Activity {
         Uri uri = Uri.fromFile(file);
         intent.setData(uri);
         sendBroadcast(intent);// 发送广播，通知图库更新
+//
+//        try {
+//            //读取图片EXIF信息焦距
+//            ExifInterface exifInterface=new ExifInterface(getExternalCacheDir()+"/output_image.jpg");
+//            String focal = exifInterface.getAttribute(ExifInterface.TAG_FOCAL_LENGTH_IN_35MM_FILM);
+//            Log.i("s", "-----------------focal: "+ focal);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     private void showDialog(){
