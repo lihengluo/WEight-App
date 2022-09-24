@@ -47,5 +47,5 @@ dependencies {
     implementation 'com.huawei.agconnect:agconnect-function:1.7.1.300'
     implementation 'com.huawei.agconnect:agconnect-storage:1.5.0.100'
     implementation 'com.huawei.agconnect:agconnect-cloud-database:1.5.4.300'
-    implementation 'androidx.percentlayout:percentlayout:26.0.0'
+    implementation 'androidx.percentlayout:percentlayout:1.0.0'
 }
