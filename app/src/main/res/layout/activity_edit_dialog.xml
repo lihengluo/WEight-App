@@ -31,9 +31,10 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:gravity="center|left"
-            android:hint="容器直径"
+            android:hint=" 容器直径"
             android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textSize="16sp"
+            android:inputType="numberDecimal"
             android:background="@drawable/bg_insert"/>
         <View
             android:layout_width="match_parent"
@@ -49,9 +50,10 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:gravity="center|left"
-            android:hint="容器与摄像头距离"
+            android:hint=" 容器与摄像头距离"
             android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textSize="16sp"
+            android:inputType="numberDecimal"
             android:background="@drawable/bg_insert"/>
 
         <View

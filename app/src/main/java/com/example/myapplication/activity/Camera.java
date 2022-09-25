@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.util.Log;
@@ -33,7 +34,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
+import com.example.myapplication.Goods;
 import com.example.myapplication.R;
+import com.example.myapplication.upload.UploadEngine;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -95,12 +98,9 @@ public class Camera extends Activity {
         // 动态申请权限
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions( this, new String[]{Manifest.permission.CAMERA}, TAKE_PHOTO);
-        } else {
-            // 启动相机程序
-            startCamera();
+            }
 
-        }
-
+        startCamera();
 
         pestDection.setOnClickListener(new Camera.pestDectionFuntion());
 
@@ -137,20 +137,20 @@ public class Camera extends Activity {
 
                         Bitmap bitmap2 = bmpDrawable.getBitmap();
                         saveToSystemGallery(bitmap2);//将图片保存到本地
-                        Toast.makeText(getApplicationContext(),"图片已保存至本地相册！",Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(),"图片已保存至本地相册！",Toast.LENGTH_SHORT).show();
                         //startActivity(intent3);//窗口切换
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
                 }
                 else {
-                    intent2 = new Intent(getApplicationContext(), Main.class);
+                    intent2 = new Intent(getApplicationContext(), Bottom_bar.class);
                     startActivity(intent2);
                 }
                 break;
             default:
             {
-                intent2 = new Intent(getApplicationContext(), Main.class);
+                intent2 = new Intent(getApplicationContext(), Bottom_bar.class);
                 startActivity(intent2);
             }
                 break;
@@ -180,7 +180,7 @@ public class Camera extends Activity {
         Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         Uri uri = Uri.fromFile(file);
         intent.setData(uri);
-        sendBroadcast(intent);// 发送广播，通知图库更新
+        //sendBroadcast(intent);// 发送广播，通知图库更新
 
 
     }
@@ -216,6 +216,7 @@ public class Camera extends Activity {
                 EditText B1 = view.findViewById(R.id.et_02);
                 String A = A1.getText().toString();
                 String B = B1.getText().toString();
+                String focal = "27";
 
 
                 intent3 = new Intent(getApplicationContext(), Analyze.class);
@@ -229,16 +230,30 @@ public class Camera extends Activity {
                     try {
                         //读取图片EXIF信息焦距
                         ExifInterface exifInterface=new ExifInterface(getExternalCacheDir()+"/output_image.jpg");
-                        String focal = exifInterface.getAttribute(ExifInterface.TAG_FOCAL_LENGTH_IN_35MM_FILM);
+                        focal = exifInterface.getAttribute(ExifInterface.TAG_FOCAL_LENGTH_IN_35MM_FILM);
                         Log.i("s", "-----------------focal: "+ focal);
 
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
 
+                    //分析接口
+                    UploadEngine uploadEngine =  new UploadEngine(getApplicationContext());
+                    uploadEngine.uploadToDetect(getExternalCacheDir()+"/output_image.jpg", Double.parseDouble(focal), Double.parseDouble(A),
+                            Double.parseDouble(B));
+                    while (!uploadEngine.flag);
+
+                    Goods good = uploadEngine.Good;
 
 
-                    //intent3.putExtra("", );  用来传输数据
+                    //传输数据
+                    intent3.putExtra("foodname", good.getFoodName());
+                    intent3.putExtra("heats", good.getHeats());
+                    intent3.putExtra("fat", good.getFat());
+                    intent3.putExtra("protein", good.getProtein());
+                    intent3.putExtra("Carbohydrates", good.getCarbohydrates());
+                    intent3.putExtra("Ca", good.getCa());
+                    intent3.putExtra("Fe",good.getFe());
 
                     startActivity(intent3);
                 }

@@ -1,5 +1,7 @@
 package com.example.myapplication.activity;
 
+import static android.content.ContentValues.TAG;
+
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -11,11 +13,13 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -29,7 +33,9 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.myapplication.Goods;
 import com.example.myapplication.R;
+import com.example.myapplication.upload.UploadEngine;
 
 public class Albums extends Activity {
     private  ImageView albumsPicture;
@@ -59,10 +65,9 @@ public class Albums extends Activity {
         //获取权限
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, CHOOSE_PHOTO);
-            openAlbum();
-        } else {
-            openAlbum();
         }
+
+        openAlbum();
         pestDection.setOnClickListener(new pestDectionFuntion());
         //pictureSave.setOnClickListener(new pictureSaveFunction());
 
@@ -86,8 +91,6 @@ public class Albums extends Activity {
         }
     }
 
-
-
     @Override  //@Override是伪代码,表示重写 下边的方法是继承父类的方法，对其覆盖
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         switch (requestCode) {
@@ -96,18 +99,18 @@ public class Albums extends Activity {
 
                 //进行照片的处理
                 if (requestCode == CHOOSE_PHOTO && resultCode == RESULT_OK && null != data) {
-                    if (true ||Build.VERSION.SDK_INT >= 19) { //版本要求
+                    if (Build.VERSION.SDK_INT >= 19) { //版本要求
                         handleImageOnKitkat(data); //满足要求的以此种形式处理照片
                     } else {
                         handleImageBeforeKitKat(data);
                     }
                 }
                 else {
-
+                    intent2 = new Intent(getApplicationContext(), Bottom_bar.class);
+                    startActivity(intent2);
                 }
             default:{
-                intent2 = new Intent(getApplicationContext(), Main.class);
-                startActivity(intent2);
+
             }
                 break;
         }
@@ -159,6 +162,7 @@ public class Albums extends Activity {
             }
             cursor.close();
         }
+        Log.v(TAG, "----imagepath:"+path);
         return path;
     }
     //展示图片
@@ -202,15 +206,45 @@ public class Albums extends Activity {
                 EditText B1 = view.findViewById(R.id.et_02);
                 String A = A1.getText().toString();
                 String B = B1.getText().toString();
+                String focal = "27";
 
                 intent3 = new Intent(getApplicationContext(), Analyze.class);
-//                            System.out.println(A.toString());
-//                            System.out.println(B.toString());
+
                 if (A.isEmpty() || B.isEmpty()) {
                     Toast.makeText(getApplicationContext(),"您还未输入",Toast.LENGTH_SHORT).show();
                     dialog.show();
                 }
-                if(!A.isEmpty() && !B.isEmpty())startActivity(intent3);
+                if(!A.isEmpty() && !B.isEmpty()){
+                    try {
+                        //读取图片EXIF信息焦距
+                        ExifInterface exifInterface=new ExifInterface(getExternalCacheDir()+"/output_image.jpg");
+                        focal = exifInterface.getAttribute(ExifInterface.TAG_FOCAL_LENGTH_IN_35MM_FILM);
+                        Log.i("s", "-----------------focal: "+ focal);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    //分析接口
+                    UploadEngine uploadEngine =  new UploadEngine(getApplicationContext());
+                    uploadEngine.uploadToDetect(getExternalCacheDir()+"/output_image.jpg", Double.parseDouble(focal), Double.parseDouble(A),
+                            Double.parseDouble(B));
+                    while (!uploadEngine.flag);
+
+                    Goods good = uploadEngine.Good;
+
+
+                    //传输数据
+                    intent3.putExtra("foodname", good.getFoodName());
+                    intent3.putExtra("heats", good.getHeats());
+                    intent3.putExtra("fat", good.getFat());
+                    intent3.putExtra("protein", good.getProtein());
+                    intent3.putExtra("Carbohydrates", good.getCarbohydrates());
+                    intent3.putExtra("Ca", good.getCa());
+                    intent3.putExtra("Fe",good.getFe());
+
+                    startActivity(intent3);
+                }
                 dialog.dismiss();
             }
         });
