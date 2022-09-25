@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -35,6 +36,7 @@ public class Main extends AppCompatActivity {
     private EditText myEtuser;
     private EditText myEtpassword;
     private Button mybutttonskip;
+    private Button mybuttonhide;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class Main extends AppCompatActivity {
         myEtpassword = findViewById(R.id.et_2);
         mybuttonlogin = findViewById(R.id.btn_reg);
         mybutttonskip = findViewById(R.id.btn_skip);
+        mybuttonhide = findViewById(R.id.btn_hide);
 
 //        if (Build.VERSION.SDK_INT >= 23) {
 //            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
@@ -98,6 +101,21 @@ public class Main extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        mybuttonhide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (myEtpassword.getInputType() == InputType.TYPE_TEXT_VARIATION_PASSWORD) {
+                    mybuttonhide.setBackgroundResource(R.drawable.eye);
+                    myEtpassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                }
+                else {
+                    mybuttonhide.setBackgroundResource(R.drawable.no_eye);
+                    myEtpassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                }
+            }
+        });
+
         try {
             AGConnectOptionsBuilder builder = new AGConnectOptionsBuilder();
             InputStream in = getAssets().open("agconnect-services.json");    //如果使用了AGC插件，删除此行

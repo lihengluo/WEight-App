@@ -64,10 +64,12 @@
             android:layout_height="48dp"
             android:layout_weight="1"
             android:hint="@string/user_name"
+            android:textColorHint="@color/black"
             android:maxLines="1"
             android:layout_gravity="center"
             android:padding="5dp"
             android:textColor="@color/black"
+            android:inputType="phone"
             android:textSize="16sp"
             android:background="@null"/>
     </LinearLayout>
@@ -98,6 +100,7 @@
             android:textSize="16sp"
             android:textColor="@color/black"
             android:hint="@string/user_key"
+            android:textColorHint="@color/black"
             android:maxLines="1"
             android:padding="5dp"
             android:layout_gravity="center"
@@ -111,7 +114,7 @@
             android:layout_marginRight="10dp"
             android:padding="5dp"
             android:gravity="center|left"
-            android:background="@drawable/eye"/>
+            android:background="@drawable/no_eye"/>
     </LinearLayout>
 
     <LinearLayout
