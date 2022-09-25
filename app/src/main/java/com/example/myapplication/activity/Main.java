@@ -47,7 +47,6 @@ public class Main extends AppCompatActivity {
         mybuttonlogin = findViewById(R.id.btn_login);
         myEtuser = findViewById(R.id.et_1);
         myEtpassword = findViewById(R.id.et_2);
-        mybuttonlogin = findViewById(R.id.btn_reg);
         mybutttonskip = findViewById(R.id.btn_skip);
         mybuttonhide = findViewById(R.id.btn_hide);
 

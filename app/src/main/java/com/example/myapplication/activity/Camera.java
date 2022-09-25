@@ -181,16 +181,8 @@ public class Camera extends Activity {
         Uri uri = Uri.fromFile(file);
         intent.setData(uri);
         sendBroadcast(intent);// 发送广播，通知图库更新
-//
-//        try {
-//            //读取图片EXIF信息焦距
-//            ExifInterface exifInterface=new ExifInterface(getExternalCacheDir()+"/output_image.jpg");
-//            String focal = exifInterface.getAttribute(ExifInterface.TAG_FOCAL_LENGTH_IN_35MM_FILM);
-//            Log.i("s", "-----------------focal: "+ focal);
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+
+
     }
 
     private void showDialog(){
@@ -225,6 +217,7 @@ public class Camera extends Activity {
                 String A = A1.getText().toString();
                 String B = B1.getText().toString();
 
+
                 intent3 = new Intent(getApplicationContext(), Analyze.class);
 //                            System.out.println(A.toString());
 //                            System.out.println(B.toString());
@@ -232,7 +225,23 @@ public class Camera extends Activity {
                     Toast.makeText(getApplicationContext(),"您还未输入",Toast.LENGTH_SHORT).show();
                     dialog.show();
                 }
-                if(!A.isEmpty() && !B.isEmpty())startActivity(intent3);
+                if(!A.isEmpty() && !B.isEmpty()){
+                    try {
+                        //读取图片EXIF信息焦距
+                        ExifInterface exifInterface=new ExifInterface(getExternalCacheDir()+"/output_image.jpg");
+                        String focal = exifInterface.getAttribute(ExifInterface.TAG_FOCAL_LENGTH_IN_35MM_FILM);
+                        Log.i("s", "-----------------focal: "+ focal);
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+
+
+                    //intent3.putExtra("", );  用来传输数据
+
+                    startActivity(intent3);
+                }
                 dialog.dismiss();
             }
         });
