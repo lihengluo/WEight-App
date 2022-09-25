@@ -235,7 +235,10 @@ public class Camera extends Activity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    
+
+
+
+                    //intent3.putExtra("", );  用来传输数据
 
                     startActivity(intent3);
                 }
