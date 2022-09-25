@@ -116,13 +116,14 @@ public class Main extends AppCompatActivity {
         mybuttonhide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (myEtpassword.getInputType() == InputType.TYPE_TEXT_VARIATION_PASSWORD) {
+                int type = myEtpassword.getInputType();
+                if (myEtpassword.getInputType() == 129) {
                     mybuttonhide.setBackgroundResource(R.drawable.eye);
                     myEtpassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                 }
                 else {
                     mybuttonhide.setBackgroundResource(R.drawable.no_eye);
-                    myEtpassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    myEtpassword.setInputType(129);
                 }
             }
         });
