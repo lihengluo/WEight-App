@@ -50,6 +50,7 @@ public class Main extends AppCompatActivity {
         myEtpassword = findViewById(R.id.et_2);
         mybutttonskip = findViewById(R.id.btn_skip);
         mybuttonhide = findViewById(R.id.btn_hide);
+        mybuttonregister = findViewById(R.id.btn_reg);
 
 //        if (Build.VERSION.SDK_INT >= 23) {
 //            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
@@ -101,6 +102,14 @@ public class Main extends AppCompatActivity {
 //
 //                    ToastUtil.showMessage(Main.this, fail);
 //                }
+            }
+        });
+
+        mybuttonregister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent2 = new Intent(getApplicationContext(), Register.class);
+                startActivity(intent2);
             }
         });
 
