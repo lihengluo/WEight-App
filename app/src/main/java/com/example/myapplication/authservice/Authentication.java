@@ -14,9 +14,6 @@ import com.huawei.hmf.tasks.Task;
 import java.util.Locale;
 
 public abstract class Authentication {
-    protected String account;
-    protected String password;
-    protected String verifyCode;
 
     public Authentication() {}
 
@@ -62,11 +59,14 @@ public abstract class Authentication {
         agcRequestVerifyCode(accountStr, context, settings);
     }
 
+    /**
+     * 使用密码登录
+     * @param accountStr 账户名
+     * @param password 密码
+     * @return
+     */
     public boolean signInWithPassword(String accountStr, String password) {
         AGConnectAuthCredential credential = credentialWithPassword(accountStr, password);
-
-        this.account = accountStr;
-        this.password = password;
 
         Task<SignInResult> signInTask = AGConnectAuth.getInstance().signIn(credential);
         while (!signInTask.isComplete());
@@ -84,11 +84,14 @@ public abstract class Authentication {
         return signInTask.isSuccessful();
     }
 
+    /**
+     * 使用验证码登录
+     * @param accountStr 账户名
+     * @param verifyCode 验证码
+     * @return
+     */
     public boolean signInWithVerifyCode(String accountStr, String verifyCode) {
         AGConnectAuthCredential credential = credentialWithVerifyCode(accountStr, verifyCode);
-
-        this.account = accountStr;
-        this.verifyCode = verifyCode;
 
         Task<SignInResult> signInTask = AGConnectAuth.getInstance().signIn(credential);
         while (!signInTask.isComplete());
@@ -108,11 +111,12 @@ public abstract class Authentication {
 
     /**
      * 注销用户
+     * @param password 当前账户密码
      * @return 是否成功
      */
-    public boolean deleteUser() {
+    public boolean deleteUser(String password) {
         // 敏感操作需要首先进行重认证
-        if (reAuthenticate() == false)
+        if (!reAuthenticate(password, null))
             return false;
 
         Task<Void> deleteUserTask = AGConnectAuth.getInstance().deleteUser();
@@ -131,10 +135,11 @@ public abstract class Authentication {
         return deleteUserTask.isSuccessful();
     }
 
-    protected boolean reAuthenticate() {
-        AGConnectUser user =AGConnectAuth.getInstance().getCurrentUser();
+    protected boolean reAuthenticate(String password, String verifyCode) {
+        AGConnectUser user = AGConnectAuth.getInstance().getCurrentUser();
         if (user == null)
             return false;
+        String account = getCurrentUserUid();
 
         AGConnectAuthCredential credential = null;
         if (password != null) {

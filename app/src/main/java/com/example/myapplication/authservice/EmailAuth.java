@@ -64,8 +64,6 @@ public class EmailAuth extends Authentication{
 
     @Override
     public boolean createUser(String accountStr, String verifyCOdeStr) {
-        this.account = accountStr;
-        this.verifyCode = verifyCOdeStr;
 
         EmailUser emailUser = new EmailUser.Builder()
                 .setEmail(accountStr)
@@ -89,9 +87,6 @@ public class EmailAuth extends Authentication{
 
     @Override
     public boolean createUser(String accountStr, String verifyCOdeStr, String passwordStr) {
-        this.account = accountStr;
-        this.verifyCode = verifyCOdeStr;
-        this.password = passwordStr;
 
         EmailUser emailUser = new EmailUser.Builder()
                 .setEmail(accountStr)
