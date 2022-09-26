@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.R;
 
-public class Analyze extends AppCompatActivity {
+public class Analyze extends BaseActivity {
 
     private ImageView cameraPicture;
 
