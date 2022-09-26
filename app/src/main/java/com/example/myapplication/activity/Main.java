@@ -78,6 +78,7 @@ public class Main extends BaseActivity {
                 Intent intent = new Intent(getApplicationContext(), Bottom_bar.class);
 
                 if(phoneAuth.signInWithPassword(username, password)){
+                    intent.putExtra("登录信息", "0");
                     startActivity(intent);
                 }
                 else {
@@ -102,6 +103,7 @@ public class Main extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), Bottom_bar.class);
+                intent.putExtra("登录信息", "2");
                 Toast.makeText(getApplicationContext(), "已跳过登录阶段", Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }
@@ -146,8 +148,9 @@ public class Main extends BaseActivity {
                 e.printStackTrace();
             }
             Intent intent = new Intent(getApplicationContext(), Bottom_bar.class);
+            intent.putExtra("登录信息", "1");
             startActivity(intent);
         }
     }
-
+    //传递跳转信息 0代表登陆后跳转，1代表已登录直接跳转，2代表跳过登录界面的跳转；
 }

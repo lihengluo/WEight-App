@@ -128,9 +128,10 @@ public class Camera extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case TAKE_PHOTO:
-                if (requestCode == TAKE_PHOTO && resultCode == RESULT_OK ) {
+                if (requestCode == TAKE_PHOTO && resultCode == RESULT_OK) {
                     try {
                         // 将图片解析成Bitmap对象
                         bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
@@ -144,18 +145,16 @@ public class Camera extends BaseActivity {
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
-                }
-                else {
+                } else {
                     intent2 = new Intent(getApplicationContext(), Bottom_bar.class);
                     startActivity(intent2);
                 }
                 break;
-            default:
-            {
+            default: {
                 intent2 = new Intent(getApplicationContext(), Bottom_bar.class);
                 startActivity(intent2);
             }
-                break;
+            break;
         }
     }
     public void saveToSystemGallery(Bitmap bmp) {
