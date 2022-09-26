@@ -120,29 +120,25 @@ public class Fragment_main extends Fragment {
                 new ImageView(this.getContext()),
                 new ImageView(this.getContext()),
         };
+        ImageView[] ivBar = {
+                new ImageView(this.getContext()),
+                new ImageView(this.getContext()),
+                new ImageView(this.getContext()),
+                new ImageView(this.getContext()),
+        };
+        Drawable[] drawable = new Drawable[4];
 
         //把图片资源文件变成数组，注意R文件中数据对应的都是int类型
         int[] ar = getArray();
         //设置图片
-        Drawable drawable1 =getContext().getResources().getDrawable(mArray[ar[0]]);
-        ivBg[0].setImageDrawable(drawable1);
-        ivBg[0].setScaleType(ImageView.ScaleType.FIT_CENTER);
-        lArray[0].addView(ivBg[0]);
-
-        Drawable drawable2 =getContext().getResources().getDrawable(mArray[ar[1]]);
-        ivBg[1].setImageDrawable(drawable2);
-        ivBg[1].setScaleType(ImageView.ScaleType.FIT_CENTER);
-        lArray[1].addView(ivBg[1]);
-
-        Drawable drawable3 =getContext().getResources().getDrawable(mArray[ar[2]]);
-        ivBg[2].setImageDrawable(drawable3);
-        ivBg[2].setScaleType(ImageView.ScaleType.FIT_CENTER);
-        lArray[2].addView(ivBg[2]);
-
-        Drawable drawable4 =getContext().getResources().getDrawable(mArray[ar[3]]);
-        ivBg[3].setImageDrawable(drawable4);
-        ivBg[3].setScaleType(ImageView.ScaleType.FIT_CENTER);
-        lArray[3].addView(ivBg[3]);
+        for (int m = 0; m < ar.length; m++) {
+            drawable[m] = getContext().getResources().getDrawable(mArray[ar[m]]);
+            ivBg[m].setImageDrawable(drawable[m]);
+            ivBg[m].setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            lArray[m].addView(ivBg[m]);
+//            ivBar[m].setImageDrawable(getContext().getResources().getDrawable(R.drawable.bar));
+//            lArray[m].addView(ivBar[m],1);
+        }
     }
 
     public int[] getArray() {
