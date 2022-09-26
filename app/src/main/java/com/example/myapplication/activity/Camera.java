@@ -255,8 +255,6 @@ public class Camera extends Activity {
                     if (uploadEngine.Good == null) {
                         Toast.makeText(getApplicationContext(),"未识别到食物！请重新拍照/从相册选取图片！5秒后跳转~",Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
-//                        Toast toast = Toast.makeText(Camera.this, "未识别到食物！请重新拍照/从相册选取图片！3秒后跳转~", Toast.LENGTH_SHORT);
-//                        toast.show();
                         Intent intent6 = new Intent(getApplicationContext(), Bottom_bar.class);
                         Timer timer = new Timer();
                         TimerTask task = new TimerTask() {
