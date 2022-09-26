@@ -27,6 +27,7 @@ public class Register extends AppCompatActivity {
     private Button mybuttonhide2;
     private Button myVerCode;
 
+    private PhoneAuth phoneAuth = new PhoneAuth();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,19 @@ public class Register extends AppCompatActivity {
         mybuttonregister2 = findViewById(R.id.btn_register);
         myVerCode = findViewById(R.id.get_vercode);
 
+        myVerCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String username = myEtuser.getText().toString();
+                String password = myEtpassword.getText().toString();
+                String confirmpassword = myConfirmEtpassword.getText().toString();
+
+                if (inputCheck(username, password, confirmpassword)) {
+                    phoneAuth.requestVerifyCode(username, getApplicationContext());
+                }
+            }
+        });
+
         mybuttonregister2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,28 +65,18 @@ public class Register extends AppCompatActivity {
                 String confirmpassword = myConfirmEtpassword.getText().toString();
                 String verifycode = myVerifyCode.getText().toString();
 
+                if (!inputCheck(username, password, confirmpassword))
+                    return;
 
                 //注册后自动登录成功
                 Intent intent = new Intent(getApplicationContext(), Bottom_bar.class);
-                PhoneAuth phoneAuth = new PhoneAuth();
 
-                myVerCode.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if(password.equals(confirmpassword)){
-                            phoneAuth.requestVerifyCode(username, getApplicationContext());
-                        }
-                        else{
-                            Toast.makeText(getApplicationContext(), "前后密码输入不一致", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
-                if(phoneAuth.createUser(username, verifycode, password)){
+                if(phoneAuth.createUser(username, verifycode, password)) {
+                    Toast.makeText(getApplicationContext(), "注册成功，正在跳转...", Toast.LENGTH_SHORT).show();
                     startActivity(intent);
                 }
-                else{
-                    Toast.makeText(getApplicationContext(), "注册失败", Toast.LENGTH_SHORT).show();
+                else {
+                    Toast.makeText(getApplicationContext(), "注册失败，账户已经注册或者密码强度过低", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -109,5 +113,29 @@ public class Register extends AppCompatActivity {
             }
         });
 
+    }
+
+    /**
+     * 检查输入是否符合要求
+     * @param username 手机号
+     * @param password 密码
+     * @param confirmpassword 确认密码
+     * @return true表示符合要求
+     */
+    private boolean inputCheck(String username, String password, String confirmpassword) {
+        if (username.length() != 11) {
+            Toast.makeText(getApplicationContext(), "手机号位数错误", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else if (!password.equals(confirmpassword)) {
+            Toast.makeText(getApplicationContext(), "前后密码输入不一致", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else if(password.length() < 8) {
+            Toast.makeText(getApplicationContext(), "密码长度不能小于8", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 }
