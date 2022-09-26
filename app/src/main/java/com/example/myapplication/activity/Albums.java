@@ -3,6 +3,7 @@ package com.example.myapplication.activity;
 import static android.content.ContentValues.TAG;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -51,6 +52,7 @@ public class Albums extends Activity {
     private EditText B1;
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
+    String imagePath;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,7 +127,7 @@ public class Albums extends Activity {
     //file 类型的 Uri
     @TargetApi(19)
     private void handleImageOnKitkat(Intent data) {
-        String imagePath = null;
+        imagePath = null;
         Uri uri = data.getData();
         if (DocumentsContract.isDocumentUri(this, uri)) {
             //如果是document类型的uri，则通过document id处理
@@ -152,11 +154,12 @@ public class Albums extends Activity {
 
     private void handleImageBeforeKitKat(Intent data){
         Uri uri=data.getData();
-        String imagePath=getImagePath(uri,null);
+        imagePath=getImagePath(uri,null);
         displayImage(imagePath);
     }
     //获取图片路径
-    private String getImagePath(Uri uri,String selection){
+    @SuppressLint("Range")
+    private String getImagePath(Uri uri, String selection){
         String path=null;
         Cursor cursor=getContentResolver().query(uri,null,selection,null,null);
         if(cursor!=null){
@@ -236,14 +239,22 @@ public class Albums extends Activity {
                             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1001);
                         }
                     }
-                    if (Integer.getInteger(focal) == 0) { focal = "27"; }
+                    if (Integer.parseInt(focal) == 0) { focal = "27"; }
                     UploadEngine uploadEngine =  new UploadEngine(getApplicationContext());
-                    uploadEngine.uploadToDetect(getExternalCacheDir()+"/output_image.jpg", Double.parseDouble(focal), Double.parseDouble(A),
+
+                    uploadEngine.uploadToDetect(imagePath, Double.parseDouble(focal), Double.parseDouble(A),
                             Double.parseDouble(B));
-                    while (!uploadEngine.flag);
+                    //while (!uploadEngine.flag);
+                    do {
+                        try {
+                            Thread.sleep(3000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    } while (!uploadEngine.flag);
 
                     if (uploadEngine.Good == null) {
-                        Toast.makeText(getApplicationContext(),"未识别到食物！请重新拍照/从相册选取图片！5秒后跳转~",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"未识别到食物！请重新选取图片！3秒后跳转~",Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                         Intent intent6 = new Intent(getApplicationContext(), Bottom_bar.class);
                         Timer timer = new Timer();
@@ -253,7 +264,7 @@ public class Albums extends Activity {
                                 startActivity(intent6); //执行
                             }
                         };
-                        timer.schedule(task, 1000 * 5); //5秒后
+                        timer.schedule(task, 1000 * 3); //5秒后
                     }
 
                     else {
@@ -266,7 +277,6 @@ public class Albums extends Activity {
                         intent3.putExtra("Carbohydrates", good.getCarbohydrates());
                         intent3.putExtra("Ca", good.getCa());
                         intent3.putExtra("Fe",good.getFe());
-
                         startActivity(intent3);
                     }
                 }

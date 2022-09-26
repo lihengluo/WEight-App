@@ -84,12 +84,9 @@ public class UploadEngine extends AUpDownloadEngine {
                 Log.i(TAG, "onSuccess:" + response.getContent());
                 //listener.onSuccess("timeused:" + (System.currentTimeMillis() - startTime));
                 try {
-                    if ( Integer.valueOf(response.getContent()) == -1) {
-                        Log.i(TAG, "The object is null!!!!");
-                        Good = null;
-                    }
+                    JSONObject result_json = new JSONObject(response.getContent());
+                    if (result_json.getInt("isfood") == -1) { Good = null; }
                     else {
-                        JSONObject result_json = new JSONObject(response.getContent());
                         Good = new Goods(result_json.getString("food_id"), result_json.getString("food_label"),
                                 (float) result_json.getDouble("energy"), (float) result_json.getDouble("fat"),
                                 (float) result_json.getDouble("protein"), (float) result_json.getDouble("carbohydrates"),

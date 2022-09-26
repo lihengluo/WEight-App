@@ -138,7 +138,7 @@ public class Camera extends Activity {
                         BitmapDrawable bmpDrawable = (BitmapDrawable) cameraPicture.getDrawable();
 
                         Bitmap bitmap2 = bmpDrawable.getBitmap();
-                        saveToSystemGallery(bitmap2);//将图片保存到本地
+                        //saveToSystemGallery(bitmap2);//将图片保存到本地
                         //Toast.makeText(getApplicationContext(),"图片已保存至本地相册！",Toast.LENGTH_SHORT).show();
                         //startActivity(intent3);//窗口切换
                     } catch (FileNotFoundException e) {
@@ -161,7 +161,7 @@ public class Camera extends Activity {
     public void saveToSystemGallery(Bitmap bmp) {
         // 首先保存图片
 
-        File appDir = new File(Environment.getExternalStorageDirectory(), "Pictures");
+        File appDir = new File(getExternalCacheDir(), "Pictures");
         if (!appDir.exists()) {
             appDir.mkdir();
         }
@@ -251,10 +251,17 @@ public class Camera extends Activity {
                     UploadEngine uploadEngine =  new UploadEngine(getApplicationContext());
                     uploadEngine.uploadToDetect(getExternalCacheDir()+"/output_image.jpg", Double.parseDouble(focal), Double.parseDouble(A),
                             Double.parseDouble(B));
-                    while (!uploadEngine.flag);
+                    //while (!uploadEngine.flag);
+                    do {
+                        try {
+                            Thread.sleep(3000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    } while (!uploadEngine.flag);
 
                     if (uploadEngine.Good == null) {
-                        Toast.makeText(getApplicationContext(),"未识别到食物！请重新拍照/从相册选取图片！5秒后跳转~",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"未识别到食物！请重新选取图片！3秒后跳转~",Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                         Intent intent6 = new Intent(getApplicationContext(), Bottom_bar.class);
                         Timer timer = new Timer();
@@ -264,7 +271,7 @@ public class Camera extends Activity {
                                 startActivity(intent6); //执行
                             }
                         };
-                        timer.schedule(task, 1000 * 5); //5秒后
+                        timer.schedule(task, 1000 * 3); //5秒后
                     }
 
                     else {

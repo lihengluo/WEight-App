@@ -12,6 +12,7 @@
     <string name="user_key_again">请确认密码</string>
     <string name="user_register">注 \t\t 册</string>
     <string name="user_verifycode">请输入验证码</string>
+    <string name="suggestion">今日猪蹄摄入过多，请补充维生素！</string>
 
 
 </resources>

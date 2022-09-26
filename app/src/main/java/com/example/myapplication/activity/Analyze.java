@@ -17,7 +17,7 @@ import com.example.myapplication.storage.CloudStorage;
 
 import java.io.File;
 
-public class Analyze extends AppCompatActivity {
+public class Analyze extends BaseActivity {
 
     private ImageView cameraPicture;
 
