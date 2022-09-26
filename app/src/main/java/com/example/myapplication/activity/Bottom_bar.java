@@ -1,14 +1,19 @@
 package com.example.myapplication.activity;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SearchRecentSuggestionsProvider;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myapplication.R;
 
@@ -39,7 +44,9 @@ public class Bottom_bar extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_bar);
 
-        //getSupportFragmentManager().beginTransaction().replace(R.id.main_body,new Fragment_main()).commit();
+        Intent myintent = getIntent();
+        String info = myintent.getStringExtra("登录信息"); //接受登录信息，默认值为-1；
+        Log.v(TAG, "----login info："+info);
         initView();//初始化数据
         //对单选按钮进行监听，选中、未选中
 
@@ -75,6 +82,8 @@ public class Bottom_bar extends BaseActivity {
                 }
             }
         });
+
+        
 
     }
 
