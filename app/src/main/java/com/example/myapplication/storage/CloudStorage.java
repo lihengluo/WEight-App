@@ -3,6 +3,7 @@ package com.example.myapplication.storage;
 import android.util.Log;
 
 import com.huawei.agconnect.cloud.storage.core.AGCStorageManagement;
+import com.huawei.agconnect.cloud.storage.core.DeleteFileTask;
 import com.huawei.agconnect.cloud.storage.core.DownloadTask;
 import com.huawei.agconnect.cloud.storage.core.ListResult;
 import com.huawei.agconnect.cloud.storage.core.StorageReference;
@@ -59,6 +60,24 @@ public class CloudStorage {
         return task.isSuccessful();
     }
 
+    private boolean deleteFile(StorageReference reference) {
+        Task task = reference.delete();
+        // 阻塞，直到下载完成才返回
+        while(!task.isComplete());
+
+        if (!task.isSuccessful()) {
+            Exception e = task.getException();
+            if (e instanceof AGCException) {
+                AGCException agcException = (AGCException) e;
+                int errCode = agcException.getCode();
+                String message = agcException.getMessage();
+                Log.e("CloudStorage deleteFile", "errorCode: " + errCode + ", message: " + message);
+            }
+        }
+
+        return task.isSuccessful();
+    }
+
     private StorageReference getFileReference(String path) {
         return mAGCStorageManagement.getStorageReference(path);
     }
@@ -104,6 +123,11 @@ public class CloudStorage {
      */
     public boolean downloadUserFile(StorageReference reference, File file) {
         return downloadFile(reference, file);
+    }
+
+    public boolean deleteUserFile(String cloudPath) {
+        StorageReference reference = getFileReference(cloudPath);
+        return deleteFile(reference);
     }
 
     /**
