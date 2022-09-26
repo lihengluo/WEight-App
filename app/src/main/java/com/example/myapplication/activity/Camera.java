@@ -43,6 +43,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Timer;
+import java.util.TimerTask;
 
 //camera界面的功能就是在MainActivity点击拍照按钮时，调用本地摄像机，将拍的照片显示到ImageView控件，
 // 图片检测功能未添加，因为还没有载入模型，图片保存就是将ImageView控件中的图片保存到本地中。
@@ -238,24 +240,46 @@ public class Camera extends Activity {
                     }
 
                     //分析接口
+                    if (Build.VERSION.SDK_INT >= 23) {
+                        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                                checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1000);
+                            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1001);
+                        }
+                    }
                     UploadEngine uploadEngine =  new UploadEngine(getApplicationContext());
                     uploadEngine.uploadToDetect(getExternalCacheDir()+"/output_image.jpg", Double.parseDouble(focal), Double.parseDouble(A),
                             Double.parseDouble(B));
                     while (!uploadEngine.flag);
 
-                    Goods good = uploadEngine.Good;
+                    if (uploadEngine.Good == null) {
+                        Toast.makeText(getApplicationContext(),"未识别到食物！请重新拍照/从相册选取图片！5秒后跳转~",Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+//                        Toast toast = Toast.makeText(Camera.this, "未识别到食物！请重新拍照/从相册选取图片！3秒后跳转~", Toast.LENGTH_SHORT);
+//                        toast.show();
+                        Intent intent6 = new Intent(getApplicationContext(), Bottom_bar.class);
+                        Timer timer = new Timer();
+                        TimerTask task = new TimerTask() {
+                            @Override
+                            public void run() {
+                                startActivity(intent6); //执行
+                            }
+                        };
+                        timer.schedule(task, 1000 * 5); //5秒后
+                    }
 
-
-                    //传输数据
-                    intent3.putExtra("foodname", good.getFoodName());
-                    intent3.putExtra("heats", good.getHeats());
-                    intent3.putExtra("fat", good.getFat());
-                    intent3.putExtra("protein", good.getProtein());
-                    intent3.putExtra("Carbohydrates", good.getCarbohydrates());
-                    intent3.putExtra("Ca", good.getCa());
-                    intent3.putExtra("Fe",good.getFe());
-
-                    startActivity(intent3);
+                    else {
+                        //传输数据
+                        Goods good = uploadEngine.Good;
+                        intent3.putExtra("foodname", good.getFoodName());
+                        intent3.putExtra("heats", good.getHeats());
+                        intent3.putExtra("fat", good.getFat());
+                        intent3.putExtra("protein", good.getProtein());
+                        intent3.putExtra("Carbohydrates", good.getCarbohydrates());
+                        intent3.putExtra("Ca", good.getCa());
+                        intent3.putExtra("Fe",good.getFe());
+                        startActivity(intent3);
+                    }
                 }
                 dialog.dismiss();
             }

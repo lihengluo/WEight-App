@@ -84,11 +84,17 @@ public class UploadEngine extends AUpDownloadEngine {
                 Log.i(TAG, "onSuccess:" + response.getContent());
                 //listener.onSuccess("timeused:" + (System.currentTimeMillis() - startTime));
                 try {
-                    JSONObject result_json = new JSONObject(response.getContent());
-                    Good = new Goods( result_json.getString("food_id"), result_json.getString("food_label"),
-                            (float) result_json.getDouble("energy"), (float) result_json.getDouble("fat"),
-                            (float)result_json.getDouble("protein"), (float) result_json.getDouble("carbohydrates"),
-                            (float)result_json.getDouble("ca"), (float) result_json.getDouble("fe"));
+                    if ( Integer.valueOf(response.getContent()) == -1) {
+                        Log.i(TAG, "The object is null!!!!");
+                        Good = null;
+                    }
+                    else {
+                        JSONObject result_json = new JSONObject(response.getContent());
+                        Good = new Goods(result_json.getString("food_id"), result_json.getString("food_label"),
+                                (float) result_json.getDouble("energy"), (float) result_json.getDouble("fat"),
+                                (float) result_json.getDouble("protein"), (float) result_json.getDouble("carbohydrates"),
+                                (float) result_json.getDouble("ca"), (float) result_json.getDouble("fe"));
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -141,6 +147,52 @@ public class UploadEngine extends AUpDownloadEngine {
         }
         Result result = upManager.cancelRequest(request.getId());
         checkResult(result);
+    }
+
+    public void uploadToDetect(String img_path, double focal_d, double plate_d, double obj2cam_d){
+            try {
+                Map<String, String> httpHeader = new HashMap<>();
+                httpHeader.put("header1", "value1");
+                httpHeader.put("header2", "value2");
+
+                Map<String, String> httpParams = new HashMap<>();
+                httpParams.put("param1", "value1");
+                httpParams.put("param2", "value2");
+
+                // replace the url for upload
+                final String normalUrl = "http://192.168.1.29:5000/upload";
+                // upload file for http post
+                // replace the file path
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("fd", focal_d);
+                jsonObject.put("pd", plate_d);
+                jsonObject.put("od", obj2cam_d);
+                String jsonString = jsonObject.toString();
+                String tmp_path = Environment.getExternalStorageDirectory() + "/tmp.txt";
+                File f = new File(tmp_path);
+                FileWriter fw=new FileWriter(f);
+                fw.write(jsonString);
+                fw.close();
+
+                request = UploadManager.newPostRequestBuilder()
+                        .url(normalUrl)
+                        .fileParams("file1", new FileEntity(Uri.fromFile(new File(img_path))))
+                        .fileParams("file2", new FileEntity(Uri.fromFile(new File(tmp_path))))
+                        .params(httpParams)
+                        .headers(httpHeader)
+                        .build();
+
+                if (upManager == null) {
+                    Log.e(TAG, "nothing to cancel");
+                    return;
+                }
+
+                Result result = upManager.start(request, callback);
+                checkResult(result);
+                Log.i(TAG, "Result:" + result.getMessage());
+            } catch (Exception e) {
+                Log.e(TAG, "exception:" + e.getMessage());
+            }
     }
 
     @Override
@@ -212,51 +264,5 @@ public class UploadEngine extends AUpDownloadEngine {
         } catch (Exception e) {
             Log.e(TAG, "exception:" + e.getMessage());
         }
-    }
-
-    public void uploadToDetect(String img_path, double focal_d, double plate_d, double obj2cam_d){
-            try {
-                Map<String, String> httpHeader = new HashMap<>();
-                httpHeader.put("header1", "value1");
-                httpHeader.put("header2", "value2");
-
-                Map<String, String> httpParams = new HashMap<>();
-                httpParams.put("param1", "value1");
-                httpParams.put("param2", "value2");
-
-                // replace the url for upload
-                final String normalUrl = "http://192.168.1.29:5000/upload";
-                // upload file for http post
-                // replace the file path
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("fd", focal_d);
-                jsonObject.put("pd", plate_d);
-                jsonObject.put("od", obj2cam_d);
-                String jsonString = jsonObject.toString();
-                String tmp_path = Environment.getExternalStorageDirectory() + "/tmp.txt";
-                File f = new File(tmp_path);
-                FileWriter fw=new FileWriter(f);
-                fw.write(jsonString);
-                fw.close();
-
-                request = UploadManager.newPostRequestBuilder()
-                        .url(normalUrl)
-                        .fileParams("file1", new FileEntity(Uri.fromFile(new File(img_path))))
-                        .fileParams("file2", new FileEntity(Uri.fromFile(new File(tmp_path))))
-                        .params(httpParams)
-                        .headers(httpHeader)
-                        .build();
-
-                if (upManager == null) {
-                    Log.e(TAG, "nothing to cancel");
-                    return;
-                }
-
-                Result result = upManager.start(request, callback);
-                checkResult(result);
-                Log.i(TAG, "Result:" + result.getMessage());
-            } catch (Exception e) {
-                Log.e(TAG, "exception:" + e.getMessage());
-            }
     }
 }
