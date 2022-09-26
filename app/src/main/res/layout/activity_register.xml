@@ -194,7 +194,7 @@
             android:maxLines="1"
             android:padding="5dp"
             android:layout_gravity="center"
-            android:inputType="textPassword"
+            android:inputType="number"
             android:background="@null"
             />
         <Button

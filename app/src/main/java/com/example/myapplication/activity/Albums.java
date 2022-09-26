@@ -277,6 +277,7 @@ public class Albums extends BaseActivity {
                         intent3.putExtra("Carbohydrates", good.getCarbohydrates());
                         intent3.putExtra("Ca", good.getCa());
                         intent3.putExtra("Fe",good.getFe());
+                        intent3.putExtra("imgpath", imagePath);
                         startActivity(intent3);
                     }
                 }
