@@ -264,7 +264,7 @@ public class Camera extends Activity {
                                 startActivity(intent6); //执行
                             }
                         };
-                        timer.schedule(task, 1000 * 5); //5秒后
+                        timer.schedule(task, 1000 * 3); //5秒后
                     }
 
                     else {

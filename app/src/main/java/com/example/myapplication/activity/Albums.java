@@ -236,7 +236,7 @@ public class Albums extends Activity {
                             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1001);
                         }
                     }
-                    if (Integer.getInteger(focal) == 0) { focal = "27"; }
+                    if (Integer.parseInt(focal) == 0) { focal = "27"; }
                     UploadEngine uploadEngine =  new UploadEngine(getApplicationContext());
                     uploadEngine.uploadToDetect(getExternalCacheDir()+"/output_image.jpg", Double.parseDouble(focal), Double.parseDouble(A),
                             Double.parseDouble(B));
@@ -253,7 +253,7 @@ public class Albums extends Activity {
                                 startActivity(intent6); //执行
                             }
                         };
-                        timer.schedule(task, 1000 * 5); //5秒后
+                        timer.schedule(task, 1000 * 3); //5秒后
                     }
 
                     else {
