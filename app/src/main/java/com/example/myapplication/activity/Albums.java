@@ -241,9 +241,17 @@ public class Albums extends Activity {
                     }
                     if (Integer.parseInt(focal) == 0) { focal = "27"; }
                     UploadEngine uploadEngine =  new UploadEngine(getApplicationContext());
+
                     uploadEngine.uploadToDetect(imagePath, Double.parseDouble(focal), Double.parseDouble(A),
                             Double.parseDouble(B));
-                    while (!uploadEngine.flag);
+                    //while (!uploadEngine.flag);
+                    do {
+                        try {
+                            Thread.sleep(3000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    } while (!uploadEngine.flag);
 
                     if (uploadEngine.Good == null) {
                         Toast.makeText(getApplicationContext(),"未识别到食物！请重新选取图片！3秒后跳转~",Toast.LENGTH_SHORT).show();
