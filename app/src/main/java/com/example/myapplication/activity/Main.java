@@ -85,26 +85,8 @@ public class Main extends BaseActivity {
                     toastcenter.setGravity(Gravity.CENTER, 0, 0);
                     toastcenter.show();
 
-                    ToastUtil.showMessage(Main.this, fail);
                 }
-                //假设正确的账号和密码分别为llh,123456
-//                if(username.equals("llh") && password.equals("123456")){ //如果正确的话进行跳转
-//                    //toast普通版
-//                    startActivity(intent);
-//                    //Toast.makeText(getApplicationContext(), ok, Toast.LENGTH_SHORT).show();
-//
-//                    //封装好的类
-//                    ToastUtil.showMessage(Main.this, ok);
-//
-//                }
-//                else{ //弹出登录失败toast
-//                    //toast提升版 居中显示
-//                    Toast toastcenter = Toast.makeText(getApplicationContext(), fail, Toast.LENGTH_SHORT);
-//                    toastcenter.setGravity(Gravity.CENTER, 0, 0);
-//                    toastcenter.show();
-//
-//                    ToastUtil.showMessage(Main.this, fail);
-//                }
+
             }
         });
 
