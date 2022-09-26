@@ -138,7 +138,7 @@ public class Camera extends Activity {
                         BitmapDrawable bmpDrawable = (BitmapDrawable) cameraPicture.getDrawable();
 
                         Bitmap bitmap2 = bmpDrawable.getBitmap();
-                        saveToSystemGallery(bitmap2);//将图片保存到本地
+                        //saveToSystemGallery(bitmap2);//将图片保存到本地
                         //Toast.makeText(getApplicationContext(),"图片已保存至本地相册！",Toast.LENGTH_SHORT).show();
                         //startActivity(intent3);//窗口切换
                     } catch (FileNotFoundException e) {
@@ -161,7 +161,7 @@ public class Camera extends Activity {
     public void saveToSystemGallery(Bitmap bmp) {
         // 首先保存图片
 
-        File appDir = new File(Environment.getExternalStorageDirectory(), "Pictures");
+        File appDir = new File(getExternalCacheDir(), "Pictures");
         if (!appDir.exists()) {
             appDir.mkdir();
         }
