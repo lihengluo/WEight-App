@@ -58,11 +58,13 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="horizontal"
-            android:layout_weight="4.3">
+            android:layout_weight="4">
         <ScrollView
             android:id="@+id/vertical_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             >
             <LinearLayout
                 android:layout_width="match_parent"
@@ -70,25 +72,23 @@
                 android:orientation="vertical"
                 >
 
-                <include layout="@layout/scollview_item" />
+                <include layout="@layout/scollview_item"
+                    android:id="@+id/layout1" />
 
-                <include layout="@layout/scollview_item" />
+                <include layout="@layout/scollview_item"
+                    android:id="@+id/layout2" />
 
-                <include layout="@layout/scollview_item" />
+                <include layout="@layout/scollview_item"
+                    android:id="@+id/layout3" />
 
-                <include layout="@layout/scollview_item" />
+                <include layout="@layout/scollview_item"
+                    android:id="@+id/layout4" />
 
-                <include layout="@layout/scollview_item" />
+                <include layout="@layout/scollview_item"
+                    android:id="@+id/layout5" />
 
-                <include layout="@layout/scollview_item" />
-
-                <include layout="@layout/scollview_item" />
-
-                <include layout="@layout/scollview_item" />
-
-                <include layout="@layout/scollview_item" />
-
-                <include layout="@layout/scollview_item" />
+                <include layout="@layout/scollview_item"
+                    android:id="@+id/layout6" />
 
             </LinearLayout>
         </ScrollView>
@@ -112,6 +112,7 @@
         android:layout_height="0dp"
         android:orientation="horizontal"
         android:layout_weight="1"
+        android:layout_marginTop="2dp"
         >
         <Button
             android:id="@+id/take_photo"

@@ -3,10 +3,12 @@ package fragment;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -14,11 +16,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.example.myapplication.R;
 import com.example.myapplication.activity.Albums;
 import com.example.myapplication.activity.Camera;
 import com.example.myapplication.activity.Bottom_bar;
+
+import java.util.Random;
 
 
 public class Fragment_main extends Fragment {
@@ -31,6 +36,7 @@ public class Fragment_main extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        //changeImage();
         View view = inflater.inflate(R.layout.fragment_main,container,false);
         return view;
     }
@@ -39,7 +45,7 @@ public class Fragment_main extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        changeImage();
         Button chooseFromAlbum = (Button) getView().findViewById(R.id.choose_from_album);
 
 
@@ -93,4 +99,29 @@ public class Fragment_main extends Fragment {
         startActivity(intent2);//进入camera的窗口界面
 
     }
+    public void changeImage() {
+        int[] mArray = {
+                R.drawable.suggestion1,
+                R.drawable.suggestion2,
+                R.drawable.suggestion3,
+                R.drawable.suggestion4};
+
+        //生成随机数，设置为4，是0,1,2,3,4 五个数
+        Random random = new Random();
+        int index = random.nextInt(4);
+
+        //ImageView对应的id
+        LinearLayout linear = (LinearLayout) getView().findViewById(R.id.layout1);
+        ImageView ivBg = new ImageView(this.getContext());
+        //把图片资源文件变成数组，注意R文件中数据对应的都是int类型
+
+        Drawable drawable =getContext().getResources().getDrawable(mArray[index]);
+
+        //设置图片
+        ivBg.setImageDrawable(drawable);
+        ivBg.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        linear.addView(ivBg);
+
+    }
+
 }

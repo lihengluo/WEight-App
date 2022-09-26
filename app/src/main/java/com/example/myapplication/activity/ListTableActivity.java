@@ -13,7 +13,7 @@ import com.example.myapplication.Goods;
 import com.example.myapplication.R;
 import com.example.myapplication.TableAdapter;
 
-public class ListTableActivity extends Activity {
+public class ListTableActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

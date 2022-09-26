@@ -41,7 +41,7 @@ import com.example.myapplication.upload.UploadEngine;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Albums extends Activity {
+public class Albums extends BaseActivity {
     private  ImageView albumsPicture;
     public static final int CHOOSE_PHOTO = 2;
     private Button pestDection=null;
