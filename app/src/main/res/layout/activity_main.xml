@@ -1,17 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@drawable/bg5"
-    >
 
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+    <ImageView
+        android:id="@+id/profile_photo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/bg5"
+        android:scaleType="centerCrop"
+        />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:weightSum="10"
+        >
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_height="0dp"
+        android:orientation="vertical"
         android:gravity="end"
+        android:layout_weight="1"
         android:layout_marginRight="5dp">
     <Button
         android:id="@+id/btn_skip"
@@ -26,6 +39,19 @@
         android:background="@android:color/transparent"/>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:layout_weight="2.3">
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="6.7">
     <TextView
         android:id="@+id/tv_1"
         android:layout_width="match_parent"
@@ -37,7 +63,6 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:gravity="center"
-        android:layout_marginTop="200dp"
         />
 
     <LinearLayout
@@ -45,6 +70,8 @@
         android:layout_height="55dp"
         android:layout_gravity="center"
         android:layout_marginTop="15dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:orientation="horizontal"
         android:gravity="center|center"
         android:background="@drawable/usertext">
@@ -64,7 +91,7 @@
             android:layout_height="48dp"
             android:layout_weight="1"
             android:hint="@string/user_name"
-            android:textColorHint="@color/black"
+            android:textColorHint="@color/darkgray"
             android:maxLines="1"
             android:layout_gravity="center"
             android:padding="5dp"
@@ -79,6 +106,8 @@
         android:layout_height="55dp"
         android:layout_gravity="center"
         android:layout_marginTop="5dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:orientation="horizontal"
         android:gravity="center|center"
         android:background="@drawable/usertext">
@@ -100,7 +129,7 @@
             android:textSize="16sp"
             android:textColor="@color/black"
             android:hint="@string/user_key"
-            android:textColorHint="@color/black"
+            android:textColorHint="@color/darkgray"
             android:maxLines="1"
             android:padding="5dp"
             android:layout_gravity="center"
@@ -122,6 +151,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="0dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:orientation="horizontal"
         android:background="@null">
         <Button
@@ -158,6 +189,8 @@
         android:orientation="horizontal"
         android:layout_gravity="center"
         android:layout_marginTop="0dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         >
 
         <Button
@@ -176,6 +209,6 @@
 
     </LinearLayout>
     <!--按钮-->
-
-
+    </LinearLayout>
 </LinearLayout>
+</FrameLayout>
