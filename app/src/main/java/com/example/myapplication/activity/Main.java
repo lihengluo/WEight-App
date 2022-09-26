@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.myapplication.authservice.Authentication;
 import com.example.myapplication.authservice.PhoneAuth;
 import com.example.myapplication.upload.UploadEngine;
 import com.example.myapplication.util.ToastUtil;
@@ -38,6 +39,8 @@ public class Main extends AppCompatActivity {
     private EditText myEtpassword;
     private Button mybutttonskip;
     private Button mybuttonhide;
+
+    PhoneAuth phoneAuth = new PhoneAuth();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +76,7 @@ public class Main extends AppCompatActivity {
                 String fail = "密码或者账号有误，请重新登录！";
 
                 Intent intent = new Intent(getApplicationContext(), Bottom_bar.class);
-                PhoneAuth phoneAuth = new PhoneAuth();
+
                 if(phoneAuth.signInWithPassword(username, password)){
                     startActivity(intent);
                 }
@@ -117,7 +120,7 @@ public class Main extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), Bottom_bar.class);
-                Toast toastcenter = Toast.makeText(getApplicationContext(), "已跳过登录阶段", Toast.LENGTH_SHORT);
+                Toast.makeText(getApplicationContext(), "已跳过登录阶段", Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }
         });
@@ -150,6 +153,18 @@ public class Main extends AppCompatActivity {
             AGConnectInstance.initialize(this, builder);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        // 发现已经有用户登录时立即跳转
+        if (phoneAuth.isUserSignIn()) {
+            Toast.makeText(getApplicationContext(), "您已登录，正在跳转...", Toast.LENGTH_SHORT).show();
+            try {
+                Thread.currentThread().sleep(800);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Intent intent = new Intent(getApplicationContext(), Bottom_bar.class);
+            startActivity(intent);
         }
     }
 
