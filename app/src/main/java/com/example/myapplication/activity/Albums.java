@@ -245,7 +245,7 @@ public class Albums extends Activity {
                     while (!uploadEngine.flag);
 
                     if (uploadEngine.Good == null) {
-                        Toast.makeText(getApplicationContext(),"未识别到食物！请重新拍照/从相册选取图片！5秒后跳转~",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"未识别到食物！请重新选取图片！3秒后跳转~",Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                         Intent intent6 = new Intent(getApplicationContext(), Bottom_bar.class);
                         Timer timer = new Timer();

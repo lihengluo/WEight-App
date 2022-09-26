@@ -84,7 +84,7 @@ public class UploadEngine extends AUpDownloadEngine {
                 Log.i(TAG, "onSuccess:" + response.getContent());
                 //listener.onSuccess("timeused:" + (System.currentTimeMillis() - startTime));
                 try {
-                    if ( Integer.valueOf(response.getContent()) == -1) {
+                    if ( Integer.parseInt(response.getContent()) == -1) {
                         Log.i(TAG, "The object is null!!!!");
                         Good = null;
                     }
