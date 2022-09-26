@@ -104,24 +104,73 @@ public class Fragment_main extends Fragment {
                 R.drawable.suggestion1,
                 R.drawable.suggestion2,
                 R.drawable.suggestion3,
-                R.drawable.suggestion4};
+                R.drawable.suggestion4,
+                R.drawable.suggestion5,
+                R.drawable.suggestion6,
+        };
+        LinearLayout[] lArray = {
+                (LinearLayout) getView().findViewById(R.id.layout1),
+                (LinearLayout) getView().findViewById(R.id.layout2),
+                (LinearLayout) getView().findViewById(R.id.layout3),
+                (LinearLayout) getView().findViewById(R.id.layout4),
+        };
+        ImageView[] ivBg = {
+                new ImageView(this.getContext()),
+                new ImageView(this.getContext()),
+                new ImageView(this.getContext()),
+                new ImageView(this.getContext()),
+        };
 
-        //生成随机数，设置为4，是0,1,2,3,4 五个数
-        Random random = new Random();
-        int index = random.nextInt(4);
-
-        //ImageView对应的id
-        LinearLayout linear = (LinearLayout) getView().findViewById(R.id.layout1);
-        ImageView ivBg = new ImageView(this.getContext());
         //把图片资源文件变成数组，注意R文件中数据对应的都是int类型
-
-        Drawable drawable =getContext().getResources().getDrawable(mArray[index]);
-
+        int[] ar = getArray();
         //设置图片
-        ivBg.setImageDrawable(drawable);
-        ivBg.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        linear.addView(ivBg);
+        Drawable drawable1 =getContext().getResources().getDrawable(mArray[ar[0]]);
+        ivBg[0].setImageDrawable(drawable1);
+        ivBg[0].setScaleType(ImageView.ScaleType.FIT_CENTER);
+        lArray[0].addView(ivBg[0]);
 
+        Drawable drawable2 =getContext().getResources().getDrawable(mArray[ar[1]]);
+        ivBg[1].setImageDrawable(drawable2);
+        ivBg[1].setScaleType(ImageView.ScaleType.FIT_CENTER);
+        lArray[1].addView(ivBg[1]);
+
+        Drawable drawable3 =getContext().getResources().getDrawable(mArray[ar[2]]);
+        ivBg[2].setImageDrawable(drawable3);
+        ivBg[2].setScaleType(ImageView.ScaleType.FIT_CENTER);
+        lArray[2].addView(ivBg[2]);
+
+        Drawable drawable4 =getContext().getResources().getDrawable(mArray[ar[3]]);
+        ivBg[3].setImageDrawable(drawable4);
+        ivBg[3].setScaleType(ImageView.ScaleType.FIT_CENTER);
+        lArray[3].addView(ivBg[3]);
+    }
+
+    public int[] getArray() {
+        Random r1 = new Random();
+        int b = r1.nextInt(6);
+
+        //创建一个包含5个元素的数组, 存放随机数
+        int[] a = new int[4];
+
+        //第一个随机数,不需要判断是否重复,直接放进数组
+        a[0] = b;
+
+        //外层,用来放剩余的四个元素,下标从1开始
+        for (int i = 1; i < a.length; i++) {
+            b = r1.nextInt(6);
+
+            //将取到的随机数,与已经存在的元素进行比较，从下标=0开始比较
+            for (int num = 0; num < i; num++) {
+                //如果和已经存在元素相同,需要重新取随机数,并且新取到的随机数要重新与a[0]开始比较,知道取到的随机数不重复
+                while (b == a[num]) {
+                    b = r1.nextInt(6);
+                    num = 0;
+                }
+            }
+
+            a[i] = b;
+        }
+        return a;
     }
 
 }

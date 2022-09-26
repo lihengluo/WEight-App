@@ -84,12 +84,6 @@
                 <include layout="@layout/scollview_item"
                     android:id="@+id/layout4" />
 
-                <include layout="@layout/scollview_item"
-                    android:id="@+id/layout5" />
-
-                <include layout="@layout/scollview_item"
-                    android:id="@+id/layout6" />
-
             </LinearLayout>
         </ScrollView>
         </LinearLayout>
