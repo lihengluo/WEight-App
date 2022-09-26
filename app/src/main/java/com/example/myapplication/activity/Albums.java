@@ -3,6 +3,7 @@ package com.example.myapplication.activity;
 import static android.content.ContentValues.TAG;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -156,7 +157,8 @@ public class Albums extends Activity {
         displayImage(imagePath);
     }
     //获取图片路径
-    private String getImagePath(Uri uri,String selection){
+    @SuppressLint("Range")
+    private String getImagePath(Uri uri, String selection){
         String path=null;
         Cursor cursor=getContentResolver().query(uri,null,selection,null,null);
         if(cursor!=null){
