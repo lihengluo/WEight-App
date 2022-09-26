@@ -168,7 +168,7 @@ public class UploadEngine extends AUpDownloadEngine {
                 jsonObject.put("pd", plate_d);
                 jsonObject.put("od", obj2cam_d);
                 String jsonString = jsonObject.toString();
-                String tmp_path = Environment.getExternalStorageDirectory() + "/tmp.txt";
+                String tmp_path =  context.getExternalCacheDir() + "/tmp.txt";
                 File f = new File(tmp_path);
                 FileWriter fw=new FileWriter(f);
                 fw.write(jsonString);
