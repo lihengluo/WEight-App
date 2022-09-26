@@ -284,6 +284,7 @@ public class Camera extends Activity {
                         intent3.putExtra("Carbohydrates", good.getCarbohydrates());
                         intent3.putExtra("Ca", good.getCa());
                         intent3.putExtra("Fe",good.getFe());
+                        intent3.putExtra("imgpath", getExternalCacheDir() + "/output_image.jpg");
                         startActivity(intent3);
                     }
                 }
