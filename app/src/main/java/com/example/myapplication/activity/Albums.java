@@ -246,7 +246,6 @@ public class Albums extends Activity {
                     while (!uploadEngine.flag);
 
                     if (uploadEngine.Good == null) {
-                        uploadEngine = null;
                         Toast.makeText(getApplicationContext(),"未识别到食物！请重新选取图片！3秒后跳转~",Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                         Intent intent6 = new Intent(getApplicationContext(), Bottom_bar.class);
@@ -270,7 +269,6 @@ public class Albums extends Activity {
                         intent3.putExtra("Carbohydrates", good.getCarbohydrates());
                         intent3.putExtra("Ca", good.getCa());
                         intent3.putExtra("Fe",good.getFe());
-                        uploadEngine = null;
                         startActivity(intent3);
                     }
                 }
