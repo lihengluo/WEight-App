@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
@@ -53,6 +54,7 @@ public class Register extends BaseActivity {
 
                 if (inputCheck(username, password, confirmpassword)) {
                     phoneAuth.requestVerifyCode(username, getApplicationContext());
+                    countDownTime();
                 }
             }
         });
@@ -137,5 +139,24 @@ public class Register extends BaseActivity {
         }
 
         return true;
+    }
+
+    private void countDownTime() {
+        //用安卓自带的CountDownTimer实现
+        CountDownTimer mTimer = new CountDownTimer(60 * 1000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                myVerCode.setText(millisUntilFinished / 1000 + 1 + "秒后重发");
+            }
+
+            @Override
+            public void onFinish() {
+                myVerCode.setEnabled(true);
+                myVerCode.setText("获取验证码");
+                cancel();
+            }
+        };
+        mTimer.start();
+        myVerCode.setEnabled(false);
     }
 }
