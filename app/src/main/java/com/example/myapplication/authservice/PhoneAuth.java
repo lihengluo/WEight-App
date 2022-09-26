@@ -67,8 +67,6 @@ public class PhoneAuth extends Authentication{
 
     @Override
     public boolean createUser(String accountStr, String verifyCOdeStr) {
-        this.account = accountStr;
-        this.verifyCode = verifyCOdeStr;
 
         PhoneUser phoneUser = new PhoneUser.Builder()
                 .setCountryCode("86")
@@ -93,11 +91,8 @@ public class PhoneAuth extends Authentication{
 
     @Override
     public boolean createUser(String accountStr, String verifyCOdeStr, String passwordStr) {
-        this.account = accountStr;
-        this.verifyCode = verifyCOdeStr;
-        this.password = passwordStr;
 
-                PhoneUser phoneUser = new PhoneUser.Builder()
+        PhoneUser phoneUser = new PhoneUser.Builder()
                 .setCountryCode("86")
                 .setPhoneNumber(accountStr)
                 .setVerifyCode(verifyCOdeStr)
