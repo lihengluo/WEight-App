@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.example.myapplication.util.FunctionUtils;
 
 import fragment.Fragment_main;
 import fragment.Fragment_me;
@@ -61,24 +62,28 @@ public class Bottom_bar extends BaseActivity {
         bottom_bar_1_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (view.getId() == R.id.bottom_bar_1_btn) {
-                    if(index[0] == 1){
-                        getSupportFragmentManager().beginTransaction().replace(R.id.main_body, new Fragment_main()).commit();
-                        index[0] = 0;
+                if (!FunctionUtils.isFastDoubleClick()) {
+                    if (view.getId() == R.id.bottom_bar_1_btn) {
+                        if (index[0] == 1) {
+                            getSupportFragmentManager().beginTransaction().replace(R.id.main_body, new Fragment_main()).commit();
+                            index[0] = 0;
+                        }
+                        setSelectStatus(index[0]);
                     }
-                    setSelectStatus(index[0]);
                 }
             }
         });
         bottom_bar_2_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (view.getId() == R.id.bottom_bar_2_btn) {
-                    if(index[0] == 0){
-                        getSupportFragmentManager().beginTransaction().replace(R.id.main_body, new Fragment_me()).commit();
-                        index[0] = 1;
+                if (!FunctionUtils.isFastDoubleClick()) {
+                    if (view.getId() == R.id.bottom_bar_2_btn) {
+                        if (index[0] == 0) {
+                            getSupportFragmentManager().beginTransaction().replace(R.id.main_body, new Fragment_me()).commit();
+                            index[0] = 1;
+                        }
+                        setSelectStatus(index[0]);
                     }
-                    setSelectStatus(index[0]);
                 }
             }
         });

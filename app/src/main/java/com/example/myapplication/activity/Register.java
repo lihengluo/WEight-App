@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.example.myapplication.authservice.PhoneAuth;
+import com.example.myapplication.util.FunctionUtils;
 
 import java.io.EOFException;
 
@@ -48,13 +49,15 @@ public class Register extends BaseActivity {
         myVerCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = myEtuser.getText().toString();
-                String password = myEtpassword.getText().toString();
-                String confirmpassword = myConfirmEtpassword.getText().toString();
+                if (!FunctionUtils.isFastDoubleClick()) {
+                    String username = myEtuser.getText().toString();
+                    String password = myEtpassword.getText().toString();
+                    String confirmpassword = myConfirmEtpassword.getText().toString();
 
-                if (inputCheck(username, password, confirmpassword)) {
-                    phoneAuth.requestVerifyCode(username, getApplicationContext());
-                    countDownTime();
+                    if (inputCheck(username, password, confirmpassword)) {
+                        phoneAuth.requestVerifyCode(username, getApplicationContext());
+                        countDownTime();
+                    }
                 }
             }
         });
@@ -62,26 +65,27 @@ public class Register extends BaseActivity {
         mybuttonregister2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = myEtuser.getText().toString();
-                String password = myEtpassword.getText().toString();
-                String confirmpassword = myConfirmEtpassword.getText().toString();
-                String verifycode = myVerifyCode.getText().toString();
+                if (!FunctionUtils.isFastDoubleClick()) {
+                    String username = myEtuser.getText().toString();
+                    String password = myEtpassword.getText().toString();
+                    String confirmpassword = myConfirmEtpassword.getText().toString();
+                    String verifycode = myVerifyCode.getText().toString();
 
-                if (!inputCheck(username, password, confirmpassword))
-                    return;
+                    if (!inputCheck(username, password, confirmpassword))
+                        return;
 
-                //注册后自动登录成功
-                Intent intent = new Intent(getApplicationContext(), Bottom_bar.class);
+                    //注册后自动登录成功
+                    Intent intent = new Intent(getApplicationContext(), Bottom_bar.class);
 
-                if(phoneAuth.createUser(username, verifycode, password)) {
-                    Toast.makeText(getApplicationContext(), "注册成功，正在跳转...", Toast.LENGTH_SHORT).show();
-                    startActivity(intent);
-                    finish();
+                    if (phoneAuth.createUser(username, verifycode, password)) {
+                        Toast.makeText(getApplicationContext(), "注册成功，正在跳转...", Toast.LENGTH_SHORT).show();
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "注册失败，账户已经注册或者密码强度过低", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
-                else {
-                    Toast.makeText(getApplicationContext(), "注册失败，账户已经注册或者密码强度过低", Toast.LENGTH_SHORT).show();
-                }
-
             }
         });
 
@@ -89,14 +93,15 @@ public class Register extends BaseActivity {
         mybuttonhide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int type = myEtpassword.getInputType();
-                if (myEtpassword.getInputType() == 129) {
-                    mybuttonhide.setBackgroundResource(R.drawable.eye);
-                    myEtpassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                }
-                else {
-                    mybuttonhide.setBackgroundResource(R.drawable.no_eye);
-                    myEtpassword.setInputType(129);
+                if (!FunctionUtils.isFastDoubleClick()) {
+                    int type = myEtpassword.getInputType();
+                    if (myEtpassword.getInputType() == 129) {
+                        mybuttonhide.setBackgroundResource(R.drawable.eye);
+                        myEtpassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                    } else {
+                        mybuttonhide.setBackgroundResource(R.drawable.no_eye);
+                        myEtpassword.setInputType(129);
+                    }
                 }
             }
         });
@@ -104,14 +109,15 @@ public class Register extends BaseActivity {
         mybuttonhide2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int type = myConfirmEtpassword.getInputType();
-                if (myConfirmEtpassword.getInputType() == 129) {
-                    mybuttonhide2.setBackgroundResource(R.drawable.eye);
-                    myConfirmEtpassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
-                }
-                else {
-                    mybuttonhide2.setBackgroundResource(R.drawable.no_eye);
-                    myConfirmEtpassword.setInputType(129);
+                if (!FunctionUtils.isFastDoubleClick()) {
+                    int type = myConfirmEtpassword.getInputType();
+                    if (myConfirmEtpassword.getInputType() == 129) {
+                        mybuttonhide2.setBackgroundResource(R.drawable.eye);
+                        myConfirmEtpassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                    } else {
+                        mybuttonhide2.setBackgroundResource(R.drawable.no_eye);
+                        myConfirmEtpassword.setInputType(129);
+                    }
                 }
             }
         });

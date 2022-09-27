@@ -37,6 +37,7 @@ import androidx.core.content.FileProvider;
 import com.example.myapplication.Goods;
 import com.example.myapplication.R;
 import com.example.myapplication.upload.UploadEngine;
+import com.example.myapplication.util.FunctionUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -212,82 +213,84 @@ public class Camera extends BaseActivity {
         btn_agree_high_opion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!FunctionUtils.isFastDoubleClick()) {
 
-                EditText A1 = view.findViewById(R.id.et_01);
-                EditText B1 = view.findViewById(R.id.et_02);
-                String A = A1.getText().toString();
-                String B = B1.getText().toString();
-                String focal = "27";
+                    EditText A1 = view.findViewById(R.id.et_01);
+                    EditText B1 = view.findViewById(R.id.et_02);
+                    String A = A1.getText().toString();
+                    String B = B1.getText().toString();
+                    String focal = "27";
 
 
-                intent3 = new Intent(getApplicationContext(), Analyze.class);
+                    intent3 = new Intent(getApplicationContext(), Analyze.class);
 //                            System.out.println(A.toString());
 //                            System.out.println(B.toString());
-                if (A.isEmpty() || B.isEmpty()) {
-                    Toast.makeText(getApplicationContext(),"您还未输入",Toast.LENGTH_SHORT).show();
-                    dialog.show();
-                }
-                if(!A.isEmpty() && !B.isEmpty()){
-                    try {
-                        //读取图片EXIF信息焦距
-                        ExifInterface exifInterface=new ExifInterface(getExternalCacheDir()+"/output_image.jpg");
-                        focal = exifInterface.getAttribute(ExifInterface.TAG_FOCAL_LENGTH_IN_35MM_FILM);
-                        Log.i("s", "-----------------focal: "+ focal);
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    if (A.isEmpty() || B.isEmpty()) {
+                        Toast.makeText(getApplicationContext(), "您还未输入", Toast.LENGTH_SHORT).show();
+                        dialog.show();
                     }
-
-                    //分析接口
-                    if (Build.VERSION.SDK_INT >= 23) {
-                        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
-                                checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1000);
-                            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1001);
-                        }
-                    }
-                    if (focal == null || Integer.parseInt(focal) == 0) { focal = "27"; }
-                    UploadEngine uploadEngine =  new UploadEngine(getApplicationContext());
-                    uploadEngine.uploadToDetect(getExternalCacheDir()+"/output_image.jpg", Double.parseDouble(focal), Double.parseDouble(A),
-                            Double.parseDouble(B));
-                    //while (!uploadEngine.flag);
-                    do {
+                    if (!A.isEmpty() && !B.isEmpty()) {
                         try {
-                            Thread.sleep(3000);
-                        } catch (InterruptedException e) {
+                            //读取图片EXIF信息焦距
+                            ExifInterface exifInterface = new ExifInterface(getExternalCacheDir() + "/output_image.jpg");
+                            focal = exifInterface.getAttribute(ExifInterface.TAG_FOCAL_LENGTH_IN_35MM_FILM);
+                            Log.i("s", "-----------------focal: " + focal);
+
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
-                    } while (!uploadEngine.flag);
 
-                    if (uploadEngine.Good == null) {
-                        Toast.makeText(getApplicationContext(),"未识别到食物！请重新选取图片！3秒后跳转~",Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
-                        Intent intent6 = new Intent(getApplicationContext(), Bottom_bar.class);
-                        Timer timer = new Timer();
-                        TimerTask task = new TimerTask() {
-                            @Override
-                            public void run() {
-                                startActivity(intent6); //执行
+                        //分析接口
+                        if (Build.VERSION.SDK_INT >= 23) {
+                            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                                    checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1000);
+                                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1001);
                             }
-                        };
-                        timer.schedule(task, 1000 * 3); //5秒后
-                    }
+                        }
+                        if (focal == null || Integer.parseInt(focal) == 0) {
+                            focal = "27";
+                        }
+                        UploadEngine uploadEngine = new UploadEngine(getApplicationContext());
+                        uploadEngine.uploadToDetect(getExternalCacheDir() + "/output_image.jpg", Double.parseDouble(focal), Double.parseDouble(A),
+                                Double.parseDouble(B));
+                        //while (!uploadEngine.flag);
+                        do {
+                            try {
+                                Thread.sleep(3000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        } while (!uploadEngine.flag);
 
-                    else {
-                        //传输数据
-                        Goods good = uploadEngine.Good;
-                        intent3.putExtra("foodname", good.getFoodName());
-                        intent3.putExtra("heats", good.getHeats());
-                        intent3.putExtra("fat", good.getFat());
-                        intent3.putExtra("protein", good.getProtein());
-                        intent3.putExtra("Carbohydrates", good.getCarbohydrates());
-                        intent3.putExtra("Ca", good.getCa());
-                        intent3.putExtra("Fe",good.getFe());
-                        intent3.putExtra("imgpath", getExternalCacheDir() + "/output_image.jpg");
-                        startActivity(intent3);
+                        if (uploadEngine.Good == null) {
+                            Toast.makeText(getApplicationContext(), "未识别到食物！请重新选取图片！3秒后跳转~", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                            Intent intent6 = new Intent(getApplicationContext(), Bottom_bar.class);
+                            Timer timer = new Timer();
+                            TimerTask task = new TimerTask() {
+                                @Override
+                                public void run() {
+                                    startActivity(intent6); //执行
+                                }
+                            };
+                            timer.schedule(task, 1000 * 3); //5秒后
+                        } else {
+                            //传输数据
+                            Goods good = uploadEngine.Good;
+                            intent3.putExtra("foodname", good.getFoodName());
+                            intent3.putExtra("heats", good.getHeats());
+                            intent3.putExtra("fat", good.getFat());
+                            intent3.putExtra("protein", good.getProtein());
+                            intent3.putExtra("Carbohydrates", good.getCarbohydrates());
+                            intent3.putExtra("Ca", good.getCa());
+                            intent3.putExtra("Fe", good.getFe());
+                            intent3.putExtra("imgpath", getExternalCacheDir() + "/output_image.jpg");
+                            startActivity(intent3);
+                        }
                     }
+                    dialog.dismiss();
                 }
-                dialog.dismiss();
             }
         });
 

@@ -60,36 +60,38 @@ public class Main extends BaseActivity {
         mybuttonlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String username = myEtuser.getText().toString();
-                String password = myEtpassword.getText().toString();
+                if (!FunctionUtils.isFastDoubleClick()) {
+                    String username = myEtuser.getText().toString();
+                    String password = myEtpassword.getText().toString();
 
-                //弹出内容设置
-                String ok = "登录成功!";
-                String fail = "密码或者账号有误，请重新登录！";
+                    //弹出内容设置
+                    String ok = "登录成功!";
+                    String fail = "密码或者账号有误，请重新登录！";
 
-                Intent intent = new Intent(getApplicationContext(), Bottom_bar.class);
+                    Intent intent = new Intent(getApplicationContext(), Bottom_bar.class);
 
-                if(phoneAuth.signInWithPassword(username, password)){
-                    intent.putExtra("登录信息", "0");
-                    startActivity(intent);
-                    finish();
+                    if (phoneAuth.signInWithPassword(username, password)) {
+                        intent.putExtra("登录信息", "0");
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Toast toastcenter = Toast.makeText(getApplicationContext(), fail, Toast.LENGTH_SHORT);
+                        toastcenter.setGravity(Gravity.CENTER, 0, 0);
+                        toastcenter.show();
+
+                    }
                 }
-                else {
-                    Toast toastcenter = Toast.makeText(getApplicationContext(), fail, Toast.LENGTH_SHORT);
-                    toastcenter.setGravity(Gravity.CENTER, 0, 0);
-                    toastcenter.show();
-
-                }
-
             }
         });
 
         mybuttonregister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent2 = new Intent(getApplicationContext(), Register.class);
-                startActivity(intent2);
-                finish();
+                if (!FunctionUtils.isFastDoubleClick()) {
+                    Intent intent2 = new Intent(getApplicationContext(), Register.class);
+                    startActivity(intent2);
+                    finish();
+                }
             }
         });
 
