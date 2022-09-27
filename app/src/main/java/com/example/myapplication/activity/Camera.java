@@ -20,6 +20,7 @@ import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -264,7 +265,9 @@ public class Camera extends BaseActivity {
                         } while (!uploadEngine.flag);
 
                         if (uploadEngine.Good == null) {
-                            Toast.makeText(getApplicationContext(), "未识别到食物！请重新选取图片！3秒后跳转~", Toast.LENGTH_SHORT).show();
+                            Toast toast = Toast.makeText(getApplicationContext(), "未识别到食物！请重新选取图片！3秒后跳转~", Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.show();
                             dialog.dismiss();
                             Intent intent6 = new Intent(getApplicationContext(), Bottom_bar.class);
                             Timer timer = new Timer();

@@ -21,6 +21,7 @@ import com.example.myapplication.authservice.PhoneAuth;
 import com.example.myapplication.database.CloudDB;
 import com.example.myapplication.function.CloudFunction;
 import com.example.myapplication.storage.CloudStorage;
+import com.example.myapplication.util.FunctionUtils;
 
 import org.w3c.dom.Text;
 
@@ -49,6 +50,7 @@ public class Analyze extends BaseActivity {
         TextView feText = findViewById(R.id.text_fe);
 
         Button uploadDataBtn = findViewById(R.id.upload_to_cloud);
+        uploadDataBtn.setEnabled(true);
 
 
         final Intent myIntend = getIntent();
@@ -73,21 +75,29 @@ public class Analyze extends BaseActivity {
 
 
         uploadDataBtn.setOnClickListener(view -> {
-            if (!phoneAuth.isUserSignIn()) {
-                Toast toast = Toast.makeText(getApplicationContext(), "您还未登录，请登录后该功能", Toast.LENGTH_SHORT);
+            if (!FunctionUtils.isFastDoubleClick()) {
+                if (uploadDataBtn.isEnabled()) {
+                    if (!phoneAuth.isUserSignIn()) {
+                        Toast toast = Toast.makeText(getApplicationContext(), "您还未登录，请登录后该功能", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+                    } else {
+                        if (!uploadToCloud(new File(imgpath), new Goods(null, foodname, heats, fat, protein, Carbohydrates, Ca, Fe))) {
+                            Toast toast = Toast.makeText(getApplicationContext(), "上传失败，请重试！", Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.show();
+                        } else {
+                            Toast toast = Toast.makeText(getApplicationContext(), "上传已完成", Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.show();
+                            uploadDataBtn.setEnabled(false);
+                        }
+                    }
+                }
+            } else {
+                Toast toast = Toast.makeText(getApplicationContext(), "分析结果已上传，请勿重复上传！", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
-            } else {
-                if (!uploadToCloud(new File(imgpath), new Goods(null, foodname, heats, fat, protein, Carbohydrates, Ca, Fe))) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "上传失败，请重试！", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                }
-                else {
-                    Toast toast = Toast.makeText(getApplicationContext(), "上传已完成", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                }
             }
         });
     }
