@@ -108,4 +108,9 @@ public class EmailAuth extends Authentication{
 
         return signInTask.isSuccessful();
     }
+
+    @Override
+    public boolean resetPassword(String accountStr, String newPassword, String verifyCode) {
+        return false;
+    }
 }

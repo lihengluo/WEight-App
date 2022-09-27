@@ -113,4 +113,22 @@ public class PhoneAuth extends Authentication{
 
         return signInTask.isSuccessful();
     }
+
+    @Override
+    public boolean resetPassword(String accountStr, String newPassword, String verifyCode) {
+        Task<Void> resetPasswordTask = AGConnectAuth.getInstance().resetPassword("86", accountStr, newPassword, verifyCode);
+        while (!resetPasswordTask.isComplete());
+
+        if (!resetPasswordTask.isSuccessful()) {
+            Exception e = resetPasswordTask.getException();
+            if (e instanceof AGCAuthException) {
+                AGCAuthException agcAuthException = (AGCAuthException) e;
+                int errCode = agcAuthException.getCode();
+                String message = agcAuthException.getMessage();
+                Log.w("PhoneAuth resetPassword", "errorCode: " + errCode + ", message: " + message);
+            }
+        }
+
+        return resetPasswordTask.isSuccessful();
+    }
 }

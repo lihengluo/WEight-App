@@ -46,13 +46,27 @@ public abstract class Authentication {
     }
 
     /**
-     * 请求验证码
+     * 请求验证码（用于登录或注册）
      * @param accountStr 用户账号（手机号或者邮箱）
-     * @return 验证码是否请求成功
+     * @param context 应用程序context
      */
     public void requestVerifyCode(String accountStr, Context context) {
         VerifyCodeSettings settings = new VerifyCodeSettings.Builder()
                 .action(VerifyCodeSettings.ACTION_REGISTER_LOGIN)
+                .sendInterval(30)
+                .locale(Locale.CHINA)
+                .build();
+        agcRequestVerifyCode(accountStr, context, settings);
+    }
+
+    /**
+     * 请求验证码（用于重置密码）
+     * @param accountStr 用户账号（手机号或者邮箱）
+     * @param context 应用程序context
+     */
+    public void requestVerifyCodeForReset(String accountStr, Context context) {
+        VerifyCodeSettings settings = new VerifyCodeSettings.Builder()
+                .action(VerifyCodeSettings.ACTION_RESET_PASSWORD)
                 .sendInterval(30)
                 .locale(Locale.CHINA)
                 .build();
@@ -169,6 +183,8 @@ public abstract class Authentication {
     protected abstract AGConnectAuthCredential credentialWithVerifyCode(String accountStr, String verifyCodeStr);
 
     protected abstract void agcRequestVerifyCode(String accountStr, Context context, VerifyCodeSettings settings);
+
+    public abstract boolean resetPassword(String accountStr, String newPassword, String verifyCode);
 
     public abstract boolean createUser(String accountStr, String verifyCOdeStr);
 

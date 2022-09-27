@@ -36,6 +36,7 @@ public class Main extends BaseActivity {
     //声明控件
     private Button mybuttonlogin;
     private Button mybuttonregister;
+    private Button myButtonForgetPassword;
     private EditText myEtuser;
     private EditText myEtpassword;
     private Button mybutttonskip;
@@ -55,6 +56,7 @@ public class Main extends BaseActivity {
         mybutttonskip = findViewById(R.id.btn_skip);
         mybuttonhide = findViewById(R.id.btn_hide);
         mybuttonregister = findViewById(R.id.btn_reg);
+        myButtonForgetPassword = findViewById(R.id.forget);
 
         //实现跳转---方法1
         mybuttonlogin.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +91,17 @@ public class Main extends BaseActivity {
             public void onClick(View v) {
                 if (!FunctionUtils.isFastDoubleClick()) {
                     Intent intent2 = new Intent(getApplicationContext(), Register.class);
+                    startActivity(intent2);
+                    finish();
+                }
+            }
+        });
+
+        myButtonForgetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!FunctionUtils.isFastDoubleClick()) {
+                    Intent intent2 = new Intent(getApplicationContext(), ResetPassword.class);
                     startActivity(intent2);
                     finish();
                 }
