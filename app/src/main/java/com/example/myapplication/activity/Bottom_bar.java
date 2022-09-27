@@ -155,7 +155,6 @@ public class Bottom_bar extends AppCompatActivity {
                 //图片也不变
                 bottom_bar_image_2.setImageResource(R.drawable.me_normal);
                 bottom_bar_text_3.setTextColor(Color.parseColor("#0097F7"));
-                //图片也不变
                 bottom_bar_image_3.setImageResource(R.drawable.mee_select);
 
                 break;
