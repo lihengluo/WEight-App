@@ -47,7 +47,6 @@ import com.example.myapplication.util.FunctionUtils;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import dmax.dialog.SpotsDialog;
 
 public class Albums extends BaseActivity {
     private  ImageView albumsPicture;
