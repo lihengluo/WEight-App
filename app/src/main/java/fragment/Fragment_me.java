@@ -1,6 +1,5 @@
 package fragment;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
@@ -28,46 +27,18 @@ public class Fragment_me extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
 
-        Button User_info = (Button) getView().findViewById(R.id.user_info);
-        Button User_logout = (Button) getView().findViewById(R.id.user_logout);
-        Button User_delete = (Button) getView().findViewById(R.id.user_delete);
-        Button User_aboutus = (Button) getView().findViewById((R.id.user_aboutus));
-        Button User_advice = (Button) getView().findViewById(R.id.user_advice);
+        Button chooseCalendar = (Button) getView().findViewById(R.id.btn_choose);
+        CalendarView calendarview = (CalendarView) getView().findViewById(R.id.calendarView);
 
-        User_info.setOnClickListener(new View.OnClickListener() {
+        calendarview.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
-            public void onClick(View view) {
-
-//                LayoutInflater inflater = getLayoutInflater();
-//                View v = inflater.inflate(R.layout.user_info_dialog,null,false);
-//                final AlertDialog dialog = new AlertDialog.Builder(getActivity()).setView(v).create();
-//                dialog.show();
-
+            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+                Toast.makeText(getActivity(),"您选择的时间是："+ year + "年" + month + "月" + dayOfMonth + "日",Toast.LENGTH_SHORT).show();
             }
         });
 
-        User_logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
-
-        User_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-        User_aboutus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-        User_advice.setOnClickListener(new View.OnClickListener() {
+        chooseCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 

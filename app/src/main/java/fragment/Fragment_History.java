@@ -1,5 +1,6 @@
 package fragment;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
@@ -27,18 +28,42 @@ public class Fragment_History extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState){
         super.onViewCreated(view, savedInstanceState);
 
-        Button chooseCalendar = (Button) getView().findViewById(R.id.btn_choose);
-        CalendarView calendarview = (CalendarView) getView().findViewById(R.id.calendarView);
+        Button User_info = (Button) getView().findViewById(R.id.user_info);
+        Button User_logout = (Button) getView().findViewById(R.id.user_logout);
+        Button User_delete = (Button) getView().findViewById(R.id.user_delete);
+        Button User_aboutus = (Button) getView().findViewById((R.id.user_aboutus));
+        Button User_advice = (Button) getView().findViewById(R.id.user_advice);
 
-        calendarview.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+        User_info.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
-                Toast.makeText(getActivity(),"您选择的时间是："+ year + "年" + month + "月" + dayOfMonth + "日",Toast.LENGTH_SHORT).show();
+            public void onClick(View view) {
+
+
             }
         });
 
+        User_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-        chooseCalendar.setOnClickListener(new View.OnClickListener() {
+            }
+        });
+
+        User_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        User_aboutus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        User_advice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 

@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.myapplication.R;
 import com.example.myapplication.util.FunctionUtils;
 
@@ -80,7 +82,7 @@ public class Bottom_bar extends AppCompatActivity {
                 if (!FunctionUtils.isFastDoubleClick()) {
                     if (view.getId() == R.id.bottom_bar_2_btn) {
                         if (index[0] == 0 || index[0] == 2) {
-                            getSupportFragmentManager().beginTransaction().replace(R.id.main_body, new Fragment_History()).commit();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.main_body, new Fragment_me()).commit();
                             index[0] = 1;
                         }
                         setSelectStatus(index[0]);
@@ -95,7 +97,7 @@ public class Bottom_bar extends AppCompatActivity {
                 if (!FunctionUtils.isFastDoubleClick()) {
                     if (view.getId() == R.id.bottom_bar_3_btn) {
                         if (index[0] == 0 || index[0] == 1) {
-                            getSupportFragmentManager().beginTransaction().replace(R.id.main_body, new Fragment_me()).commit();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.main_body, new Fragment_History()).commit();
                             index[0] = 2;
                         }
                         setSelectStatus(index[0]);
