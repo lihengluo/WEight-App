@@ -5,8 +5,8 @@
         android:angle="0"
         android:centerX="0.5"
         android:centerY="0.5"
-        android:startColor="@color/seagreen"
-        android:endColor="@color/teal"
+        android:startColor="@color/bisque"
+        android:endColor="@color/khaki"
         android:gradientRadius="1500"
         />
     <stroke

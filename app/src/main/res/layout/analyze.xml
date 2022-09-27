@@ -8,7 +8,7 @@
     <ImageView
         android:id="@+id/food_picture"
         android:layout_width="wrap_content"
-        android:layout_height="288dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="1dp"
         android:layout_marginTop="1dp"
         android:layout_marginRight="1dp"
@@ -17,13 +17,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="402dp"
         android:layout_marginLeft="35dp"
-        android:layout_marginTop="250dp"
+        android:layout_marginTop="300dp"
         android:layout_marginRight="35dp"
         android:layout_marginBottom="75dp"
-        android:orientation="vertical"
-        android:background="@drawable/layout_food">
+        android:background="@drawable/layout_food"
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="55dp"
@@ -96,9 +97,9 @@
                 android:gravity="center">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
+                    android:layout_width="100dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="5dp"
                     android:background="@drawable/btn_center"
                     android:orientation="vertical">
 
@@ -106,7 +107,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="热量"
+                        android:text="热量(大卡)"
                         android:textColor="@color/white"
                         android:textSize="20dp" />
 
@@ -115,14 +116,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="20大卡"
+                        android:text="200"
                         android:textColor="@color/white"
                         android:textSize="25dp" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="100dp"
+                    android:layout_height="60dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/btn_center"
                     android:orientation="vertical">
@@ -131,7 +132,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="碳水化合物"
+                        android:text="碳水(克)"
                         android:textColor="@color/white"
                         android:textSize="20dp" />
 
@@ -140,15 +141,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="30.8克"
+                        android:text="30.8"
                         android:textColor="@color/white"
                         android:textSize="25dp" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="100dp"
+                    android:layout_height="60dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/btn_center"
                     android:orientation="vertical">
@@ -157,7 +158,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="蛋白质"
+                        android:text="蛋白质(克)"
                         android:textColor="@color/white"
                         android:textSize="20dp" />
 
@@ -166,7 +167,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="30.8克"
+                        android:text="30.8"
                         android:textColor="@color/white"
                         android:textSize="25dp" />
 
@@ -177,13 +178,13 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="50dp"
                 android:gravity="center">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
+                    android:layout_width="100dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="5dp"
                     android:background="@drawable/btn_center"
                     android:orientation="vertical">
 
@@ -191,7 +192,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="脂肪"
+                        android:text="脂肪(克)"
                         android:textColor="@color/white"
                         android:textSize="20dp" />
 
@@ -200,14 +201,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="7.45克"
+                        android:text="7.45"
                         android:textColor="@color/white"
                         android:textSize="25dp" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="100dp"
+                    android:layout_height="60dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/btn_center"
                     android:orientation="vertical">
@@ -216,7 +217,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="铁"
+                        android:text="铁(克)"
                         android:textColor="@color/white"
                         android:textSize="20dp" />
 
@@ -225,15 +226,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="0.8克"
+                        android:text="0.8"
                         android:textColor="@color/white"
                         android:textSize="25dp" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="100dp"
+                    android:layout_height="60dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/btn_center"
                     android:orientation="vertical">
@@ -242,7 +243,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="钙"
+                        android:text="钙(克)"
                         android:textColor="@color/white"
                         android:textSize="20dp" />
 
@@ -251,7 +252,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="0克"
+                        android:text="0"
                         android:textColor="@color/white"
                         android:textSize="25dp" />
 
@@ -275,9 +276,9 @@
                 android:layout_marginRight="50dp"
                 android:layout_weight="1"
                 android:background="@drawable/btn_center_upload"
-                android:text="上\t传\t到\t云\t端"
-                android:textStyle="bold"
-                android:textSize="25sp" />
+                android:text="保\t存\t到\t云\t端"
+                android:textSize="25sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
     </LinearLayout>

@@ -1,9 +1,11 @@
 package com.example.myapplication.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -29,6 +31,7 @@ public class Analyze extends BaseActivity {
 
     PhoneAuth phoneAuth = new PhoneAuth();
 
+    @SuppressLint("DefaultLocale")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,17 +56,17 @@ public class Analyze extends BaseActivity {
         String foodname = myIntend.getStringExtra("foodname");
         foodNameText.setText(foodname);
         float heats = myIntend.getFloatExtra("heats",0);
-        heatText.setText(String.format("%s大卡", heats));
+        heatText.setText(String.format("%.2f", heats));
         float fat = myIntend.getFloatExtra("fat", 0);
-        fatText.setText(String.format("%s克", fat));
+        fatText.setText(String.format("%.2f", fat));
         float protein = myIntend.getFloatExtra("protein", 0);
-        proteinText.setText(String.format("%s克", protein));
+        proteinText.setText(String.format("%.2f", protein));
         float Carbohydrates = myIntend.getFloatExtra("Carbohydrates", 0);
-        carbohydrateText.setText(String.format("%s克", Carbohydrates));
+        carbohydrateText.setText(String.format("%.2f", Carbohydrates));
         float Ca = myIntend.getFloatExtra("Ca", 0);
-        caText.setText(String.format("%s克", Ca));
+        caText.setText(String.format("%.2f", Ca));
         float Fe = myIntend.getFloatExtra("Fe", 0);
-        feText.setText(String.format("%s克", Fe));
+        feText.setText(String.format("%.2f", Fe));
 
         String imgpath = myIntend.getStringExtra("imgpath");
         cameraPicture.setImageBitmap(BitmapFactory.decodeFile(imgpath));
@@ -71,10 +74,19 @@ public class Analyze extends BaseActivity {
 
         uploadDataBtn.setOnClickListener(view -> {
             if (!phoneAuth.isUserSignIn()) {
-                Toast.makeText(getApplicationContext(), "您还未登录！！！", Toast.LENGTH_SHORT).show();
+                Toast toast = Toast.makeText(getApplicationContext(), "您还未登录，请登录后该功能", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
             } else {
                 if (!uploadToCloud(new File(imgpath), new Goods(null, foodname, heats, fat, protein, Carbohydrates, Ca, Fe))) {
-                    Toast.makeText(getApplicationContext(), "上传失败，请重试！", Toast.LENGTH_SHORT).show();
+                    Toast toast = Toast.makeText(getApplicationContext(), "上传失败，请重试！", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                }
+                else {
+                    Toast toast = Toast.makeText(getApplicationContext(), "上传已完成", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
                 }
             }
         });
