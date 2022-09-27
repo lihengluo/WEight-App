@@ -57,6 +57,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:orientation="horizontal">
 
             <TextView
@@ -87,18 +88,18 @@
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="232dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="5dp">
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center">
 
                 <LinearLayout
-                    android:layout_width="100dp"
-                    android:layout_height="60dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="80dp"
                     android:layout_marginLeft="5dp"
                     android:background="@drawable/btn_center"
                     android:orientation="vertical">
@@ -106,16 +107,21 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_gravity="center_horizontal"
                         android:gravity="center"
                         android:text="热量(大卡)"
                         android:textColor="@color/white"
-                        android:textSize="20dp" />
+                        android:textSize="18dp" />
 
                     <TextView
                         android:id="@+id/heat"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10dp"
                         android:gravity="center"
+                        android:maxLength="6"
                         android:text="200"
                         android:textColor="@color/white"
                         android:textSize="25dp" />
@@ -123,7 +129,7 @@
 
                 <LinearLayout
                     android:layout_width="100dp"
-                    android:layout_height="60dp"
+                    android:layout_height="80dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/btn_center"
                     android:orientation="vertical">
@@ -131,16 +137,21 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_gravity="center_horizontal"
                         android:gravity="center"
                         android:text="碳水(克)"
                         android:textColor="@color/white"
-                        android:textSize="20dp" />
+                        android:textSize="18dp" />
 
                     <TextView
                         android:id="@+id/carbohydrate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_gravity="center_horizontal"
                         android:gravity="center"
+                        android:maxLength="6"
                         android:text="30.8"
                         android:textColor="@color/white"
                         android:textSize="25dp" />
@@ -149,7 +160,7 @@
 
                 <LinearLayout
                     android:layout_width="100dp"
-                    android:layout_height="60dp"
+                    android:layout_height="80dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/btn_center"
                     android:orientation="vertical">
@@ -157,16 +168,21 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_gravity="center_horizontal"
                         android:gravity="center"
                         android:text="蛋白质(克)"
                         android:textColor="@color/white"
-                        android:textSize="20dp" />
+                        android:textSize="18dp" />
 
                     <TextView
                         android:id="@+id/protein"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_gravity="center_horizontal"
                         android:gravity="center"
+                        android:maxLength="6"
                         android:text="30.8"
                         android:textColor="@color/white"
                         android:textSize="25dp" />
@@ -178,12 +194,12 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="30dp"
                 android:gravity="center">
 
                 <LinearLayout
                     android:layout_width="100dp"
-                    android:layout_height="60dp"
+                    android:layout_height="80dp"
                     android:layout_marginLeft="5dp"
                     android:background="@drawable/btn_center"
                     android:orientation="vertical">
@@ -191,16 +207,21 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_gravity="center_horizontal"
                         android:gravity="center"
                         android:text="脂肪(克)"
                         android:textColor="@color/white"
-                        android:textSize="20dp" />
+                        android:textSize="18dp" />
 
                     <TextView
                         android:id="@+id/text_fat"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_gravity="center_horizontal"
                         android:gravity="center"
+                        android:maxLength="6"
                         android:text="7.45"
                         android:textColor="@color/white"
                         android:textSize="25dp" />
@@ -208,7 +229,7 @@
 
                 <LinearLayout
                     android:layout_width="100dp"
-                    android:layout_height="60dp"
+                    android:layout_height="80dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/btn_center"
                     android:orientation="vertical">
@@ -216,16 +237,21 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_gravity="center_horizontal"
                         android:gravity="center"
                         android:text="铁(毫克)"
                         android:textColor="@color/white"
-                        android:textSize="20dp" />
+                        android:textSize="18dp" />
 
                     <TextView
                         android:id="@+id/text_fe"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_gravity="center_horizontal"
                         android:gravity="center"
+                        android:maxLength="6"
                         android:text="0.8"
                         android:textColor="@color/white"
                         android:textSize="25dp" />
@@ -234,7 +260,7 @@
 
                 <LinearLayout
                     android:layout_width="100dp"
-                    android:layout_height="60dp"
+                    android:layout_height="80dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/btn_center"
                     android:orientation="vertical">
@@ -242,16 +268,21 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_gravity="center_horizontal"
                         android:gravity="center"
                         android:text="钙(毫克)"
                         android:textColor="@color/white"
-                        android:textSize="20dp" />
+                        android:textSize="18dp" />
 
                     <TextView
                         android:id="@+id/text_ca"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_gravity="center_horizontal"
                         android:gravity="center"
+                        android:maxLength="6"
                         android:text="0"
                         android:textColor="@color/white"
                         android:textSize="25dp" />
