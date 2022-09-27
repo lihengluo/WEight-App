@@ -217,7 +217,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="铁(克)"
+                        android:text="铁(毫克)"
                         android:textColor="@color/white"
                         android:textSize="20dp" />
 
@@ -243,7 +243,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="钙(克)"
+                        android:text="钙(毫克)"
                         android:textColor="@color/white"
                         android:textSize="20dp" />
 
