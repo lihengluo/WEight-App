@@ -246,7 +246,7 @@ public class Camera extends BaseActivity {
                             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1001);
                         }
                     }
-                    if (Integer.parseInt(focal) == 0) { focal = "27"; }
+                    if (focal == null || Integer.parseInt(focal) == 0) { focal = "27"; }
                     UploadEngine uploadEngine =  new UploadEngine(getApplicationContext());
                     uploadEngine.uploadToDetect(getExternalCacheDir()+"/output_image.jpg", Double.parseDouble(focal), Double.parseDouble(A),
                             Double.parseDouble(B));
