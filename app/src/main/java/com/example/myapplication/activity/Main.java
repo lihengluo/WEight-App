@@ -83,9 +83,17 @@ public class Main extends BaseActivity {
                     finish();
                 }
                 else {
-                    Toast toastcenter = Toast.makeText(getApplicationContext(), fail, Toast.LENGTH_SHORT);
-                    toastcenter.setGravity(Gravity.CENTER, 0, 0);
-                    toastcenter.show();
+                    // 登录失败后再重复一次（第一次登录会遇到网络问题，导致失败，原因不明）
+                    if(phoneAuth.signInWithPassword(username, password)){
+                        intent.putExtra("登录信息", "0");
+                        startActivity(intent);
+                        finish();
+                    }
+                    else {
+                        Toast toastcenter = Toast.makeText(getApplicationContext(), fail, Toast.LENGTH_SHORT);
+                        toastcenter.setGravity(Gravity.CENTER, 0, 0);
+                        toastcenter.show();
+                    }
 
                 }
 
