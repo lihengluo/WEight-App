@@ -16,6 +16,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -30,6 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -64,7 +68,44 @@ public class Camera extends BaseActivity {
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
     public static Bitmap bitmap;
+    String focal = "27";
+    // handler + thread 处理post请求
+    private Handler mHandler = new Handler(Looper.myLooper()) {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            if(msg.what == 0){
+                Goods good = (Goods) msg.obj;
+                if (good == null) {
+                    Toast toast = Toast.makeText(getApplicationContext(), "未识别到食物！请重新选取图片！3秒后跳转~", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                    Intent intent6 = new Intent(getApplicationContext(), Bottom_bar.class);
+                    Timer timer = new Timer();
+                    TimerTask task = new TimerTask() {
+                        @Override
+                        public void run() {
+                            startActivity(intent6); //执行
+                            finish();
+                        }
+                    };
+                    timer.schedule(task, 1000 * 3); //3秒后
+                } else {
+                    //传输数据
+                    intent3.putExtra("foodname", good.getFoodName());
+                    intent3.putExtra("heats", good.getHeats());
+                    intent3.putExtra("fat", good.getFat());
+                    intent3.putExtra("protein", good.getProtein());
+                    intent3.putExtra("Carbohydrates", good.getCarbohydrates());
+                    intent3.putExtra("Ca", good.getCa());
+                    intent3.putExtra("Fe", good.getFe());
+                    intent3.putExtra("imgpath", getExternalCacheDir() + "/output_image.jpg");
+                    startActivity(intent3);
+                }
+            }
 
+        }
+    };
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -220,12 +261,10 @@ public class Camera extends BaseActivity {
                     EditText B1 = view.findViewById(R.id.et_02);
                     String A = A1.getText().toString();
                     String B = B1.getText().toString();
-                    String focal = "27";
-
+                    focal = "27";
 
                     intent3 = new Intent(getApplicationContext(), Analyze.class);
-//                            System.out.println(A.toString());
-//                            System.out.println(B.toString());
+
                     if (A.isEmpty() || B.isEmpty()) {
                         Toast.makeText(getApplicationContext(), "您还未输入", Toast.LENGTH_SHORT).show();
                         dialog.show();
@@ -252,45 +291,25 @@ public class Camera extends BaseActivity {
                         if (focal == null || Integer.parseInt(focal) == 0) {
                             focal = "27";
                         }
-                        UploadEngine uploadEngine = new UploadEngine(getApplicationContext());
-                        uploadEngine.uploadToDetect(getExternalCacheDir() + "/output_image.jpg", Double.parseDouble(focal), Double.parseDouble(A),
-                                Double.parseDouble(B));
-                        //while (!uploadEngine.flag);
-                        do {
-                            try {
-                                Thread.sleep(3000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                UploadEngine uploadEngine = new UploadEngine(getApplicationContext());
+                                uploadEngine.uploadToDetect(getExternalCacheDir() + "/output_image.jpg", Double.parseDouble(focal), Double.parseDouble(A),
+                                        Double.parseDouble(B));
+                                do {
+                                    try {
+                                        Thread.sleep(2000);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                } while (!uploadEngine.flag);
+                                Message message = new Message();
+                                message.what = 0;
+                                message.obj = uploadEngine.Good;
+                                mHandler.sendMessage(message);
                             }
-                        } while (!uploadEngine.flag);
-
-                        if (uploadEngine.Good == null) {
-                            Toast toast = Toast.makeText(getApplicationContext(), "未识别到食物！请重新选取图片！3秒后跳转~", Toast.LENGTH_SHORT);
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                            toast.show();
-                            dialog.dismiss();
-                            Intent intent6 = new Intent(getApplicationContext(), Bottom_bar.class);
-                            Timer timer = new Timer();
-                            TimerTask task = new TimerTask() {
-                                @Override
-                                public void run() {
-                                    startActivity(intent6); //执行
-                                }
-                            };
-                            timer.schedule(task, 1000 * 3); //5秒后
-                        } else {
-                            //传输数据
-                            Goods good = uploadEngine.Good;
-                            intent3.putExtra("foodname", good.getFoodName());
-                            intent3.putExtra("heats", good.getHeats());
-                            intent3.putExtra("fat", good.getFat());
-                            intent3.putExtra("protein", good.getProtein());
-                            intent3.putExtra("Carbohydrates", good.getCarbohydrates());
-                            intent3.putExtra("Ca", good.getCa());
-                            intent3.putExtra("Fe", good.getFe());
-                            intent3.putExtra("imgpath", getExternalCacheDir() + "/output_image.jpg");
-                            startActivity(intent3);
-                        }
+                        }).start();
                     }
                     dialog.dismiss();
                 }
