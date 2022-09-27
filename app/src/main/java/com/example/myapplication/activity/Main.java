@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.example.myapplication.authservice.Authentication;
 import com.example.myapplication.authservice.PhoneAuth;
 import com.example.myapplication.upload.UploadEngine;
+import com.example.myapplication.util.FunctionUtils;
 import com.example.myapplication.util.ToastUtil;
 import com.example.myapplication.R;
 import com.huawei.agconnect.AGConnectInstance;
@@ -55,14 +56,6 @@ public class Main extends BaseActivity {
         mybuttonhide = findViewById(R.id.btn_hide);
         mybuttonregister = findViewById(R.id.btn_reg);
 
-//        if (Build.VERSION.SDK_INT >= 23) {
-//            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
-//                    checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-//                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1000);
-//                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1001);
-//            }
-//        }
-//        UploadEngine uploadEngine = new UploadEngine(Main.this.getApplicationContext());
         //实现跳转---方法1
         mybuttonlogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +63,6 @@ public class Main extends BaseActivity {
                 String username = myEtuser.getText().toString();
                 String password = myEtpassword.getText().toString();
 
-//                uploadEngine.uploadToDetect(Environment.getExternalStorageDirectory() + "/Pictures/3.jpg", 24, 0.32, 0.6);
                 //弹出内容设置
                 String ok = "登录成功!";
                 String fail = "密码或者账号有误，请重新登录！";
@@ -104,10 +96,12 @@ public class Main extends BaseActivity {
         mybutttonskip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), Bottom_bar.class);
-                intent.putExtra("登录信息", "2");
-                Toast.makeText(getApplicationContext(), "已跳过登录阶段", Toast.LENGTH_SHORT).show();
-                startActivity(intent);
+                if (!FunctionUtils.isFastDoubleClick()) {
+                    Intent intent = new Intent(getApplicationContext(), Bottom_bar.class);
+                    intent.putExtra("登录信息", "2");
+                    Toast.makeText(getApplicationContext(), "已跳过登录阶段", Toast.LENGTH_SHORT).show();
+                    startActivity(intent);
+                }
             }
         });
 
