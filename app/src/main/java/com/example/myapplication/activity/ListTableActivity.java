@@ -9,11 +9,13 @@ import android.os.Bundle;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.myapplication.Goods;
 import com.example.myapplication.R;
 import com.example.myapplication.TableAdapter;
 
-public class ListTableActivity extends BaseActivity {
+public class ListTableActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
