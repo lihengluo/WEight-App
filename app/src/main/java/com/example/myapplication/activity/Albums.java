@@ -98,6 +98,7 @@ public class Albums extends BaseActivity {
 
     @Override  //@Override是伪代码,表示重写 下边的方法是继承父类的方法，对其覆盖
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case CHOOSE_PHOTO:
                 //相册照片
@@ -109,15 +110,14 @@ public class Albums extends BaseActivity {
                     } else {
                         handleImageBeforeKitKat(data);
                     }
-                }
-                else {
+                } else {
                     intent2 = new Intent(getApplicationContext(), Bottom_bar.class);
                     startActivity(intent2);
                 }
-            default:{
+            default: {
 
             }
-                break;
+            break;
         }
     }
 
