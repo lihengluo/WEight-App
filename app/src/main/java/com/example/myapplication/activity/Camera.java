@@ -35,6 +35,7 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
@@ -54,7 +55,7 @@ import java.util.TimerTask;
 
 //camera界面的功能就是在MainActivity点击拍照按钮时，调用本地摄像机，将拍的照片显示到ImageView控件，
 // 图片检测功能未添加，因为还没有载入模型，图片保存就是将ImageView控件中的图片保存到本地中。
-public class Camera extends BaseActivity {
+public class Camera extends AppCompatActivity {
 
     //声明控件
     private ImageView cameraPicture;

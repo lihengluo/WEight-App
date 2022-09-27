@@ -18,7 +18,7 @@ import fragment.Fragment_History;
 import fragment.Fragment_main;
 import fragment.Fragment_me;
 
-public class Bottom_bar extends BaseActivity {
+public class Bottom_bar extends AppCompatActivity {
 
     //声明控件
     public static final int TAKE_PHOTO = 1;

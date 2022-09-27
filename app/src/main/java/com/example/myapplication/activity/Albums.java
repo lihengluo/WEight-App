@@ -14,6 +14,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
@@ -36,6 +37,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -47,8 +49,10 @@ import com.example.myapplication.util.FunctionUtils;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class Albums extends BaseActivity {
+
+public class Albums extends AppCompatActivity {
     private  ImageView albumsPicture;
     public static final int CHOOSE_PHOTO = 2;
     private Button pestDection=null;
@@ -253,6 +257,13 @@ public class Albums extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (!FunctionUtils.isFastDoubleClick()) {
+                    dialog.dismiss();
+                    SweetAlertDialog pDialog = new SweetAlertDialog(view.getContext(), SweetAlertDialog.PROGRESS_TYPE);
+                    pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                    pDialog.setTitleText("请稍后！");
+                    pDialog.setContentText("正在进行食物识别与营养估计！");
+                    pDialog.setCancelable(false);
+                    pDialog.show();
                     EditText A1 = view.findViewById(R.id.et_01);
                     EditText B1 = view.findViewById(R.id.et_02);
                     String A = A1.getText().toString();
@@ -305,10 +316,10 @@ public class Albums extends BaseActivity {
                                 message.what = 0;
                                 message.obj = uploadEngine.Good;
                                 mHandler.sendMessage(message);
+                                pDialog.dismiss();
                             }
                         }).start();
                     }
-                    dialog.dismiss();
                 }
             }
         });

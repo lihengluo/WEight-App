@@ -28,7 +28,7 @@ import org.w3c.dom.Text;
 import java.io.File;
 import java.io.PrintStream;
 
-public class Analyze extends BaseActivity {
+public class Analyze extends AppCompatActivity {
 
     PhoneAuth phoneAuth = new PhoneAuth();
 
