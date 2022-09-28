@@ -9,7 +9,9 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,14 +19,21 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.myapplication.R;
+import com.example.myapplication.authservice.PhoneAuth;
+import com.example.myapplication.database.CloudDB;
+import com.example.myapplication.database.DietRecord;
+import com.example.myapplication.storage.CloudStorage;
+import com.huawei.agconnect.cloud.storage.core.StorageReference;
 
 import fragment.bean.MainBean;
 import fragment.bean.MenuBean;
 import fragment.util.DateUtil;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -44,6 +53,10 @@ public class Fragment_me extends Fragment {
     private LinearLayout lin_date;
     private TextView tv_Date;
     private int c=0;
+
+    private PhoneAuth phoneAuth;
+    private CloudStorage storage;
+    private CloudDB database;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -87,7 +100,7 @@ public class Fragment_me extends Fragment {
                 int year = ((MenuBean)adapter.getData().get(position)).getYear();
                 int monthOfYear = ((MenuBean)adapter.getData().get(position)).getMonth();
 
-                setData();
+                downloadData(year + "-" + monthOfYear + "-" + dayOfMonth);
                 // 将year，monthOfYear和dayOfMonth发送至云数据库进行查询
                 re_lsit.scrollToPosition(0);
             }
@@ -97,7 +110,7 @@ public class Fragment_me extends Fragment {
         LinearLayoutManager lm = new LinearLayoutManager(this.getContext());
         re_lsit.setLayoutManager(lm);
         re_lsit.setAdapter(adapterMain);
-        setData();
+        //setData();
         // 将当天的year，monthOfYear和dayOfMonth发送至云数据库进行查询
 
         adapterMain.setNewData(mList);
@@ -125,8 +138,7 @@ public class Fragment_me extends Fragment {
                     menuList.clear();
                     adapter.notifyDataSetChanged();
                     initDataNew(year,monthOfYear,dayOfMonth);
-                    setData();
-                    // 将year，monthOfYear和dayOfMonth发送至云数据库进行查询
+                    downloadData(year + "-" + monthOfYear + "-" + dayOfMonth);
 
                     re_lsit.scrollToPosition(0);
                     re_can.scrollToPosition(c-1);
@@ -157,10 +169,37 @@ public class Fragment_me extends Fragment {
 //        adapterMain.setNewData(mList);
 //    }
 
-    private void setData(){
+    private void downloadData(String date){
+        phoneAuth = new PhoneAuth();
+        database = CloudDB.getDatabase(getContext());
+        storage = CloudStorage.getStorage();
+        if (!phoneAuth.isUserSignIn()) {
+            Toast toast = Toast.makeText(getContext(), "请登录后查询！", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+            return;
+        }
+        String uid = phoneAuth.getCurrentUserUid();
+        List<StorageReference> referenceList = storage.getFileList(uid + "/" + date);
+        List<DietRecord> dietRecordList = database.queryUserDietRecord(uid, date);
+
+        if (dietRecordList == null || referenceList == null) {
+            Toast toast = Toast.makeText(getContext(), "查询失败，请重试！", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+            return;
+        }
+        assert (referenceList.size() == dietRecordList.size());
+
         mList.clear();
-        for (int k=0;k<10;k++){
-            mList.add(new MainBean("","","","大卡","%","克", "",""));
+        for (int k = 0; k < referenceList.size(); k++){
+            DietRecord dietRecord = dietRecordList.get(k);
+            StorageReference reference = referenceList.get(k);
+            String createFileName = System.currentTimeMillis() + ".jpg";
+            storage.downloadUserFile(reference, new File(Environment.getDownloadCacheDirectory(), createFileName));
+            mList.add(new MainBean(Environment.getDownloadCacheDirectory() + "/" + createFileName,
+                    dietRecord.getFoodname(), dietRecord.getHeat()+"大卡", dietRecord.getCarbohydrate()+"克",
+                    dietRecord.getProtein()+"克", dietRecord.getFat()+"克", dietRecord.getCa()+"毫克", dietRecord.getFe()+"毫克"));
         }
         adapterMain.setNewData(mList);
     }
@@ -179,6 +218,7 @@ public class Fragment_me extends Fragment {
             year = cyear;
             month = cmonth;
         }
+        tv_Date.setText(year+"年"+year+"月");
         cal.set(Calendar.DAY_OF_MONTH, 1);
         s = cal.get(Calendar.DAY_OF_MONTH);
         cal.roll(Calendar.DAY_OF_MONTH, -1);
