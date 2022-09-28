@@ -202,7 +202,7 @@ public class Fragment_me extends Fragment {
         List<DietRecord> dietRecordList = database.queryUserDietRecord(uid, date);
 
         if (dietRecordList == null || referenceList == null) {
-            Toast toast = Toast.makeText(getContext(), "查询失败，请重试！", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(getContext(), "查询失败，请检查网络链接后重试！", Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
             return;
