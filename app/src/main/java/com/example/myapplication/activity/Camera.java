@@ -146,7 +146,14 @@ public class Camera extends AppCompatActivity {
         pestDection=super.findViewById(R.id.pestDetection);
         //pictureSave=super.findViewById(R.id.pictureSave);
         cameraPicture = super.findViewById(R.id.picture);
-
+        // action bar
+        final ImageView back = (ImageView) this.findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         // 创建一个File对象，用于保存摄像头拍下的图片，这里把图片命名为output_image.jpg
 
          //并将它存放在手机SD卡的应用关联缓存目录下

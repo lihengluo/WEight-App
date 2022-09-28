@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +46,15 @@ public class Fragment_History extends Fragment {
         Button User_delete = (Button) getView().findViewById(R.id.user_delete);
         Button User_aboutus = (Button) getView().findViewById((R.id.user_aboutus));
         //Button User_advice = (Button) getView().findViewById(R.id.user_advice);
+        // action bar
+        final ImageView back = (ImageView) getView().findViewById(R.id.back);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
 
         User_info.setOnClickListener(new View.OnClickListener() {
             @Override

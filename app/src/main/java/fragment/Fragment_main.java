@@ -47,7 +47,15 @@ public class Fragment_main extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         changeImage();
         Button chooseFromAlbum = (Button) getView().findViewById(R.id.choose_from_album);
+        // action bar
+        final ImageView back = (ImageView) getView().findViewById(R.id.back);
 
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
 
         //从相册读取
         chooseFromAlbum.setOnClickListener(new View.OnClickListener() {
