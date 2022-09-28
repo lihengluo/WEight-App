@@ -43,13 +43,6 @@
             android:text="关于我们"
             />
 
-        <Button
-            android:id="@+id/user_advice"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="反馈建议"
-            />
-
 
     </LinearLayout>
 
