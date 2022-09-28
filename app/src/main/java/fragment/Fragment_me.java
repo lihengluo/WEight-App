@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -87,6 +89,7 @@ public class Fragment_me extends Fragment {
 
                 setData();
                 // 将year，monthOfYear和dayOfMonth发送至云数据库进行查询
+                re_lsit.scrollToPosition(0);
             }
         });
 
@@ -125,12 +128,22 @@ public class Fragment_me extends Fragment {
                     setData();
                     // 将year，monthOfYear和dayOfMonth发送至云数据库进行查询
 
+                    re_lsit.scrollToPosition(0);
                     re_can.scrollToPosition(c-1);
 //                    toast(formatDate(year, monthOfYear, dayOfMonth));
 
                     // 关闭dialog
                     datePickerDialog.dismiss();
                 });
+
+            }
+        });
+        final ImageView back = (ImageView) getView().findViewById(R.id.back);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
             }
         });
 
