@@ -49,11 +49,22 @@ public class Fragment_History extends Fragment {
         User_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new SweetAlertDialog(view.getContext())
-                        .setTitleText("Here's a message!")
-                        .setContentText("hello!")
-                        .setConfirmText("确认")
-                        .show();
+                PhoneAuth phoneAuth = new PhoneAuth();
+                if (phoneAuth.isUserSignIn()) {
+                    String Uid = phoneAuth.getCurrentUserUid();
+                    String phoneNum = phoneAuth.getCurrentUserAccount();
+                    new SweetAlertDialog(view.getContext())
+                            .setTitleText("欢迎使用WEight!")
+                            .setContentText("用户ID：" + Uid + "<br/>" + "手机号：" + phoneNum)
+                            .setConfirmText("确认")
+                            .show();
+                } else {
+                    new SweetAlertDialog(view.getContext(), SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("发生错误！")
+                            .setContentText("用户未登录！")
+                            .setConfirmText("确认")
+                            .show();
+                }
             }
         });
 
