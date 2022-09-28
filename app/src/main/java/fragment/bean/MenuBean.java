@@ -1,20 +1,19 @@
 package fragment.bean;
 
-/**
- * @Author : kezhijie
- * @Email : 827112947@qq.com
- * @Date : on 2022-09-27 13:28.
- * @Description :描述
- */
 public class MenuBean {
     private String week;
-    private String day;
+    private int day;
+    private int year;
+    private int month;
     private boolean check;
 
-    public MenuBean(String week, String day, boolean check) {
+    public MenuBean(String week, int year, int day, int month, boolean check) {
         this.week = week;
+        this.year = year;
         this.day = day;
+        this.month = month;
         this.check = check;
+
     }
 
     public boolean isCheck() {
@@ -33,11 +32,27 @@ public class MenuBean {
         this.week = week;
     }
 
-    public String getDay() {
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public int getDay() {
         return day;
     }
 
-    public void setDay(String day) {
+    public void setDay(int day) {
         this.day = day;
     }
 }

@@ -1,11 +1,5 @@
 package fragment.bean;
 
-/**
- * @Author : kezhijie
- * @Email : 827112947@qq.com
- * @Date : on 2022-09-27 15:06.
- * @Description :描述
- */
 public class MainBean {
     private String img;
     private String t1;
@@ -13,14 +7,18 @@ public class MainBean {
     private String t3;
     private String t4;
     private String t5;
+    private String t6;
+    private String t7;
 
-    public MainBean(String img, String t1, String t2, String t3, String t4, String t5) {
+    public MainBean(String img, String t1, String t2, String t3, String t4, String t5, String t6, String t7) {
         this.img = img;
         this.t1 = t1;
         this.t2 = t2;
         this.t3 = t3;
         this.t4 = t4;
         this.t5 = t5;
+        this.t6 = t6;
+        this.t7 = t7;
     }
 
     public String getImg() {

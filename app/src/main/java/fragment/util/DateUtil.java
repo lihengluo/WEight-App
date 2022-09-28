@@ -5,12 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * @Author : kezhijie
- * @Email : 827112947@qq.com
- * @Date : on 2022-09-27 13:41.
- * @Description :描述
- */
 public class DateUtil {
     /**
      * 根据日期获取 星期
