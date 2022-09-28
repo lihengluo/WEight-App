@@ -2,11 +2,16 @@ package fragment;
 
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -100,7 +105,7 @@ public class Fragment_me extends Fragment {
                 int year = ((MenuBean)adapter.getData().get(position)).getYear();
                 int monthOfYear = ((MenuBean)adapter.getData().get(position)).getMonth();
 
-                downloadData(year + "-" + monthOfYear + "-" + dayOfMonth);
+                downloadData(String.valueOf(year), String.valueOf(monthOfYear), String.valueOf(dayOfMonth));
                 // 将year，monthOfYear和dayOfMonth发送至云数据库进行查询
                 re_lsit.scrollToPosition(0);
             }
@@ -110,8 +115,8 @@ public class Fragment_me extends Fragment {
         LinearLayoutManager lm = new LinearLayoutManager(this.getContext());
         re_lsit.setLayoutManager(lm);
         re_lsit.setAdapter(adapterMain);
-        setData();
         // 将当天的year，monthOfYear和dayOfMonth发送至云数据库进行查询
+//        downloadData();
 
         adapterMain.setNewData(mList);
 
@@ -138,7 +143,7 @@ public class Fragment_me extends Fragment {
                     menuList.clear();
                     adapter.notifyDataSetChanged();
                     initDataNew(year,monthOfYear,dayOfMonth);
-                    downloadData(year + "-" + monthOfYear + "-" + dayOfMonth);
+                    downloadData(String.valueOf(year), String.valueOf(monthOfYear), String.valueOf(dayOfMonth));
 
                     re_lsit.scrollToPosition(0);
                     re_can.scrollToPosition(c-1);
@@ -169,7 +174,15 @@ public class Fragment_me extends Fragment {
 //        adapterMain.setNewData(mList);
 //    }
 
-    private void downloadData(String date){
+    private void downloadData(String year, String month, String day){
+//        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+//                ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1000);
+//            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1001);
+//        }
+        month = month.length()<2 ? "0"+month : month;
+        day = day.length()<2 ? "0"+day : day;
+        String date = year + "-" + month + "-" + day;
         phoneAuth = new PhoneAuth();
         database = CloudDB.getDatabase(getContext());
         storage = CloudStorage.getStorage();
@@ -180,7 +193,7 @@ public class Fragment_me extends Fragment {
             return;
         }
         String uid = phoneAuth.getCurrentUserUid();
-        List<StorageReference> referenceList = storage.getFileList(uid + "/" + date);
+        List<StorageReference> referenceList = storage.getFileList(uid + "/" + date + "/");
         List<DietRecord> dietRecordList = database.queryUserDietRecord(uid, date);
 
         if (dietRecordList == null || referenceList == null) {
@@ -196,8 +209,8 @@ public class Fragment_me extends Fragment {
             DietRecord dietRecord = dietRecordList.get(k);
             StorageReference reference = referenceList.get(k);
             String createFileName = System.currentTimeMillis() + ".jpg";
-            storage.downloadUserFile(reference, new File(Environment.getDownloadCacheDirectory(), createFileName));
-            mList.add(new MainBean(Environment.getDownloadCacheDirectory() + "/" + createFileName,
+            storage.downloadUserFile(reference, new File(getActivity().getExternalCacheDir(), createFileName));
+            mList.add(new MainBean(getActivity().getExternalCacheDir() + "/" + createFileName,
                     dietRecord.getFoodname(), dietRecord.getHeat()+"大卡", dietRecord.getCarbohydrate()+"克",
                     dietRecord.getProtein()+"克", dietRecord.getFat()+"克", dietRecord.getCa()+"毫克", dietRecord.getFe()+"毫克"));
         }
@@ -218,7 +231,7 @@ public class Fragment_me extends Fragment {
             year = cyear;
             month = cmonth;
         }
-        tv_Date.setText(year+"年"+year+"月");
+        tv_Date.setText(year+"年"+month+"月");
         cal.set(Calendar.DAY_OF_MONTH, 1);
         s = cal.get(Calendar.DAY_OF_MONTH);
         cal.roll(Calendar.DAY_OF_MONTH, -1);
