@@ -110,7 +110,7 @@ public class Fragment_me extends Fragment {
         LinearLayoutManager lm = new LinearLayoutManager(this.getContext());
         re_lsit.setLayoutManager(lm);
         re_lsit.setAdapter(adapterMain);
-        setData();
+        //setData();
         // 将当天的year，monthOfYear和dayOfMonth发送至云数据库进行查询
 
         adapterMain.setNewData(mList);
