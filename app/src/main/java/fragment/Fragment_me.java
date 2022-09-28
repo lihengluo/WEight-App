@@ -174,6 +174,11 @@ public class Fragment_me extends Fragment {
 //        adapterMain.setNewData(mList);
 //    }
 
+    /* 保留两位小数 */
+    private float decimalTwo(float f) {
+        return Math.round(f * 100) / 100f;
+    }
+
     private void downloadData(String year, String month, String day){
 //        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
 //                ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -202,6 +207,12 @@ public class Fragment_me extends Fragment {
             toast.show();
             return;
         }
+        if (dietRecordList.size()==0 || referenceList.size() == 0) {
+            Toast toast = Toast.makeText(getContext(), "未查询到" + date + "日记录", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+            return;
+        }
         assert (referenceList.size() == dietRecordList.size());
 
         mList.clear();
@@ -211,8 +222,9 @@ public class Fragment_me extends Fragment {
             String createFileName = System.currentTimeMillis() + ".jpg";
             storage.downloadUserFile(reference, new File(getActivity().getExternalCacheDir(), createFileName));
             mList.add(new MainBean(getActivity().getExternalCacheDir() + "/" + createFileName,
-                    dietRecord.getFoodname(), dietRecord.getHeat()+"大卡", dietRecord.getCarbohydrate()+"克",
-                    dietRecord.getProtein()+"克", dietRecord.getFat()+"克", dietRecord.getCa()+"毫克", dietRecord.getFe()+"毫克"));
+                    dietRecord.getFoodname(), decimalTwo(dietRecord.getHeat())+"大卡", decimalTwo(dietRecord.getCarbohydrate())+"克",
+                    decimalTwo(dietRecord.getProtein())+"克", decimalTwo(dietRecord.getFat())+"克",
+                    decimalTwo(dietRecord.getCa())+"毫克", decimalTwo(dietRecord.getFe())+"毫克"));
         }
         adapterMain.setNewData(mList);
     }
