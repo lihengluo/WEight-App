@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -52,6 +53,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 //camera界面的功能就是在MainActivity点击拍照按钮时，调用本地摄像机，将拍的照片显示到ImageView控件，
 // 图片检测功能未添加，因为还没有载入模型，图片保存就是将ImageView控件中的图片保存到本地中。
@@ -257,7 +260,13 @@ public class Camera extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (!FunctionUtils.isFastDoubleClick()) {
-
+                    dialog.dismiss();
+                    SweetAlertDialog pDialog = new SweetAlertDialog(view.getContext(), SweetAlertDialog.PROGRESS_TYPE);
+                    pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                    pDialog.setTitleText("请稍后！");
+                    pDialog.setContentText("正在进行食物识别与营养估计！");
+                    pDialog.setCancelable(false);
+                    pDialog.show();
                     EditText A1 = view.findViewById(R.id.et_01);
                     EditText B1 = view.findViewById(R.id.et_02);
                     String A = A1.getText().toString();
@@ -309,10 +318,10 @@ public class Camera extends AppCompatActivity {
                                 message.what = 0;
                                 message.obj = uploadEngine.Good;
                                 mHandler.sendMessage(message);
+                                pDialog.dismiss();
                             }
                         }).start();
                     }
-                    dialog.dismiss();
                 }
             }
         });
