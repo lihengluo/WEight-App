@@ -30,6 +30,8 @@ import java.util.List;
 import java.util.Random;
 import androidx.fragment.app.Fragment;
 
+import static android.content.ContentValues.TAG;
+
 public class Fragment_me extends Fragment {
     private RecyclerView re_can,re_lsit;
     private MenuAdapter adapter;
@@ -77,11 +79,11 @@ public class Fragment_me extends Fragment {
                     m.setCheck(false);
                 }
                 adapter.notifyDataSetChanged();
-                adapter.notifyItemChanged(position);
                 ((MenuBean)adapter.getData().get(position)).setCheck(true);
+                adapter.notifyItemChanged(position);
                 int dayOfMonth = ((MenuBean)adapter.getData().get(position)).getDay();
                 int year = ((MenuBean)adapter.getData().get(position)).getYear();
-                int monthOfYear = ((MenuBean)adapter.getData().get(position)).getMonth() + 1;
+                int monthOfYear = ((MenuBean)adapter.getData().get(position)).getMonth();
 
                 setData();
                 // 将year，monthOfYear和dayOfMonth发送至云数据库进行查询
@@ -92,7 +94,9 @@ public class Fragment_me extends Fragment {
         LinearLayoutManager lm = new LinearLayoutManager(this.getContext());
         re_lsit.setLayoutManager(lm);
         re_lsit.setAdapter(adapterMain);
-        //randomData();
+        setData();
+        // 将当天的year，monthOfYear和dayOfMonth发送至云数据库进行查询
+
         adapterMain.setNewData(mList);
 
         lin_date.setOnClickListener(new View.OnClickListener() {
@@ -168,9 +172,9 @@ public class Fragment_me extends Fragment {
         e = cal.get(Calendar.DAY_OF_MONTH);
         for (int i=s;i<=e;i++){
             if (c==i){
-                menuList.add(new MenuBean(DateUtil.dateToWeek(year+"-"+month+"-"+i), year, c, month, true));
+                menuList.add(new MenuBean(DateUtil.dateToWeek(year+"-"+month+"-"+i), year, i, month, true));
             }else {
-                menuList.add(new MenuBean(DateUtil.dateToWeek(year+"-"+month+"-"+i), year, c, month, false));
+                menuList.add(new MenuBean(DateUtil.dateToWeek(year+"-"+month+"-"+i), year, i, month, false));
             }
         }
 
