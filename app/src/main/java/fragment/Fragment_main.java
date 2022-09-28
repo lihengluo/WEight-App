@@ -109,12 +109,18 @@ public class Fragment_main extends Fragment {
     }
     public void changeImage() {
         int[] mArray = {
-                R.drawable.suggestion1,
-                R.drawable.suggestion2,
-                R.drawable.suggestion3,
-                R.drawable.suggestion4,
-                R.drawable.suggestion5,
-                R.drawable.suggestion6,
+//                R.drawable.suggestion1,
+//                R.drawable.suggestion2,
+//                R.drawable.suggestion3,
+//                R.drawable.suggestion4,
+//                R.drawable.suggestion5,
+//                R.drawable.suggestion6,
+                  R.drawable.suggestion7,
+                  R.drawable.suggestion8,
+                  R.drawable.suggestion9,
+                  R.drawable.suggestion10,
+                  R.drawable.suggestion11,
+                  R.drawable.suggestion12,
         };
         LinearLayout[] lArray = {
                 (LinearLayout) getView().findViewById(R.id.layout1),
