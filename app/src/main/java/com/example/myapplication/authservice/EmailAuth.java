@@ -113,4 +113,9 @@ public class EmailAuth extends Authentication{
     public boolean resetPassword(String accountStr, String newPassword, String verifyCode) {
         return false;
     }
+
+    @Override
+    public String getCurrentUserAccount() {
+        return AGConnectAuth.getInstance().getCurrentUser().getEmail();
+    }
 }
