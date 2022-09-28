@@ -77,9 +77,14 @@ public class Fragment_me extends Fragment {
                     m.setCheck(false);
                 }
                 adapter.notifyDataSetChanged();
-                ((MenuBean)adapter.getData().get(position)).setCheck(true);
                 adapter.notifyItemChanged(position);
-                randomData();
+                ((MenuBean)adapter.getData().get(position)).setCheck(true);
+                int dayOfMonth = ((MenuBean)adapter.getData().get(position)).getDay();
+                int year = ((MenuBean)adapter.getData().get(position)).getYear();
+                int monthOfYear = ((MenuBean)adapter.getData().get(position)).getMonth() + 1;
+
+                setData();
+                // 将year，monthOfYear和dayOfMonth发送至云数据库进行查询
             }
         });
 
@@ -87,7 +92,7 @@ public class Fragment_me extends Fragment {
         LinearLayoutManager lm = new LinearLayoutManager(this.getContext());
         re_lsit.setLayoutManager(lm);
         re_lsit.setAdapter(adapterMain);
-        randomData();
+        //randomData();
         adapterMain.setNewData(mList);
 
         lin_date.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +118,9 @@ public class Fragment_me extends Fragment {
                     menuList.clear();
                     adapter.notifyDataSetChanged();
                     initDataNew(year,monthOfYear,dayOfMonth);
-                    randomData();
+                    setData();
+                    // 将year，monthOfYear和dayOfMonth发送至云数据库进行查询
+
                     re_can.scrollToPosition(c-1);
 //                    toast(formatDate(year, monthOfYear, dayOfMonth));
 
@@ -125,10 +132,18 @@ public class Fragment_me extends Fragment {
 
     }
 
-    private void randomData(){
+//    private void randomData(){
+//        mList.clear();
+//        for (int k=0;k<10;k++){
+//            mList.add(new MainBean("","猪蹄饭","测试食物"+new Random().nextInt(10),new Random().nextInt(10)*2+"大卡",new Random().nextInt(10)*5+"%",new Random().nextInt(10)*3+"克"));
+//        }
+//        adapterMain.setNewData(mList);
+//    }
+
+    private void setData(){
         mList.clear();
         for (int k=0;k<10;k++){
-            mList.add(new MainBean("","营养分析","测试食物"+new Random().nextInt(10),new Random().nextInt(10)*2+"大卡",new Random().nextInt(10)*5+"%",new Random().nextInt(10)*3+"克"));
+            mList.add(new MainBean("","","","大卡","%","克", "",""));
         }
         adapterMain.setNewData(mList);
     }
@@ -153,9 +168,9 @@ public class Fragment_me extends Fragment {
         e = cal.get(Calendar.DAY_OF_MONTH);
         for (int i=s;i<=e;i++){
             if (c==i){
-                menuList.add(new MenuBean(DateUtil.dateToWeek(year+"-"+month+"-"+i),i+"",true));
+                menuList.add(new MenuBean(DateUtil.dateToWeek(year+"-"+month+"-"+i), year, c, month, true));
             }else {
-                menuList.add(new MenuBean(DateUtil.dateToWeek(year+"-"+month+"-"+i),i+"",false));
+                menuList.add(new MenuBean(DateUtil.dateToWeek(year+"-"+month+"-"+i), year, c, month, false));
             }
         }
 
@@ -176,9 +191,9 @@ public class Fragment_me extends Fragment {
         Log.e("======",cal.get(Calendar.DAY_OF_MONTH)+"");
         for (int i=s;i<=e;i++){
             if (c==i){
-                menuList.add(new MenuBean(DateUtil.dateToWeek(year+"-"+month+"-"+i),i+"",true));
+                menuList.add(new MenuBean(DateUtil.dateToWeek(year+"-"+month+"-"+i), year, c, month, true));
             }else {
-                menuList.add(new MenuBean(DateUtil.dateToWeek(year+"-"+month+"-"+i),i+"",false));
+                menuList.add(new MenuBean(DateUtil.dateToWeek(year+"-"+month+"-"+i), year, c, month, false));
             }
         }
 

@@ -73,16 +73,18 @@
         android:id="@+id/tv_more"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:text="查看全部"
-        android:textColor="#333333"
+        android:text="当日饮食记录"
+        android:textColor="#F0B155"
         app:layout_constraintTop_toBottomOf="@+id/con"
-        android:gravity="right|center_vertical"
-        android:layout_marginRight="12dp"/>
+        android:gravity="center|center_vertical"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/re_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_more"/>
+        app:layout_constraintTop_toBottomOf="@+id/tv_more"
+        android:layout_marginBottom="50dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
