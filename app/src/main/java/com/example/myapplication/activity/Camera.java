@@ -346,6 +346,7 @@ public class Camera extends AppCompatActivity {
                                 Message message = new Message();
                                 message.what = 0;
                                 message.obj = uploadEngine.Good;
+                                message.arg1 = uploadEngine.code;
                                 mHandler.sendMessage(message);
                                 pDialog.dismiss();
                             }
