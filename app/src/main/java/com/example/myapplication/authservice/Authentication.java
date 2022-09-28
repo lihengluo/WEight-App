@@ -154,6 +154,7 @@ public abstract class Authentication {
         if (user == null)
             return false;
         String account = getCurrentUserAccount();
+        account = account.split("-")[1];
 
         AGConnectAuthCredential credential = null;
         if (password != null) {
