@@ -65,7 +65,6 @@ public class Bottom_bar extends AppCompatActivity {
         bottom_bar_1_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!FunctionUtils.isFastDoubleClick()) {
                     if (view.getId() == R.id.bottom_bar_1_btn) {
                         if (index[0] == 1 || index[0] == 2) {
                             getSupportFragmentManager().beginTransaction().replace(R.id.main_body, new Fragment_main()).commit();
@@ -74,12 +73,11 @@ public class Bottom_bar extends AppCompatActivity {
                         setSelectStatus(index[0]);
                     }
                 }
-            }
+
         });
         bottom_bar_2_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!FunctionUtils.isFastDoubleClick()) {
                     if (view.getId() == R.id.bottom_bar_2_btn) {
                         if (index[0] == 0 || index[0] == 2) {
                             getSupportFragmentManager().beginTransaction().replace(R.id.main_body, new Fragment_me()).commit();
@@ -88,13 +86,12 @@ public class Bottom_bar extends AppCompatActivity {
                         setSelectStatus(index[0]);
                     }
                 }
-            }
+
         });
 
         bottom_bar_3_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!FunctionUtils.isFastDoubleClick()) {
                     if (view.getId() == R.id.bottom_bar_3_btn) {
                         if (index[0] == 0 || index[0] == 1) {
                             getSupportFragmentManager().beginTransaction().replace(R.id.main_body, new Fragment_History()).commit();
@@ -103,7 +100,7 @@ public class Bottom_bar extends AppCompatActivity {
                         setSelectStatus(index[0]);
                     }
                 }
-            }
+
         });
 
         

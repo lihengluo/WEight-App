@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -53,6 +54,8 @@ import java.io.OutputStream;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 //camera界面的功能就是在MainActivity点击拍照按钮时，调用本地摄像机，将拍的照片显示到ImageView控件，
 // 图片检测功能未添加，因为还没有载入模型，图片保存就是将ImageView控件中的图片保存到本地中。
 public class Camera extends AppCompatActivity {
@@ -77,8 +80,37 @@ public class Camera extends AppCompatActivity {
             super.handleMessage(msg);
             if(msg.what == 0){
                 Goods good = (Goods) msg.obj;
-                if (good == null) {
+                int code = msg.arg1;
+                if (code == -1) {
                     Toast toast = Toast.makeText(getApplicationContext(), "未识别到食物！请重新选取图片！3秒后跳转~", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                    Intent intent6 = new Intent(getApplicationContext(), Bottom_bar.class);
+                    Timer timer = new Timer();
+                    TimerTask task = new TimerTask() {
+                        @Override
+                        public void run() {
+                            startActivity(intent6); //执行
+                            finish();
+                        }
+                    };
+                    timer.schedule(task, 1000 * 3); //3秒后
+                } else if (code == -2) {
+                    Toast toast = Toast.makeText(getApplicationContext(), "食物未在数据库中收录！请重新选取图片！3秒后跳转~", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                    Intent intent6 = new Intent(getApplicationContext(), Bottom_bar.class);
+                    Timer timer = new Timer();
+                    TimerTask task = new TimerTask() {
+                        @Override
+                        public void run() {
+                            startActivity(intent6); //执行
+                            finish();
+                        }
+                    };
+                    timer.schedule(task, 1000 * 3); //3秒后
+                } else if (code == -3) {
+                    Toast toast = Toast.makeText(getApplicationContext(), "无法连接服务器！请稍后重试！3秒后跳转~", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                     Intent intent6 = new Intent(getApplicationContext(), Bottom_bar.class);
@@ -257,7 +289,13 @@ public class Camera extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (!FunctionUtils.isFastDoubleClick()) {
-
+                    dialog.dismiss();
+                    SweetAlertDialog pDialog = new SweetAlertDialog(view.getContext(), SweetAlertDialog.PROGRESS_TYPE);
+                    pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                    pDialog.setTitleText("请稍后！");
+                    pDialog.setContentText("正在进行食物识别与营养估计！");
+                    pDialog.setCancelable(false);
+                    pDialog.show();
                     EditText A1 = view.findViewById(R.id.et_01);
                     EditText B1 = view.findViewById(R.id.et_02);
                     String A = A1.getText().toString();
@@ -308,11 +346,12 @@ public class Camera extends AppCompatActivity {
                                 Message message = new Message();
                                 message.what = 0;
                                 message.obj = uploadEngine.Good;
+                                message.arg1 = uploadEngine.code;
                                 mHandler.sendMessage(message);
+                                pDialog.dismiss();
                             }
                         }).start();
                     }
-                    dialog.dismiss();
                 }
             }
         });
