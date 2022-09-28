@@ -27,7 +27,7 @@ public class MenuAdapter extends BaseQuickAdapter<MenuBean, BaseViewHolder> {
             ((TextView)helper.getView(R.id.tv_1)).setTextColor(mContext.getResources().getColor(R.color.color1));
             ((TextView)helper.getView(R.id.tv_2)).setTextColor(mContext.getResources().getColor(R.color.color1));
         }
-        helper.setText(R.id.tv_1,item.getWeek())
-                .setText(R.id.tv_2,item.getDay());
+        helper.setText(R.id.tv_1,(String) item.getWeek())
+                .setText(R.id.tv_2,Integer.toString(item.getDay()));
     }
 }

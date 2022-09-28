@@ -26,7 +26,7 @@ public class AdapterMain extends BaseQuickAdapter<MainBean, BaseViewHolder> {
                 .setText(R.id.tv_3,item.getT3())
                 .setText(R.id.tv_4,item.getT4())
                 .setText(R.id.tv_5,item.getT5())
-                .setText(R.id.tv_6,item.getT4())
-                .setText(R.id.tv_7,item.getT5());
+                .setText(R.id.tv_6,item.getT6())
+                .setText(R.id.tv_7,item.getT7());
     }
 }

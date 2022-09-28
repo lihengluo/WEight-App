@@ -68,4 +68,20 @@ public class MainBean {
     public void setT5(String t5) {
         this.t5 = t5;
     }
+
+    public String getT6() {
+        return t6;
+    }
+
+    public void setT6(String t6) {
+        this.t6 = t6;
+    }
+
+    public String getT7() {
+        return t7;
+    }
+
+    public void setT7(String t7) {
+        this.t7 = t7;
+    }
 }

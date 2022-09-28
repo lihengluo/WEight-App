@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="35dp"
         app:layout_constraintTop_toTopOf="parent">
-        <ImageView
+        <ImageButton
+            android:id="@+id/back"
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:layout_centerVertical="true"
@@ -31,7 +32,7 @@
             android:layout_height="18dp"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:background="@mipmap/gg"
+            android:background="#ebebeb"
             android:layout_marginRight="12dp"/>
     </RelativeLayout>
     <androidx.constraintlayout.widget.ConstraintLayout
