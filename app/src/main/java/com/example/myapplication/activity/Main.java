@@ -77,10 +77,16 @@ public class Main extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     } else {
-                        Toast toastcenter = Toast.makeText(getApplicationContext(), fail, Toast.LENGTH_SHORT);
-                        toastcenter.setGravity(Gravity.CENTER, 0, 0);
-                        toastcenter.show();
-
+                        if (phoneAuth.signInWithPassword(username, password)) { // AGC认证服务第一次登录会因超时失败，需要再次尝试
+                            intent.putExtra("登录信息", "0");
+                            startActivity(intent);
+                            finish();
+                        }
+                        else {
+                            Toast toastcenter = Toast.makeText(getApplicationContext(), fail, Toast.LENGTH_SHORT);
+                            toastcenter.setGravity(Gravity.CENTER, 0, 0);
+                            toastcenter.show();
+                        }
                     }
                 }
             }

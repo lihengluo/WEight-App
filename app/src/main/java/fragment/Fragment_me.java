@@ -180,6 +180,7 @@ public class Fragment_me extends Fragment {
     }
 
     private void downloadData(String year, String month, String day){
+        mList.clear();
 //        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
 //                ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 //            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1000);
@@ -215,7 +216,6 @@ public class Fragment_me extends Fragment {
         }
         assert (referenceList.size() == dietRecordList.size());
 
-        mList.clear();
         for (int k = 0; k < referenceList.size(); k++){
             DietRecord dietRecord = dietRecordList.get(k);
             StorageReference reference = referenceList.get(k);
