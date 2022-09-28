@@ -43,6 +43,7 @@ public class UploadEngine extends AUpDownloadEngine {
     FileUploadCallback callback;
     public boolean flag;
     public Goods Good;
+    public int code;
 
     public UploadEngine(Context context) {
         super(context);
@@ -85,8 +86,16 @@ public class UploadEngine extends AUpDownloadEngine {
                 //listener.onSuccess("timeused:" + (System.currentTimeMillis() - startTime));
                 try {
                     JSONObject result_json = new JSONObject(response.getContent());
-                    if (result_json.getInt("isfood") == -1) { Good = null; }
+                    if (result_json.getInt("isfood") == -1) {
+                        code = -1;
+                        Good = null;
+                    }
+                    else if (result_json.getInt("isfood") == -2) {
+                        code = -2;
+                        Good = null;
+                    }
                     else {
+                        code = 0;
                         Good = new Goods(result_json.getString("food_id"), result_json.getString("food_label"),
                                 (float) result_json.getDouble("energy"), (float) result_json.getDouble("fat"),
                                 (float) result_json.getDouble("protein"), (float) result_json.getDouble("carbohydrates"),
@@ -100,6 +109,8 @@ public class UploadEngine extends AUpDownloadEngine {
 
             @Override
             public void onException(BodyRequest bodyRequest, NetworkException e, Response<BodyRequest, String, Closeable> response) {
+                code = -3;
+                flag = true;
                 if (e instanceof InterruptedException) {
                     String errorMsg = "upload onException for canceled";
                     Log.w(TAG, errorMsg);
