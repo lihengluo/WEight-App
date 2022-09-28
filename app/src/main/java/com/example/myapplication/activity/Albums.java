@@ -5,8 +5,6 @@ import static android.content.ContentValues.TAG;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -131,6 +129,8 @@ public class Albums extends BaseActivity {
         }
     };
 
+
+
     protected void onCreate(Bundle savedInstanceState) {
         //Bundle类型的数据与Map类型的数据相似，都是以key-value的形式存储数据的。
         super.onCreate(savedInstanceState);  //调用父类的onCreate构造函数
@@ -147,7 +147,15 @@ public class Albums extends BaseActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, CHOOSE_PHOTO);
         }
+        // action bar
+        final ImageView back = (ImageView) this.findViewById(R.id.back);
 
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         openAlbum();
         pestDection.setOnClickListener(new pestDectionFuntion());
         //pictureSave.setOnClickListener(new pictureSaveFunction());
@@ -262,100 +270,93 @@ public class Albums extends BaseActivity {
 
 
         LayoutInflater inflater = getLayoutInflater();
-        View view = inflater.inflate(R.layout.activity_edit_dialog,null,false);
-        final AlertDialog dialog = new AlertDialog.Builder(this).setView(view).create();
-
-
-
-        Button btn_cancel_high_opion = view.findViewById(R.id.no);
-        Button btn_agree_high_opion = view.findViewById(R.id.yes);
-
-        dialog.setCancelable(true);//设置对话框不能按返回键取消
-
-
-        btn_cancel_high_opion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-
-            }
-        });
-
-        btn_agree_high_opion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!FunctionUtils.isFastDoubleClick()) {
-                    dialog.dismiss();
-                    SweetAlertDialog pDialog = new SweetAlertDialog(view.getContext(), SweetAlertDialog.PROGRESS_TYPE);
-                    pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-                    pDialog.setTitleText("请稍后！");
-                    pDialog.setContentText("正在进行食物识别与营养估计！");
-                    pDialog.setCancelable(false);
-                    pDialog.show();
-                    EditText A1 = view.findViewById(R.id.et_01);
-                    EditText B1 = view.findViewById(R.id.et_02);
-                    String A = A1.getText().toString();
-                    String B = B1.getText().toString();
-                    focal = "27";
-
-                    intent3 = new Intent(getApplicationContext(), Analyze.class);
-
-                    if (A.isEmpty() || B.isEmpty()) {
-                        Toast.makeText(getApplicationContext(), "您还未输入", Toast.LENGTH_SHORT).show();
-                        dialog.show();
+        View view_par = inflater.inflate(R.layout.par_dialog,null,false);
+        SweetAlertDialog dialog = new SweetAlertDialog(view_par.getContext(), SweetAlertDialog.CUSTOM_IMAGE_TYPE)
+                .setTitleText("请估算以下参数信息")
+                .setConfirmText("确认")
+                .setCustomView(view_par)
+                .setCancelText("取消")
+                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.dismiss();
                     }
-                    if (!A.isEmpty() && !B.isEmpty()) {
-                        try {
-                            //读取图片EXIF信息焦距
-                            ExifInterface exifInterface = new ExifInterface(getExternalCacheDir() + "/output_image.jpg");
-                            focal = exifInterface.getAttribute(ExifInterface.TAG_FOCAL_LENGTH_IN_35MM_FILM);
-                            Log.i("s", "-----------------focal: " + focal);
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                        if (focal == null || Integer.parseInt(focal) == 0) {
+                })
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        if (!FunctionUtils.isFastDoubleClick()) {
+                            sDialog.dismiss();
+                            SweetAlertDialog pDialog = new SweetAlertDialog(view_par.getContext(), SweetAlertDialog.PROGRESS_TYPE);
+                            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                            pDialog.setTitleText("请稍后！");
+                            pDialog.setContentText("正在进行食物识别与营养估计！");
+                            pDialog.setCancelable(false);
+                            pDialog.show();
+                            EditText A1 = view_par.findViewById(R.id.et_01);
+                            EditText B1 = view_par.findViewById(R.id.et_02);
+                            String A = A1.getText().toString();
+                            String B = B1.getText().toString();
                             focal = "27";
-                        }
 
-                        //分析接口
-                        if (Build.VERSION.SDK_INT >= 23) {
-                            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
-                                    checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1000);
-                                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1001);
+                            intent3 = new Intent(getApplicationContext(), Analyze.class);
+
+                            if (A.isEmpty() || B.isEmpty()) {
+                                Toast.makeText(getApplicationContext(), "参数未输入完整", Toast.LENGTH_SHORT).show();
+                                sDialog.show();
+                            }
+                            if (!A.isEmpty() && !B.isEmpty()) {
+                                try {
+                                    //读取图片EXIF信息焦距
+                                    ExifInterface exifInterface = new ExifInterface(imagePath);
+                                    focal = exifInterface.getAttribute(ExifInterface.TAG_FOCAL_LENGTH_IN_35MM_FILM);
+                                    Log.i("s", "-----------------focal: " + focal);
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
+                                if (focal == null || Integer.parseInt(focal) == 0) {
+                                    focal = "27";
+                                }
+
+                                //分析接口
+                                if (Build.VERSION.SDK_INT >= 23) {
+                                    if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                                            checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1000);
+                                        requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1001);
+                                    }
+                                }
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        UploadEngine uploadEngine = new UploadEngine(getApplicationContext());
+                                        uploadEngine.uploadToDetect(imagePath, Double.parseDouble(focal), Double.parseDouble(A),
+                                                Double.parseDouble(B));
+                                        do {
+                                            try {
+                                                Thread.sleep(2000);
+                                            } catch (InterruptedException e) {
+                                                e.printStackTrace();
+                                            }
+                                        } while (!uploadEngine.flag);
+                                        Message message = new Message();
+                                        message.what = 0;
+                                        message.obj = uploadEngine.Good;
+                                        message.arg1 = uploadEngine.code;
+                                        mHandler.sendMessage(message);
+                                        pDialog.dismiss();
+                                    }
+                                }).start();
                             }
                         }
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                UploadEngine uploadEngine = new UploadEngine(getApplicationContext());
-                                uploadEngine.uploadToDetect(imagePath, Double.parseDouble(focal), Double.parseDouble(A),
-                                        Double.parseDouble(B));
-                                do {
-                                    try {
-                                        Thread.sleep(2000);
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                    }
-                                } while (!uploadEngine.flag);
-                                Message message = new Message();
-                                message.what = 0;
-                                message.obj = uploadEngine.Good;
-                                message.arg1 = uploadEngine.code;
-                                mHandler.sendMessage(message);
-                                pDialog.dismiss();
-                            }
-                        }).start();
                     }
-                }
-            }
-        });
+                });
 
         dialog.show();
         //此处设置位置窗体大小，我这里设置为了手机屏幕宽度的3/4  注意一定要在show方法调用后再写设置窗口大小的代码，否则不起效果会
-        dialog.getWindow().setLayout((ScreenUtils.getScreenWidth(this)/4*3), LinearLayout.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setLayout((ScreenUtils.getScreenWidth(this)/6*5), LinearLayout.LayoutParams.WRAP_CONTENT);
     }
     CharSequence getSavedText(){
         return ((TextView)findViewById(R.id.et_1)).getText();

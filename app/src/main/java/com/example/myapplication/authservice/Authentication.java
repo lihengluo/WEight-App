@@ -153,7 +153,8 @@ public abstract class Authentication {
         AGConnectUser user = AGConnectAuth.getInstance().getCurrentUser();
         if (user == null)
             return false;
-        String account = getCurrentUserUid();
+        String account = getCurrentUserAccount();
+        account = account.split("-")[1];
 
         AGConnectAuthCredential credential = null;
         if (password != null) {
@@ -189,6 +190,8 @@ public abstract class Authentication {
     public abstract boolean createUser(String accountStr, String verifyCOdeStr);
 
     public abstract boolean createUser(String accountStr, String verifyCOdeStr, String passwordStr);
+
+    public abstract String getCurrentUserAccount();
 
 
 }

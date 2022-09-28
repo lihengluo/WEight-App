@@ -131,4 +131,9 @@ public class PhoneAuth extends Authentication{
 
         return resetPasswordTask.isSuccessful();
     }
+
+    @Override
+    public String getCurrentUserAccount() {
+        return AGConnectAuth.getInstance().getCurrentUser().getPhone();
+    }
 }

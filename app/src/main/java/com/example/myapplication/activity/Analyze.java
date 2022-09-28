@@ -52,7 +52,14 @@ public class Analyze extends BaseActivity {
         Button uploadDataBtn = findViewById(R.id.upload_to_cloud);
         uploadDataBtn.setEnabled(true);
 
-
+        // action bar
+        final ImageView back = (ImageView) this.findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         final Intent myIntend = getIntent();
 
         String foodname = myIntend.getStringExtra("foodname");

@@ -1,34 +1,59 @@
 package fragment;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.myapplication.R;
+import com.example.myapplication.authservice.PhoneAuth;
+import com.example.myapplication.database.CloudDB;
+import com.example.myapplication.database.DietRecord;
+import com.example.myapplication.storage.CloudStorage;
+import com.example.myapplication.upload.UploadEngine;
+import com.huawei.agconnect.cloud.storage.core.StorageReference;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import fragment.bean.MainBean;
 import fragment.bean.MenuBean;
 import fragment.util.DateUtil;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import androidx.fragment.app.Fragment;
+
+import static android.content.ContentValues.TAG;
 
 public class Fragment_me extends Fragment {
     private RecyclerView re_can,re_lsit;
@@ -40,6 +65,11 @@ public class Fragment_me extends Fragment {
     private LinearLayout lin_date;
     private TextView tv_Date;
     private int c=0;
+
+    private PhoneAuth phoneAuth;
+    private CloudStorage storage;
+    private CloudDB database;
+    private int flagsear;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,21 +100,67 @@ public class Fragment_me extends Fragment {
         initDataNew(0,0,0);
         adapter.setNewData(menuList);
         re_can.scrollToPosition(c-1);
+        // handler + thread 处理post请求
+        Handler mHandler = new Handler(Looper.myLooper()) {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                switch (flagsear) {
+                    case -1:
+                        Toast toast1 = Toast.makeText(getContext(), "请登录后查询！", Toast.LENGTH_SHORT);
+                        toast1.setGravity(Gravity.CENTER, 0, 0);
+                        toast1.show();
+                        break;
+                    case -2:
+                        Toast toast2 = Toast.makeText(getContext(), "查询失败，请检查网络链接后重试！", Toast.LENGTH_SHORT);
+                        toast2.setGravity(Gravity.CENTER, 0, 0);
+                        toast2.show();
+                        break;
+                    case -3:
+                        Toast toast3 = Toast.makeText(getContext(), "未查询到该日记录", Toast.LENGTH_SHORT);
+                        toast3.setGravity(Gravity.CENTER, 0, 0);
+                        toast3.show();
+                        break;
+                    case 0:
+                        Toast toast4 = Toast.makeText(getContext(), "查询成功！", Toast.LENGTH_SHORT);
+                        toast4.setGravity(Gravity.CENTER, 0, 0);
+                        toast4.show();
+                        adapterMain.setNewData( (List<MainBean>) msg.obj);
+                        break;
+                }
+
+            }
+        };
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                SweetAlertDialog pDialog = new SweetAlertDialog(view.getContext(), SweetAlertDialog.PROGRESS_TYPE);
+                pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                pDialog.setTitleText("请稍后！");
+                pDialog.setContentText("正在查询记录！");
+                pDialog.setCancelable(false);
+                pDialog.show();
                 for (MenuBean m : menuList){
                     m.setCheck(false);
                 }
                 adapter.notifyDataSetChanged();
-                adapter.notifyItemChanged(position);
                 ((MenuBean)adapter.getData().get(position)).setCheck(true);
+                adapter.notifyItemChanged(position);
                 int dayOfMonth = ((MenuBean)adapter.getData().get(position)).getDay();
                 int year = ((MenuBean)adapter.getData().get(position)).getYear();
-                int monthOfYear = ((MenuBean)adapter.getData().get(position)).getMonth() + 1;
-
-                setData();
+                int monthOfYear = ((MenuBean)adapter.getData().get(position)).getMonth();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Message message = new Message();
+                        message.what = 0;
+                        message.obj = downloadData(String.valueOf(year), String.valueOf(monthOfYear), String.valueOf(dayOfMonth));
+                        mHandler.sendMessage(message);
+                        pDialog.dismiss();
+                    }
+                }).start();
                 // 将year，monthOfYear和dayOfMonth发送至云数据库进行查询
+                re_lsit.scrollToPosition(0);
             }
         });
 
@@ -92,7 +168,9 @@ public class Fragment_me extends Fragment {
         LinearLayoutManager lm = new LinearLayoutManager(this.getContext());
         re_lsit.setLayoutManager(lm);
         re_lsit.setAdapter(adapterMain);
-        //randomData();
+        // 将当天的year，monthOfYear和dayOfMonth发送至云数据库进行查询
+//        downloadData();
+
         adapterMain.setNewData(mList);
 
         lin_date.setOnClickListener(new View.OnClickListener() {
@@ -110,6 +188,12 @@ public class Fragment_me extends Fragment {
 
                 // 确认按钮
                 datePickerDialog.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(v -> {
+                    SweetAlertDialog pDialog = new SweetAlertDialog(view.getContext(), SweetAlertDialog.PROGRESS_TYPE);
+                    pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                    pDialog.setTitleText("请稍后！");
+                    pDialog.setContentText("正在查询记录！");
+                    pDialog.setCancelable(false);
+                    pDialog.show();
                     // 确认年月日
                     int year = datePickerDialog.getDatePicker().getYear();
                     int monthOfYear = datePickerDialog.getDatePicker().getMonth() + 1;
@@ -118,15 +202,33 @@ public class Fragment_me extends Fragment {
                     menuList.clear();
                     adapter.notifyDataSetChanged();
                     initDataNew(year,monthOfYear,dayOfMonth);
-                    setData();
-                    // 将year，monthOfYear和dayOfMonth发送至云数据库进行查询
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Message message = new Message();
+                            message.what = 0;
+                            message.obj = downloadData(String.valueOf(year), String.valueOf(monthOfYear), String.valueOf(dayOfMonth));
+                            mHandler.sendMessage(message);
+                            pDialog.dismiss();
+                        }
+                    }).start();
 
+                    re_lsit.scrollToPosition(0);
                     re_can.scrollToPosition(c-1);
 //                    toast(formatDate(year, monthOfYear, dayOfMonth));
 
                     // 关闭dialog
                     datePickerDialog.dismiss();
                 });
+
+            }
+        });
+        final ImageView back = (ImageView) getView().findViewById(R.id.back);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
             }
         });
 
@@ -140,12 +242,56 @@ public class Fragment_me extends Fragment {
 //        adapterMain.setNewData(mList);
 //    }
 
-    private void setData(){
+    /* 保留两位小数 */
+    private float decimalTwo(float f) {
+        return Math.round(f * 100) / 100f;
+    }
+
+    private List<MainBean> downloadData(String year, String month, String day){
+//        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+//                ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1000);
+//            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1001);
+//        }
         mList.clear();
-        for (int k=0;k<10;k++){
-            mList.add(new MainBean("","","","大卡","%","克", "",""));
+        month = month.length()<2 ? "0"+month : month;
+        day = day.length()<2 ? "0"+day : day;
+        String date = year + "-" + month + "-" + day;
+        phoneAuth = new PhoneAuth();
+        database = CloudDB.getDatabase(getContext());
+        storage = CloudStorage.getStorage();
+        if (!phoneAuth.isUserSignIn()) {
+            flagsear = -1;//未登录
+            return null;
         }
-        adapterMain.setNewData(mList);
+        String uid = phoneAuth.getCurrentUserUid();
+        List<StorageReference> referenceList = storage.getFileList(uid + "/" + date + "/");
+        List<DietRecord> dietRecordList = database.queryUserDietRecord(uid, date);
+
+        if (dietRecordList == null || referenceList == null) {
+            flagsear = -2;//网络问题
+            return null;
+        }
+        if (dietRecordList.size()==0 || referenceList.size() == 0) {
+            flagsear = -3;//当天没有记录
+            return null;
+
+        }
+        assert (referenceList.size() == dietRecordList.size());
+
+
+        for (int k = 0; k < referenceList.size(); k++){
+            DietRecord dietRecord = dietRecordList.get(k);
+            StorageReference reference = referenceList.get(k);
+            String createFileName = System.currentTimeMillis() + ".jpg";
+            storage.downloadUserFile(reference, new File(getActivity().getExternalCacheDir(), createFileName));
+            mList.add(new MainBean(getActivity().getExternalCacheDir() + "/" + createFileName,
+                    dietRecord.getFoodname(), decimalTwo(dietRecord.getHeat())+"大卡", decimalTwo(dietRecord.getCarbohydrate())+"克",
+                    decimalTwo(dietRecord.getProtein())+"克", decimalTwo(dietRecord.getFat())+"克",
+                    decimalTwo(dietRecord.getCa())+"毫克", decimalTwo(dietRecord.getFe())+"毫克"));
+        }
+        flagsear = 0;
+        return mList;
     }
 
     private void initDataNew(int cyear,int cmonth,int cday) {
@@ -162,15 +308,16 @@ public class Fragment_me extends Fragment {
             year = cyear;
             month = cmonth;
         }
+        tv_Date.setText(year+"年"+month+"月");
         cal.set(Calendar.DAY_OF_MONTH, 1);
         s = cal.get(Calendar.DAY_OF_MONTH);
         cal.roll(Calendar.DAY_OF_MONTH, -1);
         e = cal.get(Calendar.DAY_OF_MONTH);
         for (int i=s;i<=e;i++){
             if (c==i){
-                menuList.add(new MenuBean(DateUtil.dateToWeek(year+"-"+month+"-"+i), year, c, month, true));
+                menuList.add(new MenuBean(DateUtil.dateToWeek(year+"-"+month+"-"+i), year, i, month, true));
             }else {
-                menuList.add(new MenuBean(DateUtil.dateToWeek(year+"-"+month+"-"+i), year, c, month, false));
+                menuList.add(new MenuBean(DateUtil.dateToWeek(year+"-"+month+"-"+i), year, i, month, false));
             }
         }
 
