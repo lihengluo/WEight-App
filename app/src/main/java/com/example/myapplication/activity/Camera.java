@@ -276,7 +276,7 @@ public class Camera extends AppCompatActivity {
 
 
         LayoutInflater inflater = getLayoutInflater();
-        View view_par = inflater.inflate(R.layout.activity_edit_dialog,null,false);
+        View view_par = inflater.inflate(R.layout.par_dialog,null,false);
         SweetAlertDialog dialog = new SweetAlertDialog(view_par.getContext(), SweetAlertDialog.CUSTOM_IMAGE_TYPE)
                 .setTitleText("请估算以下参数信息")
                 .setConfirmText("确认")
