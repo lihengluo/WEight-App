@@ -8,7 +8,8 @@
     android:layout_marginTop="@dimen/dp_10">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/whitesmoke">
         <View
             android:id="@+id/v_1"
             android:layout_width="2dp"

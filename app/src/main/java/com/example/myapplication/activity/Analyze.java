@@ -28,7 +28,9 @@ import org.w3c.dom.Text;
 import java.io.File;
 import java.io.PrintStream;
 
-public class Analyze extends BaseActivity {
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
+public class Analyze extends AppCompatActivity {
 
     PhoneAuth phoneAuth = new PhoneAuth();
 
@@ -85,26 +87,33 @@ public class Analyze extends BaseActivity {
             if (!FunctionUtils.isFastDoubleClick()) {
                 if (uploadDataBtn.isEnabled()) {
                     if (!phoneAuth.isUserSignIn()) {
-                        Toast toast = Toast.makeText(getApplicationContext(), "您还未登录，请登录后该功能", Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
+                        new SweetAlertDialog(view.getContext(), SweetAlertDialog.ERROR_TYPE)
+                                .setTitleText("您还未登录！")
+                                .setContentText("请登陆后重试！")
+                                .setConfirmText("确认")
+                                .show();
                     } else {
                         if (!uploadToCloud(new File(imgpath), new Goods(null, foodname, heats, fat, protein, Carbohydrates, Ca, Fe))) {
-                            Toast toast = Toast.makeText(getApplicationContext(), "上传失败，请重试！", Toast.LENGTH_SHORT);
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                            toast.show();
+                            new SweetAlertDialog(view.getContext(), SweetAlertDialog.ERROR_TYPE)
+                                    .setTitleText("上传失败！")
+                                    .setContentText("请稍后重试！")
+                                    .setConfirmText("确认")
+                                    .show();
                         } else {
-                            Toast toast = Toast.makeText(getApplicationContext(), "上传已完成", Toast.LENGTH_SHORT);
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                            toast.show();
-                            uploadDataBtn.setEnabled(false);
+                            new SweetAlertDialog(view.getContext(), SweetAlertDialog.SUCCESS_TYPE)
+                                    .setTitleText("上传成功！")
+                                    .setContentText("可在主页面查询结果！")
+                                    .setConfirmText("确认")
+                                    .show();
                         }
                     }
                 }
             } else {
-                Toast toast = Toast.makeText(getApplicationContext(), "分析结果已上传，请勿重复上传！", Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
+                new SweetAlertDialog(view.getContext(), SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("分析结果已上传！")
+                        .setContentText("请勿重复上传！")
+                        .setConfirmText("确认")
+                        .show();
             }
         });
     }

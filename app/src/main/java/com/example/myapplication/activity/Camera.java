@@ -89,7 +89,7 @@ public class Camera extends BaseActivity {
                     TimerTask task = new TimerTask() {
                         @Override
                         public void run() {
-                            startActivity(intent6); //执行
+                            //startActivity(intent6); //执行
                             finish();
                         }
                     };
@@ -103,7 +103,7 @@ public class Camera extends BaseActivity {
                     TimerTask task = new TimerTask() {
                         @Override
                         public void run() {
-                            startActivity(intent6); //执行
+                            //startActivity(intent6); //执行
                             finish();
                         }
                     };
@@ -117,7 +117,7 @@ public class Camera extends BaseActivity {
                     TimerTask task = new TimerTask() {
                         @Override
                         public void run() {
-                            startActivity(intent6); //执行
+                            //startActivity(intent6); //执行
                             finish();
                         }
                     };
@@ -133,6 +133,7 @@ public class Camera extends BaseActivity {
                     intent3.putExtra("Fe", good.getFe());
                     intent3.putExtra("imgpath", getExternalCacheDir() + "/output_image.jpg");
                     startActivity(intent3);
+                    finish();
                 }
             }
 
@@ -228,13 +229,15 @@ public class Camera extends BaseActivity {
                         e.printStackTrace();
                     }
                 } else {
-                    intent2 = new Intent(getApplicationContext(), Bottom_bar.class);
-                    startActivity(intent2);
+//                    intent2 = new Intent(getApplicationContext(), Bottom_bar.class);
+//                    startActivity(intent2);
+                    finish();
                 }
                 break;
             default: {
                 intent2 = new Intent(getApplicationContext(), Bottom_bar.class);
                 startActivity(intent2);
+                finish();
             }
             break;
         }
@@ -272,7 +275,7 @@ public class Camera extends BaseActivity {
 
 
         LayoutInflater inflater = getLayoutInflater();
-        View view_par = inflater.inflate(R.layout.activity_edit_dialog,null,false);
+        View view_par = inflater.inflate(R.layout.par_dialog,null,false);
         SweetAlertDialog dialog = new SweetAlertDialog(view_par.getContext(), SweetAlertDialog.CUSTOM_IMAGE_TYPE)
                 .setTitleText("请估算以下参数信息")
                 .setConfirmText("确认")
