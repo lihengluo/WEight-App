@@ -352,7 +352,7 @@
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
                 android:layout_weight="1"
-                android:background="@drawable/btn_center_upload"
+                android:background="@drawable/login"
                 android:text="保\t存\t到\t云\t端"
                 android:textSize="25sp"
                 android:textStyle="bold" />
