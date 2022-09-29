@@ -90,7 +90,7 @@ public class Camera extends AppCompatActivity {
                     TimerTask task = new TimerTask() {
                         @Override
                         public void run() {
-                            startActivity(intent6); //执行
+                            //startActivity(intent6); //执行
                             finish();
                         }
                     };
@@ -104,7 +104,7 @@ public class Camera extends AppCompatActivity {
                     TimerTask task = new TimerTask() {
                         @Override
                         public void run() {
-                            startActivity(intent6); //执行
+                            //startActivity(intent6); //执行
                             finish();
                         }
                     };
@@ -118,7 +118,7 @@ public class Camera extends AppCompatActivity {
                     TimerTask task = new TimerTask() {
                         @Override
                         public void run() {
-                            startActivity(intent6); //执行
+                            //startActivity(intent6); //执行
                             finish();
                         }
                     };
@@ -134,6 +134,7 @@ public class Camera extends AppCompatActivity {
                     intent3.putExtra("Fe", good.getFe());
                     intent3.putExtra("imgpath", getExternalCacheDir() + "/output_image.jpg");
                     startActivity(intent3);
+                    finish();
                 }
             }
 
@@ -229,13 +230,15 @@ public class Camera extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 } else {
-                    intent2 = new Intent(getApplicationContext(), Bottom_bar.class);
-                    startActivity(intent2);
+//                    intent2 = new Intent(getApplicationContext(), Bottom_bar.class);
+//                    startActivity(intent2);
+                    finish();
                 }
                 break;
             default: {
                 intent2 = new Intent(getApplicationContext(), Bottom_bar.class);
                 startActivity(intent2);
+                finish();
             }
             break;
         }
