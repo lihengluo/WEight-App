@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="fragment.Fragment_main">
+
     <RelativeLayout
         android:id="@+id/re_top"
         android:layout_width="match_parent"
