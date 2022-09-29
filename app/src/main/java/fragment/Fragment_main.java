@@ -121,14 +121,22 @@ public class Fragment_main extends Fragment {
                   R.drawable.suggestion10,
                   R.drawable.suggestion11,
                   R.drawable.suggestion12,
+                R.drawable.suggestion13,
+                R.drawable.suggestion14,
+                R.drawable.suggestion15,
+                R.drawable.suggestion16,
+                R.drawable.suggestion17,
+                R.drawable.suggestion18,
         };
         LinearLayout[] lArray = {
                 (LinearLayout) getView().findViewById(R.id.layout1),
                 (LinearLayout) getView().findViewById(R.id.layout2),
                 (LinearLayout) getView().findViewById(R.id.layout3),
                 (LinearLayout) getView().findViewById(R.id.layout4),
+                (LinearLayout) getView().findViewById(R.id.layout5),
         };
         ImageView[] ivBg = {
+                new ImageView(this.getContext()),
                 new ImageView(this.getContext()),
                 new ImageView(this.getContext()),
                 new ImageView(this.getContext()),
@@ -139,8 +147,9 @@ public class Fragment_main extends Fragment {
                 new ImageView(this.getContext()),
                 new ImageView(this.getContext()),
                 new ImageView(this.getContext()),
+                new ImageView(this.getContext()),
         };
-        Drawable[] drawable = new Drawable[4];
+        Drawable[] drawable = new Drawable[5];
 
         //把图片资源文件变成数组，注意R文件中数据对应的都是int类型
         int[] ar = getArray();
@@ -157,23 +166,23 @@ public class Fragment_main extends Fragment {
 
     public int[] getArray() {
         Random r1 = new Random();
-        int b = r1.nextInt(6);
+        int b = r1.nextInt(12);
 
         //创建一个包含5个元素的数组, 存放随机数
-        int[] a = new int[4];
+        int[] a = new int[5];
 
         //第一个随机数,不需要判断是否重复,直接放进数组
         a[0] = b;
 
         //外层,用来放剩余的四个元素,下标从1开始
         for (int i = 1; i < a.length; i++) {
-            b = r1.nextInt(6);
+            b = r1.nextInt(12);
 
             //将取到的随机数,与已经存在的元素进行比较，从下标=0开始比较
             for (int num = 0; num < i; num++) {
                 //如果和已经存在元素相同,需要重新取随机数,并且新取到的随机数要重新与a[0]开始比较,知道取到的随机数不重复
                 while (b == a[num]) {
-                    b = r1.nextInt(6);
+                    b = r1.nextInt(12);
                     num = 0;
                 }
             }
