@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,7 +45,16 @@ public class Fragment_History extends Fragment {
         Button User_logout = (Button) getView().findViewById(R.id.user_logout);
         Button User_delete = (Button) getView().findViewById(R.id.user_delete);
         Button User_aboutus = (Button) getView().findViewById((R.id.user_aboutus));
-        Button User_advice = (Button) getView().findViewById(R.id.user_advice);
+        //Button User_advice = (Button) getView().findViewById(R.id.user_advice);
+        // action bar
+        final ImageView back = (ImageView) getView().findViewById(R.id.back);
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
 
         User_info.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,14 +84,14 @@ public class Fragment_History extends Fragment {
                 PhoneAuth phoneAuth = new PhoneAuth();
                 if (phoneAuth.isUserSignIn()) {
                     new SweetAlertDialog(view.getContext(), SweetAlertDialog.WARNING_TYPE)
-                            .setTitleText("确定退出当前登陆吗？")
+                            .setTitleText("确定退出当前登录吗？")
                             .setConfirmText("确认")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sDialog) {
                                     phoneAuth.signOut();
-                                    sDialog.setTitleText("退出登陆成功!")
-                                            .setContentText("即将返回登陆界面!")
+                                    sDialog.setTitleText("退出登录成功!")
+                                            .setContentText("即将返回登录界面!")
                                             .setConfirmText("确认")
                                             .setConfirmClickListener(null)
                                             .showCancelButton(false)
@@ -136,7 +146,7 @@ public class Fragment_History extends Fragment {
                                     boolean del_flag = phoneAuth.deleteUser(passwd);
                                     if (del_flag) {
                                         sDialog.setTitleText("账户已成功注销!")
-                                                .setContentText("即将返回登陆界面!")
+                                                .setContentText("即将返回登录界面!")
                                                 .setConfirmText("确认")
                                                 .setConfirmClickListener(null)
                                                 .showCancelButton(false)
@@ -191,11 +201,11 @@ public class Fragment_History extends Fragment {
             }
         });
 
-        User_advice.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
+//        User_advice.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//            }
+//        });
     }
 }
