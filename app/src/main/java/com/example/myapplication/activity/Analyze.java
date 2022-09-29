@@ -100,7 +100,7 @@ public class Analyze extends AppCompatActivity {
                                     .setConfirmText("确认")
                                     .show();
                         } else {
-                            new SweetAlertDialog(view.getContext(), SweetAlertDialog.ERROR_TYPE)
+                            new SweetAlertDialog(view.getContext(), SweetAlertDialog.SUCCESS_TYPE)
                                     .setTitleText("上传成功！")
                                     .setContentText("可在主页面查询结果！")
                                     .setConfirmText("确认")
