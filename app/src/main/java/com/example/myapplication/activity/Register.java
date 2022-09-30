@@ -17,7 +17,7 @@ import com.example.myapplication.util.FunctionUtils;
 
 import java.io.EOFException;
 
-public class Register extends AppCompatActivity {
+public class Register extends BaseActivity {
 
     private Button mybuttonregister2;
     private EditText myEtuser;

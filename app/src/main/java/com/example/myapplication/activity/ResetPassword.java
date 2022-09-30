@@ -9,13 +9,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.myapplication.R;
 import com.example.myapplication.authservice.PhoneAuth;
 import com.example.myapplication.util.FunctionUtils;
 
-public class ResetPassword extends AppCompatActivity {
+public class ResetPassword extends BaseActivity{
     private Button mybuttonregister2;
     private EditText myEtuser;
     private EditText myEtpassword;

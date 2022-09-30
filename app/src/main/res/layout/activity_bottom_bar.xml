@@ -114,7 +114,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="2dp"
-                android:src="@drawable/mee_normal"/>
+                android:src="@drawable/my_normal"/>
         </RelativeLayout>
 
     </LinearLayout>

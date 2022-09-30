@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import com.example.myapplication.R;
 
-public class Edit_dialog extends AppCompatActivity {
+public class Edit_dialog extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

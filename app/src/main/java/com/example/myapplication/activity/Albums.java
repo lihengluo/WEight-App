@@ -35,7 +35,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -50,7 +49,7 @@ import java.util.TimerTask;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 
-public class Albums extends AppCompatActivity {
+public class Albums extends BaseActivity {
     private  ImageView albumsPicture;
     public static final int CHOOSE_PHOTO = 2;
     private Button pestDection=null;
