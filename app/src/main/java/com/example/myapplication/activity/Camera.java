@@ -222,9 +222,7 @@ public class Camera extends BaseActivity {
                         BitmapDrawable bmpDrawable = (BitmapDrawable) cameraPicture.getDrawable();
 
                         Bitmap bitmap2 = bmpDrawable.getBitmap();
-                        //saveToSystemGallery(bitmap2);//将图片保存到本地
-                        //Toast.makeText(getApplicationContext(),"图片已保存至本地相册！",Toast.LENGTH_SHORT).show();
-                        //startActivity(intent3);//窗口切换
+
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
