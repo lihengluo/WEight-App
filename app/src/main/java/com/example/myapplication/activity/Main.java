@@ -25,6 +25,14 @@ import com.example.myapplication.util.ToastUtil;
 import com.example.myapplication.R;
 import com.huawei.agconnect.AGConnectInstance;
 import com.huawei.agconnect.AGConnectOptionsBuilder;
+import com.huawei.agconnect.api.AGConnectApi;
+import com.huawei.agconnect.auth.AGCAuthException;
+import com.huawei.agconnect.auth.AGConnectAuth;
+import com.huawei.agconnect.auth.AGConnectAuthCredential;
+import com.huawei.agconnect.auth.AGConnectUser;
+import com.huawei.agconnect.auth.SignInResult;
+import com.huawei.hmf.tasks.OnFailureListener;
+import com.huawei.hmf.tasks.OnSuccessListener;
 
 import org.json.JSONException;
 
@@ -62,33 +70,53 @@ public class Main extends AppCompatActivity {
         mybuttonlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!FunctionUtils.isFastDoubleClick()) {
-                    String username = myEtuser.getText().toString();
-                    String password = myEtpassword.getText().toString();
-
-                    //弹出内容设置
-                    String ok = "登录成功!";
-                    String fail = "密码或者账号有误，请重新登录！";
-
-                    Intent intent = new Intent(getApplicationContext(), Bottom_bar.class);
-
-                    if (phoneAuth.signInWithPassword(username, password)) {
-                        intent.putExtra("登录信息", "0");
-                        startActivity(intent);
-                        finish();
-                    } else {
-                        if (phoneAuth.signInWithPassword(username, password)) { // AGC认证服务第一次登录会因超时失败，需要再次尝试
-                            intent.putExtra("登录信息", "0");
-                            startActivity(intent);
-                            finish();
-                        }
-                        else {
-                            Toast toastcenter = Toast.makeText(getApplicationContext(), fail, Toast.LENGTH_SHORT);
-                            toastcenter.setGravity(Gravity.CENTER, 0, 0);
-                            toastcenter.show();
-                        }
-                    }
-                }
+                AGConnectAuth.getInstance().signIn(Main.this, AGConnectAuthCredential.HMS_Provider).addOnSuccessListener(new OnSuccessListener<SignInResult>() {
+                            @Override
+                            public void onSuccess(SignInResult signInResult) {
+                                // onSuccess
+                                AGConnectUser user =  signInResult.getUser();
+                                Log.e("HUAWEI signin success", user.getUid());
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(Exception e) {
+                                if (e instanceof AGCAuthException) {
+                                    AGCAuthException agcAuthException = (AGCAuthException) e;
+                                    int errCode = agcAuthException.getCode();
+                                    String message = agcAuthException.getMessage();
+                                    Log.e("HUAWEI signin fail", "errorCode: " + errCode + ", message: " + message);
+                                }
+                                // onFail
+                            }
+                        });
+//                if (!FunctionUtils.isFastDoubleClick()) {
+//                    String username = myEtuser.getText().toString();
+//                    String password = myEtpassword.getText().toString();
+//
+//                    //弹出内容设置
+//                    String ok = "登录成功!";
+//                    String fail = "密码或者账号有误，请重新登录！";
+//
+//                    Intent intent = new Intent(getApplicationContext(), Bottom_bar.class);
+//
+//                    if (phoneAuth.signInWithPassword(username, password)) {
+//                        intent.putExtra("登录信息", "0");
+//                        startActivity(intent);
+//                        finish();
+//                    } else {
+//                        if (phoneAuth.signInWithPassword(username, password)) { // AGC认证服务第一次登录会因超时失败，需要再次尝试
+//                            intent.putExtra("登录信息", "0");
+//                            startActivity(intent);
+//                            finish();
+//                        }
+//                        else {
+//                            Toast toastcenter = Toast.makeText(getApplicationContext(), fail, Toast.LENGTH_SHORT);
+//                            toastcenter.setGravity(Gravity.CENTER, 0, 0);
+//                            toastcenter.show();
+//                        }
+//                    }
+//                }
             }
         });
 
@@ -171,4 +199,10 @@ public class Main extends AppCompatActivity {
         }
     }
     //传递跳转信息 0代表登陆后跳转，1代表已登录直接跳转，2代表跳过登录界面的跳转；
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        AGConnectApi.getInstance().activityLifecycle().onActivityResult(requestCode, resultCode, data);
+    }
 }

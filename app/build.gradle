@@ -43,6 +43,7 @@ dependencies {
     implementation 'com.huawei.hms:network-embedded:6.0.0.300'
     implementation 'com.huawei.hms:filemanager:6.0.0.300'
     implementation 'com.huawei.agconnect:agconnect-auth:1.7.1.300'
+    implementation "com.huawei.agconnect:agconnect-auth-huawei:1.7.2.300"
     implementation 'com.huawei.agconnect:agconnect-core:1.7.1.300'
     implementation 'com.huawei.agconnect:agconnect-function:1.7.1.300'
     implementation 'com.huawei.agconnect:agconnect-storage:1.5.0.100'
