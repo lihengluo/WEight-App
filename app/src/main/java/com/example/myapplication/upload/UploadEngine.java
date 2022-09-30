@@ -168,7 +168,7 @@ public class UploadEngine extends AUpDownloadEngine {
                 httpParams.put("param2", "value2");
 
                 // replace the url for upload
-                final String normalUrl = "http://192.168.1.29:5000/upload";
+                final String normalUrl = "http://124.71.153.95:5000/upload";
                 // upload file for http post
                 // replace the file path
                 JSONObject jsonObject = new JSONObject();
@@ -224,7 +224,7 @@ public class UploadEngine extends AUpDownloadEngine {
             httpParams.put("param2", "value2");
 
             // replace the url for upload
-            final String normalUrl = "http://192.168.1.29:5000/upload";
+            final String normalUrl = "http://124.71.153.95:5000/upload";
             if (usePut) {
                 // upload file for http put
                 List<FileEntity> fileList = new ArrayList<>();
