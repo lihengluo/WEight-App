@@ -20,7 +20,7 @@ import fragment.Fragment_History;
 import fragment.Fragment_main;
 import fragment.Fragment_me;
 
-public class Bottom_bar extends AppCompatActivity {
+public class Bottom_bar extends BaseActivity {
 
     //声明控件
     public static final int TAKE_PHOTO = 1;
@@ -134,7 +134,7 @@ public class Bottom_bar extends AppCompatActivity {
                 bottom_bar_image_2.setImageResource(R.drawable.me_normal);
                 bottom_bar_text_3.setTextColor(Color.parseColor("#666666"));
                 //图片也不变
-                bottom_bar_image_3.setImageResource(R.drawable.mee_normal);
+                bottom_bar_image_3.setImageResource(R.drawable.my_normal);
                 break;
             case 1://同理如上
                 bottom_bar_image_1.setImageResource(R.drawable.main_select);
@@ -142,7 +142,7 @@ public class Bottom_bar extends AppCompatActivity {
                 bottom_bar_text_2.setTextColor(Color.parseColor("#0097F7"));
                 bottom_bar_image_2.setImageResource(R.drawable.me_select);
                 bottom_bar_text_3.setTextColor(Color.parseColor("#666666"));
-                bottom_bar_image_3.setImageResource(R.drawable.mee_normal);
+                bottom_bar_image_3.setImageResource(R.drawable.my_normal);
                 break;
             case 2:
                 bottom_bar_image_1.setImageResource(R.drawable.main_normal);
@@ -152,7 +152,7 @@ public class Bottom_bar extends AppCompatActivity {
                 //图片也不变
                 bottom_bar_image_2.setImageResource(R.drawable.me_normal);
                 bottom_bar_text_3.setTextColor(Color.parseColor("#0097F7"));
-                bottom_bar_image_3.setImageResource(R.drawable.mee_select);
+                bottom_bar_image_3.setImageResource(R.drawable.my_select);
 
                 break;
         }

@@ -31,7 +31,7 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class Main extends AppCompatActivity {
+public class Main extends BaseActivity {
 
     //声明控件
     private Button mybuttonlogin;

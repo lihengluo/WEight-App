@@ -30,9 +30,14 @@
         <entry key="..\:/WEight/weight/app/src/main/res/drawable/bg_fangkuang.xml" value="0.168" />
         <entry key="..\:/WEight/weight/app/src/main/res/drawable/bg_insert.xml" value="0.18" />
         <entry key="..\:/WEight/weight/app/src/main/res/drawable/bg_rectangle_corner.xml" value="0.18" />
+        <entry key="..\:/WEight/weight/app/src/main/res/drawable/main_drawable.xml" value="0.18" />
+        <entry key="..\:/WEight/weight/app/src/main/res/drawable/main_normal.xml" value="0.18" />
+        <entry key="..\:/WEight/weight/app/src/main/res/drawable/main_select.xml" value="0.18" />
         <entry key="..\:/WEight/weight/app/src/main/res/drawable/me_drawable.xml" value="0.18" />
         <entry key="..\:/WEight/weight/app/src/main/res/drawable/me_normal.xml" value="0.18" />
         <entry key="..\:/WEight/weight/app/src/main/res/drawable/me_select.xml" value="0.18" />
+        <entry key="..\:/WEight/weight/app/src/main/res/drawable/my_normal.xml" value="0.18" />
+        <entry key="..\:/WEight/weight/app/src/main/res/drawable/my_select.xml" value="0.18" />
         <entry key="..\:/WEight/weight/app/src/main/res/layout/activity_bottom_bar.xml" value="0.3307291666666667" />
         <entry key="..\:/WEight/weight/app/src/main/res/layout/activity_edit_dialog.xml" value="0.3307291666666667" />
         <entry key="..\:/WEight/weight/app/src/main/res/layout/activity_list_table.xml" value="0.1601917255297679" />
