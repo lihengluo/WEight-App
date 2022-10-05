@@ -5,6 +5,15 @@ apply plugin: 'com.huawei.agconnect'
 //
 //}
 android {
+    // 签名文件
+    signingConfigs {
+        release {
+            storeFile file('keystore.jks')
+            storePassword 'qiming902'
+            keyAlias 'key0'
+            keyPassword 'qiming902'
+        }
+    }
     compileSdk 32
 
     defaultConfig {
@@ -18,9 +27,17 @@ android {
     }
 
     buildTypes {
+        // 允许debug时使用正式的应用签名，否则无法使用华为账号
         release {
+            debuggable true
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            signingConfig signingConfigs.release
+            debuggable true
         }
     }
     compileOptions {
@@ -43,7 +60,7 @@ dependencies {
     implementation 'com.huawei.hms:network-embedded:6.0.0.300'
     implementation 'com.huawei.hms:filemanager:6.0.0.300'
     implementation 'com.huawei.agconnect:agconnect-auth:1.7.1.300'
-    implementation "com.huawei.agconnect:agconnect-auth-huawei:1.7.2.300"
+    implementation 'com.huawei.agconnect:agconnect-auth-huawei:1.7.1.300'
     implementation 'com.huawei.agconnect:agconnect-core:1.7.1.300'
     implementation 'com.huawei.agconnect:agconnect-function:1.7.1.300'
     implementation 'com.huawei.agconnect:agconnect-storage:1.5.0.100'

@@ -1,14 +1,7 @@
 package com.example.myapplication.activity;
-import static android.content.ContentValues.TAG;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
@@ -17,11 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.myapplication.authservice.Authentication;
 import com.example.myapplication.authservice.PhoneAuth;
-import com.example.myapplication.upload.UploadEngine;
 import com.example.myapplication.util.FunctionUtils;
-import com.example.myapplication.util.ToastUtil;
 import com.example.myapplication.R;
 import com.huawei.agconnect.AGConnectInstance;
 import com.huawei.agconnect.AGConnectOptionsBuilder;
@@ -29,12 +19,10 @@ import com.huawei.agconnect.api.AGConnectApi;
 import com.huawei.agconnect.auth.AGCAuthException;
 import com.huawei.agconnect.auth.AGConnectAuth;
 import com.huawei.agconnect.auth.AGConnectAuthCredential;
-import com.huawei.agconnect.auth.AGConnectUser;
 import com.huawei.agconnect.auth.SignInResult;
 import com.huawei.hmf.tasks.OnFailureListener;
 import com.huawei.hmf.tasks.OnSuccessListener;
-
-import org.json.JSONException;
+import com.huawei.hms.support.hwid.ui.HuaweiIdAuthButton;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,6 +37,7 @@ public class Main extends BaseActivity {
     private EditText myEtpassword;
     private Button mybutttonskip;
     private Button mybuttonhide;
+    private HuaweiIdAuthButton hwButtonlogin;
 
     PhoneAuth phoneAuth = new PhoneAuth();
 
@@ -65,58 +54,39 @@ public class Main extends BaseActivity {
         mybuttonhide = findViewById(R.id.btn_hide);
         mybuttonregister = findViewById(R.id.btn_reg);
         myButtonForgetPassword = findViewById(R.id.forget);
+        hwButtonlogin = findViewById(R.id.btn_hw_login);
 
         //实现跳转---方法1
         mybuttonlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AGConnectAuth.getInstance().signIn(Main.this, AGConnectAuthCredential.HMS_Provider).addOnSuccessListener(new OnSuccessListener<SignInResult>() {
-                            @Override
-                            public void onSuccess(SignInResult signInResult) {
-                                // onSuccess
-                                AGConnectUser user =  signInResult.getUser();
-                                Log.e("HUAWEI signin success", user.getUid());
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(Exception e) {
-                                if (e instanceof AGCAuthException) {
-                                    AGCAuthException agcAuthException = (AGCAuthException) e;
-                                    int errCode = agcAuthException.getCode();
-                                    String message = agcAuthException.getMessage();
-                                    Log.e("HUAWEI signin fail", "errorCode: " + errCode + ", message: " + message);
-                                }
-                                // onFail
-                            }
-                        });
-//                if (!FunctionUtils.isFastDoubleClick()) {
-//                    String username = myEtuser.getText().toString();
-//                    String password = myEtpassword.getText().toString();
-//
-//                    //弹出内容设置
-//                    String ok = "登录成功!";
-//                    String fail = "密码或者账号有误，请重新登录！";
-//
-//                    Intent intent = new Intent(getApplicationContext(), Bottom_bar.class);
-//
-//                    if (phoneAuth.signInWithPassword(username, password)) {
-//                        intent.putExtra("登录信息", "0");
-//                        startActivity(intent);
-//                        finish();
-//                    } else {
-//                        if (phoneAuth.signInWithPassword(username, password)) { // AGC认证服务第一次登录会因超时失败，需要再次尝试
-//                            intent.putExtra("登录信息", "0");
-//                            startActivity(intent);
-//                            finish();
-//                        }
-//                        else {
-//                            Toast toastcenter = Toast.makeText(getApplicationContext(), fail, Toast.LENGTH_SHORT);
-//                            toastcenter.setGravity(Gravity.CENTER, 0, 0);
-//                            toastcenter.show();
-//                        }
-//                    }
-//                }
+                if (!FunctionUtils.isFastDoubleClick()) {
+                    String username = myEtuser.getText().toString();
+                    String password = myEtpassword.getText().toString();
+
+                    //弹出内容设置
+                    String ok = "登录成功!";
+                    String fail = "密码或者账号有误，请重新登录！";
+
+                    Intent intent = new Intent(getApplicationContext(), Bottom_bar.class);
+
+                    if (phoneAuth.signInWithPassword(username, password)) {
+                        intent.putExtra("登录信息", "0");
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        if (phoneAuth.signInWithPassword(username, password)) { // AGC认证服务第一次登录会因超时失败，需要再次尝试
+                            intent.putExtra("登录信息", "0");
+                            startActivity(intent);
+                            finish();
+                        }
+                        else {
+                            Toast toastcenter = Toast.makeText(getApplicationContext(), fail, Toast.LENGTH_SHORT);
+                            toastcenter.setGravity(Gravity.CENTER, 0, 0);
+                            toastcenter.show();
+                        }
+                    }
+                }
             }
         });
 
@@ -166,6 +136,36 @@ public class Main extends BaseActivity {
                     mybuttonhide.setBackgroundResource(R.drawable.no_eye);
                     myEtpassword.setInputType(129);
                 }
+            }
+        });
+
+        hwButtonlogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), Bottom_bar.class);
+                AGConnectAuth.getInstance().signIn(Main.this, AGConnectAuthCredential.HMS_Provider).addOnSuccessListener(new OnSuccessListener<SignInResult>() {
+                    @Override
+                    public void onSuccess(SignInResult signInResult) {
+                        intent.putExtra("登录信息", "0");
+                        startActivity(intent);
+                        finish();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(Exception e) {
+                        if (e instanceof AGCAuthException) {
+                            AGCAuthException agcAuthException = (AGCAuthException) e;
+                            int errCode = agcAuthException.getCode();
+                            String message = agcAuthException.getMessage();
+                            Log.e("HUAWEI signin fail", "errorCode: " + errCode + ", message: " + message);
+                        }
+
+                        Toast toastcenter = Toast.makeText(getApplicationContext(), "认证失败请重试", Toast.LENGTH_SHORT);
+                        toastcenter.setGravity(Gravity.CENTER, 0, 0);
+                        toastcenter.show();
+                    }
+                });
             }
         });
 

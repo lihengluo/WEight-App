@@ -208,6 +208,31 @@
             />
 
     </LinearLayout>
+
+        <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:text="——关联账号登录——"
+                android:textColor="@color/black"
+                android:textSize="10sp"
+                android:gravity="center"
+                />
+            <com.huawei.hms.support.hwid.ui.HuaweiIdAuthButton
+                android:id="@+id/btn_hw_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:hwid_button_theme="hwid_button_theme_no_title"
+                app:hwid_color_policy="hwid_color_policy_red"
+                app:hwid_corner_radius="hwid_corner_radius_large"
+                />
+        </LinearLayout>
     <!--按钮-->
     </LinearLayout>
 </LinearLayout>
