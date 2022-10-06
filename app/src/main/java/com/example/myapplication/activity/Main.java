@@ -142,6 +142,7 @@ public class Main extends BaseActivity {
         hwButtonlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hwButtonlogin.setClickable(false);
                 Intent intent = new Intent(getApplicationContext(), Bottom_bar.class);
                 AGConnectAuth.getInstance().signIn(Main.this, AGConnectAuthCredential.HMS_Provider).addOnSuccessListener(new OnSuccessListener<SignInResult>() {
                     @Override
@@ -154,6 +155,7 @@ public class Main extends BaseActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(Exception e) {
+                        hwButtonlogin.setClickable(true);
                         if (e instanceof AGCAuthException) {
                             AGCAuthException agcAuthException = (AGCAuthException) e;
                             int errCode = agcAuthException.getCode();
