@@ -28,6 +28,7 @@
             android:layout_width="60dp"
             android:layout_height="40dp"
             android:text="返回"
+            android:background="@drawable/selector"
             android:layout_gravity="center"
             />
 

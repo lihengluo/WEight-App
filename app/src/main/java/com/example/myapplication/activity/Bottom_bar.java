@@ -127,7 +127,7 @@ public class Bottom_bar extends BaseActivity {
             case 0:
                 //图片点击选择变换图片，颜色的改变，其他变为原来的颜色，并保持原有的图片
                 bottom_bar_image_1.setImageResource(R.drawable.main_normal);
-                bottom_bar_text_1.setTextColor(Color.parseColor("#0097F7"));
+                bottom_bar_text_1.setTextColor(Color.parseColor("#F1AC46"));
                 //其他的文本颜色不变
                 bottom_bar_text_2.setTextColor(Color.parseColor("#666666"));
                 //图片也不变
@@ -139,7 +139,7 @@ public class Bottom_bar extends BaseActivity {
             case 1://同理如上
                 bottom_bar_image_1.setImageResource(R.drawable.main_select);
                 bottom_bar_text_1.setTextColor(Color.parseColor("#666666"));
-                bottom_bar_text_2.setTextColor(Color.parseColor("#0097F7"));
+                bottom_bar_text_2.setTextColor(Color.parseColor("#F1AC46"));
                 bottom_bar_image_2.setImageResource(R.drawable.me_select);
                 bottom_bar_text_3.setTextColor(Color.parseColor("#666666"));
                 bottom_bar_image_3.setImageResource(R.drawable.my_normal);
@@ -151,7 +151,7 @@ public class Bottom_bar extends BaseActivity {
                 bottom_bar_text_1.setTextColor(Color.parseColor("#666666"));
                 //图片也不变
                 bottom_bar_image_2.setImageResource(R.drawable.me_normal);
-                bottom_bar_text_3.setTextColor(Color.parseColor("#0097F7"));
+                bottom_bar_text_3.setTextColor(Color.parseColor("#F1AC46"));
                 bottom_bar_image_3.setImageResource(R.drawable.my_select);
 
                 break;

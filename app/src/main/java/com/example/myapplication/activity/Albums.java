@@ -131,7 +131,6 @@ public class Albums extends BaseActivity {
     };
 
 
-
     protected void onCreate(Bundle savedInstanceState) {
         //Bundle类型的数据与Map类型的数据相似，都是以key-value的形式存储数据的。
         super.onCreate(savedInstanceState);  //调用父类的onCreate构造函数
@@ -145,10 +144,7 @@ public class Albums extends BaseActivity {
         albumsPicture = super.findViewById(R.id.picture);
 
         //获取权限
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, CHOOSE_PHOTO);
-        }
-        // action bar
+//        // action bar
         final ImageView back = (ImageView) this.findViewById(R.id.back);
 
         back.setOnClickListener(new View.OnClickListener() {
@@ -157,9 +153,10 @@ public class Albums extends BaseActivity {
                 finish();
             }
         });
+
         openAlbum();
         pestDection.setOnClickListener(new pestDectionFuntion());
-        //pictureSave.setOnClickListener(new pictureSaveFunction());
+
 
     }
 

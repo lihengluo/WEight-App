@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,8 @@ import com.example.myapplication.activity.Albums;
 import com.example.myapplication.activity.Camera;
 import com.example.myapplication.activity.Bottom_bar;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 
@@ -50,6 +53,13 @@ public class Fragment_main extends Fragment {
         // action bar
         final ImageView back = (ImageView) getView().findViewById(R.id.back);
 
+        intent1=new Intent(getActivity(), Albums.class);//创建跳转到Albums显示的窗口的Intent
+        intent2=new Intent(getActivity(), Camera.class);//创建跳转到Camera显示的窗口的Intent
+
+
+
+        CheckAndroidPermission();
+
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,15 +72,13 @@ public class Fragment_main extends Fragment {
             @Override
             public void onClick(View v) {
                 //String foodname = myfoodname.getText().toString(); //存储食物名称
-                //查看相册权限，如果没权限就给权限
-                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    //没权限，给权限
-                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, CHOOSE_PHOTO);
-                    openAlbum();//打开album的界面
-                } else {
-                    //有权限 打开相册
-                    openAlbum();//打开album的界面
-                }
+//                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//                    startActivity(intent1);//进入album的窗口界面
+//                }
+//                else {
+//                    Log.v("tag", "----未授权");
+//                }
+                startActivity(intent1);//进入album的窗口界面
             }
         });
 
@@ -83,30 +91,38 @@ public class Fragment_main extends Fragment {
             @Override
             public void onClick(View v) {
                 //String foodname = myfoodname.getText().toString();
-                // 动态申请权限
-                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, TAKE_PHOTO);
-                    startCamera();
-                } else {
-                    // 启动相机程序
-                    startCamera();
-                }
+//                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+//                    startActivity(intent2);//进入camera的窗口界面
+//                }
+//                else {
+//                    Log.v("tag", "----未授权");
+//                }
+                startActivity(intent2);
             }
         });
 
         //跳转的设置
-        intent1=new Intent(getActivity(), Albums.class);//创建跳转到Albums显示的窗口的Intent
-        intent2=new Intent(getActivity(), Camera.class);//创建跳转到Camera显示的窗口的Intent
-    }
-
-    public void openAlbum() {
-        startActivity(intent1);//进入album的窗口界面
 
     }
-    public void startCamera() {
-        startActivity(intent2);//进入camera的窗口界面
 
+    private void CheckAndroidPermission() {
+        List<String> permissionLists = new ArrayList<>();
+        if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            permissionLists.add(Manifest.permission.CAMERA);
+        }
+        if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            permissionLists.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+        if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            permissionLists.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
+        if(!permissionLists.isEmpty()){//说明肯定有拒绝的权限
+            ActivityCompat.requestPermissions(getActivity(), permissionLists.toArray(new String[permissionLists.size()]), 100);
+        }else{
+
+        }
     }
+
     public void changeImage() {
         int[] mArray = {
 //                R.drawable.suggestion1,

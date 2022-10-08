@@ -39,6 +39,7 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent">
+
             <TextView
                 android:id="@+id/bottom_bar_text_1"
                 android:layout_width="match_parent"
@@ -49,7 +50,8 @@
                 android:gravity="center"
                 android:text="分析营养成分"
                 android:textColor="#000000"
-                android:textSize="14sp"/>
+
+                android:textSize="14sp" />
             <ImageView
                 android:id="@+id/bottom_bar_image_1"
                 android:layout_width="30dp"
@@ -58,6 +60,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="2dp"
+                android:background="@drawable/selector"
                 android:src="@drawable/main_normal"/>
         </RelativeLayout>
 
@@ -87,6 +90,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="2dp"
                 android:layout_marginBottom="1dp"
+                android:background="@drawable/selector"
                 android:src="@drawable/me_normal" />
         </RelativeLayout>
 
@@ -114,6 +118,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="2dp"
+                android:background="@drawable/selector"
                 android:src="@drawable/my_normal"/>
         </RelativeLayout>
 
