@@ -74,7 +74,7 @@ public class ResetPassword extends BaseActivity{
 
                     if (phoneAuth.resetPassword(username, password, verifycode)) {
                         Toast.makeText(getApplicationContext(), "重置成功，请登录", Toast.LENGTH_SHORT).show();
-                        startActivity(intent);
+                        // startActivity(intent);
                         finish();
                     } else {
                         Toast.makeText(getApplicationContext(), "重置失败，请重试", Toast.LENGTH_SHORT).show();

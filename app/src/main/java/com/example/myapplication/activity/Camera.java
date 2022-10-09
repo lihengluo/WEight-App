@@ -143,6 +143,8 @@ public class Camera extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.albums);
+
+
         pestDection=super.findViewById(R.id.pestDetection);
         //pictureSave=super.findViewById(R.id.pictureSave);
         cameraPicture = super.findViewById(R.id.picture);
@@ -181,9 +183,9 @@ public class Camera extends BaseActivity {
             imageUri = Uri.fromFile(outputImage);
         }
         // 动态申请权限
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions( this, new String[]{Manifest.permission.CAMERA}, TAKE_PHOTO);
-            }
+//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions( this, new String[]{Manifest.permission.CAMERA}, TAKE_PHOTO);
+//            }
 
         startCamera();
 
