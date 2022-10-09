@@ -79,7 +79,9 @@ public class Register extends BaseActivity {
 
                     if (phoneAuth.createUser(username, verifycode, password)) {
                         Toast.makeText(getApplicationContext(), "注册成功，正在跳转...", Toast.LENGTH_SHORT).show();
-                        startActivity(intent);
+                        // startActivity(intent);
+                        PhoneAuth phoneAuth = new PhoneAuth();
+                        phoneAuth.signOut();
                         finish();
                     } else {
                         Toast.makeText(getApplicationContext(), "注册失败，账户已经注册或者密码强度过低", Toast.LENGTH_SHORT).show();
