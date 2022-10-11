@@ -125,9 +125,9 @@ public class Fragment_main extends Fragment {
 
     public void changeImage() {
         int[] mArray = {
-//                R.drawable.suggestion1,
-//                R.drawable.suggestion2,
-//                R.drawable.suggestion3,
+                R.drawable.suggestion1,
+                R.drawable.suggestion2,
+                R.drawable.suggestion3,
 //                R.drawable.suggestion4,
 //                R.drawable.suggestion5,
 //                R.drawable.suggestion6,
@@ -182,7 +182,7 @@ public class Fragment_main extends Fragment {
 
     public int[] getArray() {
         Random r1 = new Random();
-        int b = r1.nextInt(12);
+        int b = r1.nextInt(15);
 
         //创建一个包含5个元素的数组, 存放随机数
         int[] a = new int[5];
@@ -192,13 +192,13 @@ public class Fragment_main extends Fragment {
 
         //外层,用来放剩余的四个元素,下标从1开始
         for (int i = 1; i < a.length; i++) {
-            b = r1.nextInt(12);
+            b = r1.nextInt(15);
 
             //将取到的随机数,与已经存在的元素进行比较，从下标=0开始比较
             for (int num = 0; num < i; num++) {
                 //如果和已经存在元素相同,需要重新取随机数,并且新取到的随机数要重新与a[0]开始比较,知道取到的随机数不重复
                 while (b == a[num]) {
-                    b = r1.nextInt(12);
+                    b = r1.nextInt(15);
                     num = 0;
                 }
             }
