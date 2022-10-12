@@ -216,7 +216,6 @@ public class Main extends BaseActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("FirstRun", 0);
         Boolean first_run = sharedPreferences.getBoolean("First", true);
         if (first_run) {
-            sharedPreferences.edit().putBoolean("First", false).commit();
             PrivateDialog.getInstace().message("").sure("同意并继续").cancle("退出应用")
                     .setOnTipItemClickListener(new PrivateDialog.OnTipItemClickListener() {
                         @Override
@@ -226,6 +225,7 @@ public class Main extends BaseActivity {
 
                         @Override
                         public void sureClick() {
+                            sharedPreferences.edit().putBoolean("First", false).commit();
                             //进入app
                         }
 
