@@ -1,6 +1,8 @@
 package com.example.myapplication.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -45,6 +47,8 @@ public class Main extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        firstRun();
 
         //找到控件
         mybuttonlogin = findViewById(R.id.btn_login);
@@ -206,5 +210,34 @@ public class Main extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         AGConnectApi.getInstance().activityLifecycle().onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void firstRun() {
+        SharedPreferences sharedPreferences = getSharedPreferences("FirstRun", 0);
+        Boolean first_run = sharedPreferences.getBoolean("First", true);
+        if (first_run) {
+            sharedPreferences.edit().putBoolean("First", false).commit();
+            PrivateDialog.getInstace().message("").sure("同意并继续").cancle("退出应用")
+                    .setOnTipItemClickListener(new PrivateDialog.OnTipItemClickListener() {
+                        @Override
+                        public void cancleClick() {
+                            finishAffinity();
+                        }
+
+                        @Override
+                        public void sureClick() {
+                            //进入app
+                        }
+
+                        @Override
+                        public void termsClick() {
+                            final Uri uri= Uri.parse("https://beneficial-player-058.notion.site/WEight-9be6a1f7f5774195af96381373d486f8");
+                            Intent intent=new Intent(Intent.ACTION_VIEW,uri);
+                            startActivity(intent);
+                            //跳转至隐私政策
+//                        startActivity((new Intent(MainActivity.this, TermActivity.class)));
+                        }
+                    }).create(this);
+        }
     }
 }
