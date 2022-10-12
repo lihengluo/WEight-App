@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 
 public class Fragment_main extends Fragment {
 
@@ -78,7 +80,16 @@ public class Fragment_main extends Fragment {
 //                else {
 //                    Log.v("tag", "----未授权");
 //                }
-                startActivity(intent1);//进入album的窗口界面
+                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                        ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText("未授权读取媒体文件权限！")
+                            .setContentText("请在设置中授权！")
+                            .setConfirmText("确认")
+                            .show();
+                } else {
+                    startActivity(intent1);//进入album的窗口界面
+                }
             }
         });
 
@@ -90,14 +101,22 @@ public class Fragment_main extends Fragment {
         takePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //String foodname = myfoodname.getText().toString();
+                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText("未授权相机拍摄权限！")
+                            .setContentText("请在设置中授权！")
+                            .setConfirmText("确认")
+                            .show();
+                } else {
+                    //String foodname = myfoodname.getText().toString();
 //                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
 //                    startActivity(intent2);//进入camera的窗口界面
 //                }
 //                else {
 //                    Log.v("tag", "----未授权");
 //                }
-                startActivity(intent2);
+                    startActivity(intent2);
+                }
             }
         });
 
