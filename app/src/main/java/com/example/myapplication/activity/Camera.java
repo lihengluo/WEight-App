@@ -81,47 +81,41 @@ public class Camera extends BaseActivity {
                 Goods good = (Goods) msg.obj;
                 int code = msg.arg1;
                 if (code == -1) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "未识别到食物！请重新选取图片！3秒后跳转~", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                    Intent intent6 = new Intent(getApplicationContext(), Bottom_bar.class);
-                    Timer timer = new Timer();
-                    TimerTask task = new TimerTask() {
-                        @Override
-                        public void run() {
-                            //startActivity(intent6); //执行
-                            finish();
-                        }
-                    };
-                    timer.schedule(task, 1000 * 3); //3秒后
+                    new SweetAlertDialog(cameraPicture.getContext(), SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText("未识别到食物！")
+                            .setContentText("请重新选取图片！")
+                            .setConfirmText("确认")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    finish();
+                                }
+                            })
+                            .show();
                 } else if (code == -2) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "食物未在数据库中收录！请重新选取图片！3秒后跳转~", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                    Intent intent6 = new Intent(getApplicationContext(), Bottom_bar.class);
-                    Timer timer = new Timer();
-                    TimerTask task = new TimerTask() {
-                        @Override
-                        public void run() {
-                            //startActivity(intent6); //执行
-                            finish();
-                        }
-                    };
-                    timer.schedule(task, 1000 * 3); //3秒后
+                    new SweetAlertDialog(cameraPicture.getContext(), SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText("该食物未在数据库中收录！")
+                            .setContentText("请重新选取图片！")
+                            .setConfirmText("确认")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    finish();
+                                }
+                            })
+                            .show();
                 } else if (code == -3) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "无法连接服务器！请稍后重试！3秒后跳转~", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                    Intent intent6 = new Intent(getApplicationContext(), Bottom_bar.class);
-                    Timer timer = new Timer();
-                    TimerTask task = new TimerTask() {
-                        @Override
-                        public void run() {
-                            //startActivity(intent6); //执行
-                            finish();
-                        }
-                    };
-                    timer.schedule(task, 1000 * 3); //3秒后
+                    new SweetAlertDialog(cameraPicture.getContext(), SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("无法连接服务器！")
+                            .setContentText("请稍后再试！")
+                            .setConfirmText("确认")
+                            .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    finish();
+                                }
+                            })
+                            .show();
                 } else {
                     //传输数据
                     intent3.putExtra("foodname", good.getFoodName());

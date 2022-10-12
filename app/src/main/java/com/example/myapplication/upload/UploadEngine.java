@@ -52,11 +52,11 @@ public class UploadEngine extends AUpDownloadEngine {
     @Override
     void initManager() {
         GlobalRequestConfig commonConfig = UploadManager.newGlobalRequestConfigBuilder()
-                .callTimeoutMillis(9999999999999L)
-                .connectTimeoutMillis(9999999999L)
-                .pingIntervalMillis(9999999999999L)
-                .readTimeoutMillis(9999999999999L)
-                .writeTimeoutMillis(9999999999999L)
+                .callTimeoutMillis(0)
+                .connectTimeoutMillis(15000L)
+                .pingIntervalMillis(0)
+                .readTimeoutMillis(15000L)
+                .writeTimeoutMillis(15000L)
                 .retryTimes(1)
                 .build();
         upManager = (UploadManager) new UploadManager
