@@ -156,12 +156,31 @@ public class Fragment_main extends Fragment {
                   R.drawable.suggestion10,
                   R.drawable.suggestion11,
                   R.drawable.suggestion12,
-                R.drawable.suggestion13,
-                R.drawable.suggestion14,
-                R.drawable.suggestion15,
-                R.drawable.suggestion16,
-                R.drawable.suggestion17,
-                R.drawable.suggestion18,
+                  R.drawable.suggestion13,
+                  R.drawable.suggestion14,
+                  R.drawable.suggestion15,
+                  R.drawable.suggestion16,
+                  R.drawable.suggestion17,
+                R.drawable.suggestion20,
+                R.drawable.suggestion21,
+                R.drawable.suggestion22,
+                R.drawable.suggestion23,
+                R.drawable.suggestion24,
+                R.drawable.suggestion25,
+                R.drawable.suggestion26,
+                R.drawable.suggestion27,
+                R.drawable.suggestion28,
+                R.drawable.suggestion29,
+                R.drawable.suggestion30,
+                R.drawable.suggestion31,
+                R.drawable.suggestion32,
+                R.drawable.suggestion33,
+                R.drawable.suggestion34,
+                R.drawable.suggestion35,
+                R.drawable.suggestion36,
+                R.drawable.suggestion37,
+                R.drawable.suggestion38,
+                R.drawable.suggestion39,
         };
         LinearLayout[] lArray = {
                 (LinearLayout) getView().findViewById(R.id.layout1),
@@ -201,7 +220,7 @@ public class Fragment_main extends Fragment {
 
     public int[] getArray() {
         Random r1 = new Random();
-        int b = r1.nextInt(15);
+        int b = r1.nextInt(35);
 
         //创建一个包含5个元素的数组, 存放随机数
         int[] a = new int[5];
@@ -211,13 +230,13 @@ public class Fragment_main extends Fragment {
 
         //外层,用来放剩余的四个元素,下标从1开始
         for (int i = 1; i < a.length; i++) {
-            b = r1.nextInt(15);
+            b = r1.nextInt(35);
 
             //将取到的随机数,与已经存在的元素进行比较，从下标=0开始比较
             for (int num = 0; num < i; num++) {
                 //如果和已经存在元素相同,需要重新取随机数,并且新取到的随机数要重新与a[0]开始比较,知道取到的随机数不重复
                 while (b == a[num]) {
-                    b = r1.nextInt(15);
+                    b = r1.nextInt(35);
                     num = 0;
                 }
             }
