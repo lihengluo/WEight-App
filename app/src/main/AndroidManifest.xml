@@ -35,9 +35,6 @@
             android:name=".activity.Bottom_bar"
             android:exported="false" />
         <activity
-            android:name=".activity.Edit_dialog"
-            android:exported="false" />
-        <activity
             android:name=".activity.Main"
             android:exported="true">
 
@@ -72,9 +69,6 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity
-            android:name=".activity.ListTableActivity"
-            android:exported="false" />
         <activity android:name=".activity.Analyze" />
 
         <provider

@@ -100,7 +100,7 @@ public class Main extends BaseActivity {
                 if (!FunctionUtils.isFastDoubleClick()) {
                     Intent intent2 = new Intent(getApplicationContext(), Register.class);
                     startActivity(intent2);
-                    // finish();
+                    finish();
                 }
             }
         });
@@ -111,7 +111,7 @@ public class Main extends BaseActivity {
                 if (!FunctionUtils.isFastDoubleClick()) {
                     Intent intent2 = new Intent(getApplicationContext(), ResetPassword.class);
                     startActivity(intent2);
-                    // finish();
+                    finish();
                 }
             }
         });

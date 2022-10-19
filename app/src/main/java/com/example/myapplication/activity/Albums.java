@@ -52,14 +52,11 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 public class Albums extends BaseActivity {
     private  ImageView albumsPicture;
     public static final int CHOOSE_PHOTO = 2;
-    private Button pestDection=null;
-    //private Button pictureSave=null;
-    private Intent intent2;
+    private Button pestDection;
     private Intent intent3;
     private EditText A1;
     private EditText B1;
-    SharedPreferences preferences;
-    SharedPreferences.Editor editor;
+
     String imagePath;
     String focal = "27";
     // handler + thread 处理post请求
@@ -126,19 +123,14 @@ public class Albums extends BaseActivity {
 
 
     protected void onCreate(Bundle savedInstanceState) {
-        //Bundle类型的数据与Map类型的数据相似，都是以key-value的形式存储数据的。
-        super.onCreate(savedInstanceState);  //调用父类的onCreate构造函数
+        super.onCreate(savedInstanceState);
 
-        //运用albums的布局
         setContentView(R.layout.albums);
-
+        //action bar
         //声明控件
         pestDection=super.findViewById(R.id.pestDetection);
-        //pictureSave=super.findViewById(R.id.pictureSave);
         albumsPicture = super.findViewById(R.id.picture);
 
-        //获取权限
-//        // action bar
         final ImageView back = (ImageView) this.findViewById(R.id.back);
 
         back.setOnClickListener(new View.OnClickListener() {
@@ -162,7 +154,6 @@ public class Albums extends BaseActivity {
 
     }
 
-    //利用外部类实现点击事件
 
     //点击“图像检测”按钮
     private class pestDectionFuntion implements View.OnClickListener {
@@ -173,14 +164,11 @@ public class Albums extends BaseActivity {
         }
     }
 
-    @Override  //@Override是伪代码,表示重写 下边的方法是继承父类的方法，对其覆盖
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case CHOOSE_PHOTO:
-                //相册照片
-
-                //进行照片的处理
                 if (requestCode == CHOOSE_PHOTO && resultCode == RESULT_OK && null != data) {
                     if (Build.VERSION.SDK_INT >= 19) { //版本要求
                         handleImageOnKitkat(data); //满足要求的以此种形式处理照片
@@ -200,9 +188,6 @@ public class Albums extends BaseActivity {
     }
 
     //对地址进行解析，根据三种不同的提供Uri方式采用不同的方法。
-    //document 类型的 Uri
-    //content 类型的 uri
-    //file 类型的 Uri
     @TargetApi(19)
     private void handleImageOnKitkat(Intent data) {
         imagePath = null;

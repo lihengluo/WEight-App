@@ -63,7 +63,6 @@ public class Camera extends BaseActivity {
     private ImageView cameraPicture;
     public static final int TAKE_PHOTO = 1;
     private Button pestDection=null;
-    //private Button pictureSave=null;
     private Intent intent3, intent2;
     private Uri imageUri;
     private EditText A1;
@@ -72,6 +71,7 @@ public class Camera extends BaseActivity {
     SharedPreferences.Editor editor;
     public static Bitmap bitmap;
     String focal = "27";
+
     // handler + thread 处理post请求
     private Handler mHandler = new Handler(Looper.myLooper()) {
         @Override
@@ -154,7 +154,7 @@ public class Camera extends BaseActivity {
 
          //并将它存放在手机SD卡的应用关联缓存目录下
         File outputImage = new File(getExternalCacheDir(), "output_image.jpg");
-        // 对照片的更换设置,每次只能存一张图片
+
         try {
             // 如果上一次的照片存在，就删除
             if (outputImage.exists()) {
@@ -176,16 +176,12 @@ public class Camera extends BaseActivity {
             Log.d("MainActivity", outputImage.toString() + "手机系统版本低于Android7.0");
             imageUri = Uri.fromFile(outputImage);
         }
-        // 动态申请权限
-//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-//            ActivityCompat.requestPermissions( this, new String[]{Manifest.permission.CAMERA}, TAKE_PHOTO);
-//            }
+
 
         startCamera();
 
         pestDection.setOnClickListener(new Camera.pestDectionFuntion());
 
-        //pictureSave.setOnClickListener(new Camera.pictureSaveFunction());
 
     }
     private void startCamera() {
@@ -195,8 +191,7 @@ public class Camera extends BaseActivity {
         startActivityForResult(intent4, TAKE_PHOTO);
 
     }
-    //当我们在第一个Activity打开第二个Activity时，第二个Activity关闭并想返回数据给第一个Activity时，
-    // 我们就要重写onActivityResult(int requestCode, int resultCode, Intent data)
+
     private class pestDectionFuntion implements View.OnClickListener {
 
         public void onClick(View view){
