@@ -196,7 +196,6 @@ public class Camera extends BaseActivity {
 
         public void onClick(View view){
             showDialog();
-
         }
     }
 

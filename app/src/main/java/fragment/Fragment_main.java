@@ -1,17 +1,30 @@
 package fragment;
 
 import android.Manifest;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import android.util.Log;
+import android.os.Environment;
+import android.os.FileUtils;
+import android.provider.MediaStore;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +35,17 @@ import android.widget.LinearLayout;
 import com.example.myapplication.R;
 import com.example.myapplication.activity.Albums;
 import com.example.myapplication.activity.Camera;
-import com.example.myapplication.activity.Bottom_bar;
 
+import android.content.Context;
+import android.widget.Toast;
+
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -120,9 +142,148 @@ public class Fragment_main extends Fragment {
             }
         });
 
-        //跳转的设置
+        Button example = (Button) getView().findViewById(R.id.examples);
+
+        example.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog();
+            }
+        });
+    }
+
+
+    private void showDialog(){
+        LayoutInflater inflater = getLayoutInflater();
+        View view_par2 = inflater.inflate(R.layout.par_dialog2,null,false);
+        ImageView examples1 = (ImageView) super.getView().findViewById(R.id.example1);
+        SweetAlertDialog dialog = new SweetAlertDialog(view_par2.getContext(), SweetAlertDialog.CUSTOM_IMAGE_TYPE)
+                .setTitleText("食 品 示 例")
+                .setCustomView(view_par2)
+                .setCancelText("返回")
+                .setConfirmText("保存示例图片")
+                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog.dismiss();
+                    }
+                })
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        //TODO
+                        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.example1);
+                        File appDir = new File(Environment.getExternalStorageDirectory(),"examples");
+                        if (!appDir.exists()) {
+                            appDir.mkdir();
+                        }
+                        String fileName = System.currentTimeMillis() + ".jpeg";
+                        File file = new File(appDir, fileName);
+                        try {
+                            FileOutputStream fos = new FileOutputStream(file);
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+                            fos.flush();
+                            fos.close();
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        // 其次把文件插入到系统图库
+                        try {
+                            MediaStore.Images.Media.insertImage(getActivity().getContentResolver(),
+                                    file.getAbsolutePath(), fileName, null);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+
+                        getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse(file.getAbsolutePath())));
+//                        Intent intent = new Intent("android.intent.action.CART_BROADCAST");
+//                        Uri uri = Uri.fromFile(file);
+//                        intent.setData(uri);
+//                        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+
+                        Toast toast1 = Toast.makeText(getContext(), "保存示例成功，试用图片进行分析吧！", Toast.LENGTH_SHORT);
+                        toast1.setGravity(Gravity.CENTER, 0, 0);
+                        toast1.show();
+
+                    }
+                });
+
+
+        dialog.show();
+        //此处设置位置窗体大小，我这里设置为了手机屏幕宽度的3/4  注意一定要在show方法调用后再写设置窗口大小的代码，否则不起效果会
 
     }
+
+    private void imgMerge() {
+        new Thread(() -> {
+            try {
+                Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.example1);
+                File file = new File(Environment.getExternalStorageDirectory(),"1");
+                if (!file.exists()) {
+                    file.createNewFile();
+                }
+                //添加水印文字位置。
+                //保存到系统相册
+                savePhotoAlbum(bitmap, file);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    /**
+     * 保存到相册
+     *
+     * @param src  源图片
+     * @param file 要保存到的文件
+     */
+    private void savePhotoAlbum(Bitmap src, File file) {
+
+        //先保存到文件
+        OutputStream outputStream;
+        try {
+            outputStream = new BufferedOutputStream(new FileOutputStream(file));
+            src.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+            if (!src.isRecycled()) {
+                src.recycle();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        //再更新图库
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            ContentValues values = new ContentValues();
+            values.put(MediaStore.MediaColumns.DISPLAY_NAME, file.getName());
+            values.put(MediaStore.MediaColumns.MIME_TYPE, "JPG");
+            values.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DCIM);
+            ContentResolver contentResolver = getActivity().getContentResolver();
+            Uri uri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,  values);
+            if (uri == null) {
+                return;
+            }
+            try {
+                outputStream = contentResolver.openOutputStream(uri);
+                FileInputStream fileInputStream = new FileInputStream(file);
+                FileUtils.copy(fileInputStream, outputStream);
+                fileInputStream.close();
+                outputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            MediaScannerConnection.scanFile(
+                    getContext(),
+                    new String[]{file.getAbsolutePath()},
+                    new String[]{"image/jpeg"},
+                    (path, uri) -> {
+                        // Scan Completed
+                    });
+        }
+    }
+
 
     private void CheckAndroidPermission() {
         List<String> permissionLists = new ArrayList<>();
