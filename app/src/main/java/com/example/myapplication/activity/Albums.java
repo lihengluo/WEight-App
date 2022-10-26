@@ -70,7 +70,7 @@ public class Albums extends BaseActivity {
                 if (code == -1) {
                     new SweetAlertDialog(albumsPicture.getContext(), SweetAlertDialog.WARNING_TYPE)
                             .setTitleText("未识别到食物！")
-                            .setContentText("请重新选取图片！")
+                            .setContentText("请重新选择食物，建议选择中国菜！")
                             .setConfirmText("确认")
                             .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
