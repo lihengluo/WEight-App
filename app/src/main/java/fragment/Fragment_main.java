@@ -158,16 +158,16 @@ public class Fragment_main extends Fragment {
         View view_par2 = inflater.inflate(R.layout.par_dialog2,null,false);
         ImageView examples1 = (ImageView) super.getView().findViewById(R.id.example1);
         SweetAlertDialog dialog = new SweetAlertDialog(view_par2.getContext(), SweetAlertDialog.CUSTOM_IMAGE_TYPE)
-                .setTitleText("食 品 示 例")
+                .setTitleText("照 片 示 例")
                 .setCustomView(view_par2)
                 .setCancelText("返回")
-                .setConfirmText("保存示例图片")
-                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        sweetAlertDialog.dismiss();
-                    }
-                })
+//                .setConfirmText("我已知晓")
+//                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                    @Override
+//                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+//                        sweetAlertDialog.dismiss();
+//                    }
+//                })
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {

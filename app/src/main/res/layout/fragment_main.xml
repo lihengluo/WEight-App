@@ -185,17 +185,17 @@
                 android:layout_gravity="right"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="0.6"
-                android:text="\t温馨提示：请选择用近似圆形容器盛放的菜品"
+                android:text="\t温馨提示：请选择用容器盛放的菜品"
                 android:textColor="@color/grey"
                 android:textSize="17sp" />
 
             <Button
                 android:id="@+id/examples"
-                android:layout_width="10dp"
-                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="12dp"
-                android:layout_weight="0.4"
                 android:background="@drawable/questionmark" />
         </LinearLayout>
     </LinearLayout>
