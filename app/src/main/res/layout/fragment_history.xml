@@ -9,7 +9,7 @@
         android:id="@+id/profile_photo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/bg5"
+        android:src="@drawable/bg8"
         android:scaleType="centerCrop"
         />
     <RelativeLayout
@@ -44,19 +44,19 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:layout_width="300dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
         >
 
         <Button
             android:id="@+id/user_info"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:background="@drawable/selector"
             android:text="账户信息"
             android:textStyle="bold"
@@ -67,8 +67,8 @@
         <Button
             android:id="@+id/user_logout"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="5dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/selector"
             android:text="退出登录"
             android:textStyle="bold"
@@ -79,8 +79,8 @@
         <Button
             android:id="@+id/user_delete"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="5dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
             android:text="注销账户"
             android:background="@drawable/selector"
             android:textStyle="bold"
@@ -92,8 +92,8 @@
             android:id="@+id/user_aboutus"
             android:layout_width="match_parent"
             android:background="@drawable/selector"
-            android:layout_height="60dp"
-            android:layout_marginTop="5dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
             android:text="关于我们"
             android:textStyle="bold"
             android:textSize="18sp"
