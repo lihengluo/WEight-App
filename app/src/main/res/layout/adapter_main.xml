@@ -43,7 +43,7 @@
             android:layout_marginTop="0dp"
             android:src="@mipmap/ic_launcher"
             android:scaleType="fitCenter"
-            android:layout_marginLeft="10dp" />
+            android:layout_marginLeft="25dp" />
 
         <RelativeLayout
             android:id="@+id/re_1"
