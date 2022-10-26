@@ -54,7 +54,7 @@
         >
 
         <LinearLayout
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="38dp"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="horizontal"
@@ -177,10 +177,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="提醒：请一次选择一种食物！"
+            android:text="温馨提示：请选择用圆形容器盛放的菜品！"
             android:textColor="@color/grey"
             android:layout_gravity="center"
-            android:textSize="18sp"
+            android:textSize="16sp"
             />
     </LinearLayout>
     </LinearLayout>

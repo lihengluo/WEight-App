@@ -286,9 +286,9 @@ public class Fragment_me extends Fragment {
             String createFileName = System.currentTimeMillis() + ".jpg";
             storage.downloadUserFile(reference, new File(getActivity().getExternalCacheDir(), createFileName));
             mList.add(new MainBean(getActivity().getExternalCacheDir() + "/" + createFileName,
-                    dietRecord.getFoodname(), decimalTwo(dietRecord.getHeat())+"大卡", decimalTwo(dietRecord.getCarbohydrate())+"克",
-                    decimalTwo(dietRecord.getProtein())+"克", decimalTwo(dietRecord.getFat())+"克",
-                    decimalTwo(dietRecord.getCa())+"毫克", decimalTwo(dietRecord.getFe())+"毫克"));
+                    dietRecord.getFoodname(), String.valueOf(decimalTwo(dietRecord.getHeat())), String.valueOf(decimalTwo(dietRecord.getCarbohydrate())),
+                    String.valueOf(decimalTwo(dietRecord.getProtein())), String.valueOf(decimalTwo(dietRecord.getFat())),
+                    String.valueOf(decimalTwo(dietRecord.getCa())), String.valueOf(decimalTwo(dietRecord.getFe()))));
         }
         flagsear = 0;
         return mList;
