@@ -158,56 +158,49 @@ public class Fragment_main extends Fragment {
         View view_par2 = inflater.inflate(R.layout.par_dialog2,null,false);
         ImageView examples1 = (ImageView) super.getView().findViewById(R.id.example1);
         SweetAlertDialog dialog = new SweetAlertDialog(view_par2.getContext(), SweetAlertDialog.CUSTOM_IMAGE_TYPE)
-                .setTitleText("照 片 示 例")
+                .setTitleText("食 品 示 例")
                 .setCustomView(view_par2)
-                .setCancelText("返回")
-//                .setConfirmText("我已知晓")
-//                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-//                    @Override
-//                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-//                        sweetAlertDialog.dismiss();
-//                    }
-//                })
+                .setConfirmText("我已知晓")
+                .setCancelClickListener(null)
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        //TODO
-                        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.example1);
-                        File appDir = new File(Environment.getExternalStorageDirectory(),"examples");
-                        if (!appDir.exists()) {
-                            appDir.mkdir();
-                        }
-                        String fileName = System.currentTimeMillis() + ".jpeg";
-                        File file = new File(appDir, fileName);
-                        try {
-                            FileOutputStream fos = new FileOutputStream(file);
-                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                            fos.flush();
-                            fos.close();
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-                        // 其次把文件插入到系统图库
-                        try {
-                            MediaStore.Images.Media.insertImage(getActivity().getContentResolver(),
-                                    file.getAbsolutePath(), fileName, null);
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        }
-
-                        getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse(file.getAbsolutePath())));
-//                        Intent intent = new Intent("android.intent.action.CART_BROADCAST");
-//                        Uri uri = Uri.fromFile(file);
-//                        intent.setData(uri);
-//                        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
-
-                        Toast toast1 = Toast.makeText(getContext(), "保存示例成功，试用图片进行分析吧！", Toast.LENGTH_SHORT);
-                        toast1.setGravity(Gravity.CENTER, 0, 0);
-                        toast1.show();
-
+//                        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.example1);
+//                        File appDir = new File(Environment.getExternalStorageDirectory(),"examples");
+//                        if (!appDir.exists()) {
+//                            appDir.mkdir();
+//                        }
+//                        String fileName = System.currentTimeMillis() + ".jpeg";
+//                        File file = new File(appDir, fileName);
+//                        try {
+//                            FileOutputStream fos = new FileOutputStream(file);
+//                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+//                            fos.flush();
+//                            fos.close();
+//                        } catch (FileNotFoundException e) {
+//                            e.printStackTrace();
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//
+//                        // 其次把文件插入到系统图库
+//                        try {
+//                            MediaStore.Images.Media.insertImage(getActivity().getContentResolver(),
+//                                    file.getAbsolutePath(), fileName, null);
+//                        } catch (FileNotFoundException e) {
+//                            e.printStackTrace();
+//                        }
+//
+//                        getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse(file.getAbsolutePath())));
+////                        Intent intent = new Intent("android.intent.action.CART_BROADCAST");
+////                        Uri uri = Uri.fromFile(file);
+////                        intent.setData(uri);
+////                        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
+//
+//                        Toast toast1 = Toast.makeText(getContext(), "保存示例成功，试用图片进行分析吧！", Toast.LENGTH_SHORT);
+//                        toast1.setGravity(Gravity.CENTER, 0, 0);
+//                        toast1.show();
+                        sweetAlertDialog.dismiss();
                     }
                 });
 

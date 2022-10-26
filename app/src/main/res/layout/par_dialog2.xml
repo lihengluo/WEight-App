@@ -27,7 +27,7 @@
                 >
                 <ImageView
                     android:id="@+id/example1"
-                    android:layout_width="160dp"
+                    android:layout_width="200dp"
                     android:layout_height="150dp"
                     android:layout_centerInParent="true"
                     android:scaleType="fitXY"
@@ -36,7 +36,7 @@
                     />
                 <ImageView
                     android:id="@+id/example2"
-                    android:layout_width="150dp"
+                    android:layout_width="200dp"
                     android:layout_height="150dp"
                     android:layout_centerInParent="true"
                     android:scaleType="fitXY"
@@ -46,7 +46,7 @@
                     />
                 <ImageView
                     android:id="@+id/example3"
-                    android:layout_width="150dp"
+                    android:layout_width="200dp"
                     android:layout_height="150dp"
                     android:layout_centerInParent="true"
                     android:scaleType="fitXY"
@@ -56,7 +56,7 @@
                     />
                 <ImageView
                     android:id="@+id/example4"
-                    android:layout_width="150dp"
+                    android:layout_width="200dp"
                     android:layout_height="150dp"
                     android:layout_centerInParent="true"
                     android:scaleType="fitXY"
@@ -66,7 +66,7 @@
                     />
                 <ImageView
                     android:id="@+id/example5"
-                    android:layout_width="150dp"
+                    android:layout_width="200dp"
                     android:layout_height="150dp"
                     android:layout_centerInParent="true"
                     android:scaleType="fitXY"
