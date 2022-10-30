@@ -407,56 +407,105 @@ public class Albums extends BaseActivity {
         // TODO 将替换为选择食物的弹窗
         //当用户输入完参数后，监听云端是否返回结果
         // register both UI elements with their appropriate IDs.
-        bOpenAlertDialog = findViewById(R.id.openAlertDialogButton);
         tvSelectedItemPreview = findViewById(R.id.selectedItemPreview);
 
         // single item array instance to store which element is selected by user initially
         // it should be set to zero meaning none of the element is selected by default
         final int[] checkedItem = {-1};
 
-        // handle the button to open the alert dialog with the single item selection when clicked
-        bOpenAlertDialog.setOnClickListener(v -> {
-            // AlertDialog builder instance to build the alert dialog
-            AlertDialog.Builder alertDialog = new AlertDialog.Builder(Albums.this);
+        // AlertDialog builder instance to build the alert dialog
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(Albums.this);
 
-            // set the custom icon to the alert dialog
-            alertDialog.setIcon(R.mipmap.logo);
+        // set the custom icon to the alert dialog
+        alertDialog.setIcon(R.mipmap.logo);
 
-            // title of the alert dialog
-            alertDialog.setTitle("请选择您所拍摄的食物名称");
+        // title of the alert dialog
+        alertDialog.setTitle("请选择您所拍摄的食物名称");
 
-            // list of the items to be displayed to the user in the
-            // form of list so that user can select the item from
-            // 设置食物名称
-            final String[] listItems = new String[]{"麻婆豆腐", "牛肉面", "汉堡", "以上均不是，返回主界面重新选择图片"};
+        // list of the items to be displayed to the user in the
+        // form of list so that user can select the item from
+        // 设置食物名称
+        final String[] listItems = new String[]{"麻婆豆腐", "牛肉面", "汉堡", "以上均不是，返回主界面重新选择图片"};
 
-            // the function setSingleChoiceItems is the function which
-            // builds the alert dialog with the single item selection
-            alertDialog.setSingleChoiceItems(listItems, checkedItem[0], (dialog, which) -> {
-                // update the selected item which is selected by the user so that it should be selected
-                // when user opens the dialog next time and pass the instance to setSingleChoiceItems method
+        // the function setSingleChoiceItems is the function which
+        // builds the alert dialog with the single item selection
+        alertDialog.setSingleChoiceItems(listItems, checkedItem[0], (dialog, which) -> {
+            // update the selected item which is selected by the user so that it should be selected
+            // when user opens the dialog next time and pass the instance to setSingleChoiceItems method
 
-                //返回用户选择的item下标
-                checkedItem[0] = which;
-                // now also update the TextView which previews the selected item
-                tvSelectedItemPreview.setText("Selected Item is : " + listItems[which]);
+            //返回用户选择的item下标
+            checkedItem[0] = which;
+            // now also update the TextView which previews the selected item
+            tvSelectedItemPreview.setText("Selected Item is : " + listItems[which]);
 
-                // when selected an item the dialog should be closed with the dismiss method
-                dialog.dismiss();
-            });
-
-            // set the negative button if the user is not interested to select or change already selected item
-            alertDialog.setNegativeButton("取消", (dialog, which) -> {
-
-            });
-
-            // create and build the AlertDialog instance with the AlertDialog builder instance
-            AlertDialog customAlertDialog = alertDialog.create();
-
-            // show the alert dialog when the button is clicked
-            customAlertDialog.show();
-            customAlertDialog.getWindow().setLayout((ScreenUtils.getScreenWidth(this)/6*5), LinearLayout.LayoutParams.WRAP_CONTENT);
+            // when selected an item the dialog should be closed with the dismiss method
+            dialog.dismiss();
         });
+
+        // set the negative button if the user is not interested to select or change already selected item
+        alertDialog.setNegativeButton("取消", (dialog, which) -> {
+            dialog.dismiss();
+        });
+
+        alertDialog.setPositiveButton("确认", (dialog, which) -> {
+            if (!FunctionUtils.isFastDoubleClick()) {
+                dialog.dismiss();
+                SweetAlertDialog pDialog = new SweetAlertDialog(view_par.getContext(), SweetAlertDialog.PROGRESS_TYPE);
+                pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                pDialog.setTitleText("请稍后！");
+                pDialog.setContentText("正在进行食物识别与营养估计！");
+                pDialog.setCancelable(false);
+                pDialog.show();
+
+                intent3 = new Intent(getApplicationContext(), Analyze.class);
+
+                //分析接口
+                if (Build.VERSION.SDK_INT >= 23) {
+                    if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                            checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1000);
+                        requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1001);
+                    }
+                }
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        /* 等待Phase One完成 */
+                        do {
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        } while (tag == null);
+
+                        UploadEnginePhaseTwo uploadEnginePhaseTwo = new UploadEnginePhaseTwo(getApplicationContext());
+                        uploadEnginePhaseTwo.uploadToAnalyze("315", tag, Double.parseDouble(focal), Double.parseDouble(A),
+                                Double.parseDouble(B));
+                        do {
+                            try {
+                                Thread.sleep(2000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        } while (!uploadEnginePhaseTwo.flag);
+                        Message message = new Message();
+                        message.what = 0;
+                        message.obj = uploadEnginePhaseTwo.Good;
+                        message.arg1 = uploadEnginePhaseTwo.code;
+                        mHandlerPhaseTwo.sendMessage(message);
+                        pDialog.dismiss();
+                    }
+                }).start();
+            }
+        });
+
+        // create and build the AlertDialog instance with the AlertDialog builder instance
+        AlertDialog customAlertDialog = alertDialog.create();
+
+        // show the alert dialog when the button is clicked
+        customAlertDialog.show();
+        customAlertDialog.getWindow().setLayout((ScreenUtils.getScreenWidth(this)/6*5), LinearLayout.LayoutParams.WRAP_CONTENT);
     }
 
     CharSequence getSavedText(){
