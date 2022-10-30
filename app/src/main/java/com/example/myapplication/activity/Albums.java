@@ -390,6 +390,15 @@ public class Albums extends BaseActivity {
                                     focal = "27";
                                 }
 
+                                /* 等待Phase One完成 */
+                                do {
+                                    try {
+                                        Thread.sleep(2000);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                } while (tag == null);
+
                                 // 展示选择食物的弹窗
                                 showDialog2(A, B, focal);
                             }
@@ -424,8 +433,23 @@ public class Albums extends BaseActivity {
 
         // list of the items to be displayed to the user in the
         // form of list so that user can select the item from
-        // 设置食物名称
-        final String[] listItems = new String[]{"麻婆豆腐", "牛肉面", "汉堡", "以上均不是，返回主界面重新选择图片"};
+        String[] listItems = new String[]{"麻婆豆腐", "牛", "汉堡", "以上均不是，返回主界面重新选择图片"};
+
+        String[] listId = new String[]{"0", "1", "2", "3"};
+
+        String[] food_id = {""};
+
+        int i = 0;
+        for (Map.Entry<String, String> entry : top3Id.entrySet()) {
+            listId[i] = entry.getKey();
+            listItems[i] = entry.getValue();
+            i++;
+        }
+
+        for (;i < 3; i++) {
+            listId[i] = listId[i-1];
+            listItems[i] = "钝角";
+        }
 
         // the function setSingleChoiceItems is the function which
         // builds the alert dialog with the single item selection
@@ -435,11 +459,9 @@ public class Albums extends BaseActivity {
 
             //返回用户选择的item下标
             checkedItem[0] = which;
+            food_id[0] = listId[which];
             // now also update the TextView which previews the selected item
             tvSelectedItemPreview.setText("Selected Item is : " + listItems[which]);
-
-            // when selected an item the dialog should be closed with the dismiss method
-            dialog.dismiss();
         });
 
         // set the negative button if the user is not interested to select or change already selected item
@@ -450,6 +472,8 @@ public class Albums extends BaseActivity {
         alertDialog.setPositiveButton("确认", (dialog, which) -> {
             if (!FunctionUtils.isFastDoubleClick()) {
                 dialog.dismiss();
+                LayoutInflater inflater = getLayoutInflater();
+                View view_par = inflater.inflate(R.layout.par_dialog,null,false);
                 SweetAlertDialog pDialog = new SweetAlertDialog(view_par.getContext(), SweetAlertDialog.PROGRESS_TYPE);
                 pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
                 pDialog.setTitleText("请稍后！");
@@ -470,17 +494,9 @@ public class Albums extends BaseActivity {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        /* 等待Phase One完成 */
-                        do {
-                            try {
-                                Thread.sleep(1000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        } while (tag == null);
 
                         UploadEnginePhaseTwo uploadEnginePhaseTwo = new UploadEnginePhaseTwo(getApplicationContext());
-                        uploadEnginePhaseTwo.uploadToAnalyze("315", tag, Double.parseDouble(focal), Double.parseDouble(A),
+                        uploadEnginePhaseTwo.uploadToAnalyze(food_id[0], tag, Double.parseDouble(focal), Double.parseDouble(A),
                                 Double.parseDouble(B));
                         do {
                             try {
