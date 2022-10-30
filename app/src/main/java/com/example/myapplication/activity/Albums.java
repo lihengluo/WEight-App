@@ -433,7 +433,7 @@ public class Albums extends BaseActivity {
         // alertDialog.setIcon(R.mipmap.logo);
 
         // title of the alert dialog
-        alertDialog.setTitle("请选择您所拍摄的食物名称：");
+        //alertDialog.setTitle("请选择您所拍摄的食物名称：");
 
         // list of the items to be displayed to the user in the
         // form of list so that user can select the item from
@@ -524,23 +524,39 @@ public class Albums extends BaseActivity {
 
         // create and build the AlertDialog instance with the AlertDialog builder instance
         AlertDialog customAlertDialog = alertDialog.create();
-
-//        // 获取positive按钮
-//                Button pos_button = (Button)customAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-//        // 设置positive按钮样式
-//                pos_button.setBackground(ContextCompat.getDrawable(this,R.color.green));
-//                pos_button.setTextColor(ContextCompat.getColor(this,R.color.white));
-//        // 获取negative按钮
-//                Button neg_button = (Button)customAlertDialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-//        // 设置negative按钮样式
-//                neg_button.setBackground(ContextCompat.getDrawable(this,R.color.red));
-//                neg_button.setTextColor(ContextCompat.getColor(this,R.color.white));
-
         customAlertDialog.getWindow().setBackgroundDrawableResource(R.drawable.drawable_round_edge);
 
-        // show the alert dialog when the button is clicked
+        TextView title = new TextView(this);
+        title.setText("请选择您所拍摄的食物名称：");
+        title.setPadding(10, 30, 10, 10);
+        title.setTextSize(20);
+        title.setGravity(Gravity.CENTER);
+        title.setTextColor(Color.BLACK);
+        customAlertDialog.setCustomTitle(title);
+        customAlertDialog.setCancelable(false);
         customAlertDialog.show();
+        // 获取positive按钮
+        Button pos_button = (Button)customAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+
+        // 获取negative按钮
+        Button neg_button = (Button)customAlertDialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) pos_button.getLayoutParams();
+        layoutParams.weight = 10;
+        layoutParams.setMargins(30, 0, 30, 0);
+        pos_button.setLayoutParams(layoutParams);
+        neg_button.setLayoutParams(layoutParams);
+        pos_button.setBackground(ContextCompat.getDrawable(this, R.drawable.drawable_round_edgebutton));
+        pos_button.setTextColor(ContextCompat.getColor(this,R.color.white));
+        neg_button.setBackground(ContextCompat.getDrawable(this,R.drawable.drawable_round_edgebutton2));
+        neg_button.setTextColor(ContextCompat.getColor(this,R.color.white));
+        pos_button.setTextSize(20);
+        neg_button.setTextSize(20);
+
+        // show the alert dialog when the button is clicked
+
         customAlertDialog.getWindow().setLayout((ScreenUtils.getScreenWidth(this)/6*5), LinearLayout.LayoutParams.WRAP_CONTENT);
+
     }
 
     CharSequence getSavedText(){
