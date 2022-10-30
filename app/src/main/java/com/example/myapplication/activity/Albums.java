@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -71,6 +72,10 @@ public class Albums extends BaseActivity {
 
 //    private EditText A1;
 //    private EditText B1;
+
+    // Dialog2
+    Button bOpenAlertDialog;
+    TextView tvSelectedItemPreview;
 
     String imagePath;
     String focal = "27";
@@ -400,78 +405,58 @@ public class Albums extends BaseActivity {
     // Phase2选择食物弹窗
     private void showDialog2(String A, String B, String focal){
         // TODO 将替换为选择食物的弹窗
-        LayoutInflater inflater = getLayoutInflater();
-        View view_par = inflater.inflate(R.layout.par_dialog,null,false);
-        SweetAlertDialog dialog = new SweetAlertDialog(view_par.getContext(), SweetAlertDialog.CUSTOM_IMAGE_TYPE)
-                .setTitleText("请估算以下参数信息")
-                .setConfirmText("确认")
-                .setCustomView(view_par)
-                .setCancelText("取消")
-                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        sDialog.dismiss();
-                    }
-                })
-                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        if (!FunctionUtils.isFastDoubleClick()) {
-                            sDialog.dismiss();
-                            SweetAlertDialog pDialog = new SweetAlertDialog(view_par.getContext(), SweetAlertDialog.PROGRESS_TYPE);
-                            pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-                            pDialog.setTitleText("请稍后！");
-                            pDialog.setContentText("正在进行食物识别与营养估计！");
-                            pDialog.setCancelable(false);
-                            pDialog.show();
+        //当用户输入完参数后，监听云端是否返回结果
+        // register both UI elements with their appropriate IDs.
+        bOpenAlertDialog = findViewById(R.id.openAlertDialogButton);
+        tvSelectedItemPreview = findViewById(R.id.selectedItemPreview);
 
-                            intent3 = new Intent(getApplicationContext(), Analyze.class);
+        // single item array instance to store which element is selected by user initially
+        // it should be set to zero meaning none of the element is selected by default
+        final int[] checkedItem = {-1};
 
-                            //分析接口
-                            if (Build.VERSION.SDK_INT >= 23) {
-                                if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
-                                        checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1000);
-                                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1001);
-                                }
-                            }
-                            new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    /* 等待Phase One完成 */
-                                    do {
-                                        try {
-                                            Thread.sleep(1000);
-                                        } catch (InterruptedException e) {
-                                            e.printStackTrace();
-                                        }
-                                    } while (tag == null);
+        // handle the button to open the alert dialog with the single item selection when clicked
+        bOpenAlertDialog.setOnClickListener(v -> {
+            // AlertDialog builder instance to build the alert dialog
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(Albums.this);
 
-                                    UploadEnginePhaseTwo uploadEnginePhaseTwo = new UploadEnginePhaseTwo(getApplicationContext());
-                                    uploadEnginePhaseTwo.uploadToAnalyze("315", tag, Double.parseDouble(focal), Double.parseDouble(A),
-                                            Double.parseDouble(B));
-                                    do {
-                                        try {
-                                            Thread.sleep(2000);
-                                        } catch (InterruptedException e) {
-                                            e.printStackTrace();
-                                        }
-                                    } while (!uploadEnginePhaseTwo.flag);
-                                    Message message = new Message();
-                                    message.what = 0;
-                                    message.obj = uploadEnginePhaseTwo.Good;
-                                    message.arg1 = uploadEnginePhaseTwo.code;
-                                    mHandlerPhaseTwo.sendMessage(message);
-                                    pDialog.dismiss();
-                                }
-                            }).start();
-                        }
-                    }
-                });
+            // set the custom icon to the alert dialog
+            alertDialog.setIcon(R.mipmap.logo);
 
-        dialog.show();
-        //此处设置位置窗体大小，我这里设置为了手机屏幕宽度的3/4  注意一定要在show方法调用后再写设置窗口大小的代码，否则不起效果会
-        dialog.getWindow().setLayout((ScreenUtils.getScreenWidth(this)/6*5), LinearLayout.LayoutParams.WRAP_CONTENT);
+            // title of the alert dialog
+            alertDialog.setTitle("请选择您所拍摄的食物名称");
+
+            // list of the items to be displayed to the user in the
+            // form of list so that user can select the item from
+            // 设置食物名称
+            final String[] listItems = new String[]{"麻婆豆腐", "牛肉面", "汉堡", "以上均不是，返回主界面重新选择图片"};
+
+            // the function setSingleChoiceItems is the function which
+            // builds the alert dialog with the single item selection
+            alertDialog.setSingleChoiceItems(listItems, checkedItem[0], (dialog, which) -> {
+                // update the selected item which is selected by the user so that it should be selected
+                // when user opens the dialog next time and pass the instance to setSingleChoiceItems method
+
+                //返回用户选择的item下标
+                checkedItem[0] = which;
+                // now also update the TextView which previews the selected item
+                tvSelectedItemPreview.setText("Selected Item is : " + listItems[which]);
+
+                // when selected an item the dialog should be closed with the dismiss method
+                dialog.dismiss();
+            });
+
+            // set the negative button if the user is not interested to select or change already selected item
+            alertDialog.setNegativeButton("取消", (dialog, which) -> {
+
+            });
+
+            // create and build the AlertDialog instance with the AlertDialog builder instance
+            AlertDialog customAlertDialog = alertDialog.create();
+
+            // show the alert dialog when the button is clicked
+            customAlertDialog.show();
+            customAlertDialog.getWindow().setLayout((ScreenUtils.getScreenWidth(this)/6*5), LinearLayout.LayoutParams.WRAP_CONTENT);
+        });
     }
 
     CharSequence getSavedText(){
