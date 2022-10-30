@@ -138,20 +138,10 @@ public class Albums extends BaseActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-/*                    if (top3 != null)
-                        top3.clear();
-                    try {
-                        for (int i = 0; i < 3; i++) {
-                            top3.put(result.getString("top" + i + "_name"), result.getDouble("top" + i + "_confidence"));
-                        }
-                        tag = result.getString("tag");
-
-                        Log.i("s", "-----------------: " + top3);
-                        Log.i("s", "-----------------: " + tag);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }*/
                 }
+            } else if (msg.what == 1){
+                String[] p  = (String[]) msg.obj;
+                showDialog2(p[0], p[1], p[2]);
             }
 
         }
@@ -389,18 +379,29 @@ public class Albums extends BaseActivity {
                                 if (focal == null || Integer.parseInt(focal) == 0) {
                                     focal = "27";
                                 }
-
-                                /* 等待Phase One完成 */
-                                do {
-                                    try {
-                                        Thread.sleep(2000);
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
+                                SweetAlertDialog pDialog_p1 = new SweetAlertDialog(view_par.getContext(), SweetAlertDialog.PROGRESS_TYPE);
+                                pDialog_p1.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                                pDialog_p1.setTitleText("请稍后！");
+                                pDialog_p1.setContentText("正在进行食物识别！");
+                                pDialog_p1.setCancelable(false);
+                                pDialog_p1.show();
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        do {
+                                            try {
+                                                Thread.sleep(1000);
+                                            } catch (InterruptedException e) {
+                                                e.printStackTrace();
+                                            }
+                                        } while (tag == null);
+                                        Message message = new Message();
+                                        message.what = 1;
+                                        message.obj = new String[]{A,B,focal};
+                                        mHandlerPhaseOne.sendMessage(message);
+                                        pDialog_p1.dismiss();
                                     }
-                                } while (tag == null);
-
-                                // 展示选择食物的弹窗
-                                showDialog2(A, B, focal);
+                                }).start();
                             }
                         }
                     }
@@ -477,7 +478,7 @@ public class Albums extends BaseActivity {
                 SweetAlertDialog pDialog = new SweetAlertDialog(view_par.getContext(), SweetAlertDialog.PROGRESS_TYPE);
                 pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
                 pDialog.setTitleText("请稍后！");
-                pDialog.setContentText("正在进行食物识别与营养估计！");
+                pDialog.setContentText("正在进行营养估计！");
                 pDialog.setCancelable(false);
                 pDialog.show();
 
