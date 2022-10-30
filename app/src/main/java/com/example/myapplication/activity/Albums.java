@@ -417,7 +417,7 @@ public class Albums extends BaseActivity {
         // TODO 将替换为选择食物的弹窗
         //当用户输入完参数后，监听云端是否返回结果
         // register both UI elements with their appropriate IDs.
-        tvSelectedItemPreview = findViewById(R.id.selectedItemPreview);
+        // tvSelectedItemPreview = findViewById(R.id.selectedItemPreview);
 
         // single item array instance to store which element is selected by user initially
         // it should be set to zero meaning none of the element is selected by default
@@ -434,9 +434,9 @@ public class Albums extends BaseActivity {
 
         // list of the items to be displayed to the user in the
         // form of list so that user can select the item from
-        String[] listItems = new String[]{"麻婆豆腐", "牛", "汉堡", "以上均不是，返回主界面重新选择图片"};
+        String[] listItems = new String[top3Id.size()+1];
 
-        String[] listId = new String[]{"0", "1", "2", "3"};
+        String[] listId = new String[top3Id.size()+1];
 
         String[] food_id = {""};
 
@@ -446,11 +446,7 @@ public class Albums extends BaseActivity {
             listItems[i] = entry.getValue();
             i++;
         }
-
-        for (;i < 3; i++) {
-            listId[i] = listId[i-1];
-            listItems[i] = "钝角";
-        }
+        listItems[i] = "以上均不是";
 
         // the function setSingleChoiceItems is the function which
         // builds the alert dialog with the single item selection
@@ -461,8 +457,8 @@ public class Albums extends BaseActivity {
             //返回用户选择的item下标
             checkedItem[0] = which;
             food_id[0] = listId[which];
-            // now also update the TextView which previews the selected item
-            tvSelectedItemPreview.setText("Selected Item is : " + listItems[which]);
+//            // now also update the TextView which previews the selected item
+//            tvSelectedItemPreview.setText("Selected Item is : " + listItems[which]);
         });
 
         // set the negative button if the user is not interested to select or change already selected item
@@ -472,48 +468,54 @@ public class Albums extends BaseActivity {
 
         alertDialog.setPositiveButton("确认", (dialog, which) -> {
             if (!FunctionUtils.isFastDoubleClick()) {
-                dialog.dismiss();
-                LayoutInflater inflater = getLayoutInflater();
-                View view_par = inflater.inflate(R.layout.par_dialog,null,false);
-                SweetAlertDialog pDialog = new SweetAlertDialog(view_par.getContext(), SweetAlertDialog.PROGRESS_TYPE);
-                pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
-                pDialog.setTitleText("请稍后！");
-                pDialog.setContentText("正在进行营养估计！");
-                pDialog.setCancelable(false);
-                pDialog.show();
+                if (checkedItem[0] == top3Id.size()) {
+                    Toast.makeText(getApplicationContext(), "请重新选择一张照片", Toast.LENGTH_LONG).show();
+                    dialog.dismiss();
+                    finish();
+                } else {
+                    dialog.dismiss();
+                    LayoutInflater inflater = getLayoutInflater();
+                    View view_par = inflater.inflate(R.layout.par_dialog, null, false);
+                    SweetAlertDialog pDialog = new SweetAlertDialog(view_par.getContext(), SweetAlertDialog.PROGRESS_TYPE);
+                    pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                    pDialog.setTitleText("请稍后！");
+                    pDialog.setContentText("正在进行食物识别与营养估计！");
+                    pDialog.setCancelable(false);
+                    pDialog.show();
 
-                intent3 = new Intent(getApplicationContext(), Analyze.class);
+                    intent3 = new Intent(getApplicationContext(), Analyze.class);
 
-                //分析接口
-                if (Build.VERSION.SDK_INT >= 23) {
-                    if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
-                            checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1000);
-                        requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1001);
+                    //分析接口
+                    if (Build.VERSION.SDK_INT >= 23) {
+                        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                                checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1000);
+                            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1001);
+                        }
                     }
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            UploadEnginePhaseTwo uploadEnginePhaseTwo = new UploadEnginePhaseTwo(getApplicationContext());
+                            uploadEnginePhaseTwo.uploadToAnalyze(food_id[0], tag, Double.parseDouble(focal), Double.parseDouble(A),
+                                    Double.parseDouble(B));
+                            do {
+                                try {
+                                    Thread.sleep(2000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            } while (!uploadEnginePhaseTwo.flag);
+                            Message message = new Message();
+                            message.what = 0;
+                            message.obj = uploadEnginePhaseTwo.Good;
+                            message.arg1 = uploadEnginePhaseTwo.code;
+                            mHandlerPhaseTwo.sendMessage(message);
+                            pDialog.dismiss();
+                        }
+                    }).start();
                 }
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        UploadEnginePhaseTwo uploadEnginePhaseTwo = new UploadEnginePhaseTwo(getApplicationContext());
-                        uploadEnginePhaseTwo.uploadToAnalyze(food_id[0], tag, Double.parseDouble(focal), Double.parseDouble(A),
-                                Double.parseDouble(B));
-                        do {
-                            try {
-                                Thread.sleep(2000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        } while (!uploadEnginePhaseTwo.flag);
-                        Message message = new Message();
-                        message.what = 0;
-                        message.obj = uploadEnginePhaseTwo.Good;
-                        message.arg1 = uploadEnginePhaseTwo.code;
-                        mHandlerPhaseTwo.sendMessage(message);
-                        pDialog.dismiss();
-                    }
-                }).start();
             }
         });
 
