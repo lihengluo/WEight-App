@@ -29,7 +29,7 @@ android {
     buildTypes {
         // 允许debug时使用正式的应用签名，否则无法使用华为账号
         release {
-            debuggable true
+            debuggable false
             minifyEnabled false
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
