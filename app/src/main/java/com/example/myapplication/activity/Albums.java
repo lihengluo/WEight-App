@@ -571,7 +571,7 @@ public class Albums extends BaseActivity {
         CountDownTimer mTimer = new CountDownTimer(5 * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                pestDection.setText(millisUntilFinished / 1000 + 1 + "秒后可用");
+                pestDection.setText(millisUntilFinished / 1000 + 1 + "秒后可再次点击");
             }
 
             @Override
