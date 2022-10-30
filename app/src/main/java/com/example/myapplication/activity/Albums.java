@@ -18,6 +18,7 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -249,6 +250,8 @@ public class Albums extends BaseActivity {
                         mHandlerPhaseOne.sendMessage(message);
                     }
                 }).start();
+
+                countDownTime();
 
                 showDialog1();
             }
@@ -532,6 +535,25 @@ public class Albums extends BaseActivity {
     }
     void setSavedText(CharSequence text){
         ((TextView)findViewById(R.id.et_1)).setText(text);
+    }
+
+    private void countDownTime() {
+        //用安卓自带的CountDownTimer实现
+        CountDownTimer mTimer = new CountDownTimer(5 * 1000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                pestDection.setText(millisUntilFinished / 1000 + 1 + "秒后可用");
+            }
+
+            @Override
+            public void onFinish() {
+                pestDection.setClickable(true);
+                pestDection.setText("开  始  分  析");
+                cancel();
+            }
+        };
+        mTimer.start();
+        pestDection.setClickable(false);
     }
 
 }
