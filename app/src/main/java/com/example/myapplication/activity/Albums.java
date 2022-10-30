@@ -430,10 +430,10 @@ public class Albums extends BaseActivity {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(Albums.this);
 
         // set the custom icon to the alert dialog
-        alertDialog.setIcon(R.mipmap.logo);
+        // alertDialog.setIcon(R.mipmap.logo);
 
         // title of the alert dialog
-        alertDialog.setTitle("请选择您所拍摄的食物名称");
+        alertDialog.setTitle("请选择您所拍摄的食物名称：");
 
         // list of the items to be displayed to the user in the
         // form of list so that user can select the item from
@@ -524,6 +524,19 @@ public class Albums extends BaseActivity {
 
         // create and build the AlertDialog instance with the AlertDialog builder instance
         AlertDialog customAlertDialog = alertDialog.create();
+
+//        // 获取positive按钮
+//                Button pos_button = (Button)customAlertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+//        // 设置positive按钮样式
+//                pos_button.setBackground(ContextCompat.getDrawable(this,R.color.green));
+//                pos_button.setTextColor(ContextCompat.getColor(this,R.color.white));
+//        // 获取negative按钮
+//                Button neg_button = (Button)customAlertDialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+//        // 设置negative按钮样式
+//                neg_button.setBackground(ContextCompat.getDrawable(this,R.color.red));
+//                neg_button.setTextColor(ContextCompat.getColor(this,R.color.white));
+
+        customAlertDialog.getWindow().setBackgroundDrawableResource(R.drawable.drawable_round_edge);
 
         // show the alert dialog when the button is clicked
         customAlertDialog.show();
