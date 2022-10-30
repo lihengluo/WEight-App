@@ -172,9 +172,9 @@ public class UploadEnginePhaseOne extends AUpDownloadEngine {
                 httpParams.put("param2", "value2");
 
                 // replace the url for upload
-                 final String normalUrl = "http://192.168.1.29:5000/uploadone";
+                // final String normalUrl = "http://192.168.1.29:5000/uploadone";
                 // final String normalUrl = "http://124.71.153.95:5000/upload";
-                // final String normalUrl = "http://139.9.91.253:5000/upload";
+                final String normalUrl = "http://139.9.91.253:5000/uploadone";
 
                 request = UploadManager.newPostRequestBuilder()
                         .url(normalUrl)
