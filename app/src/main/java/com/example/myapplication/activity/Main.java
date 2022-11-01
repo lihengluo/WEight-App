@@ -49,7 +49,10 @@ public class Main extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         firstRun();
+    }
 
+    // 初始化Main activity
+    private void init() {
         //找到控件
         mybuttonlogin = findViewById(R.id.btn_login);
         myEtuser = findViewById(R.id.et_1);
@@ -149,29 +152,29 @@ public class Main extends BaseActivity {
                 hwButtonlogin.setClickable(false);
                 Intent intent = new Intent(getApplicationContext(), Bottom_bar.class);
                 AGConnectAuth.getInstance().signIn(Main.this, AGConnectAuthCredential.HMS_Provider).addOnSuccessListener(new OnSuccessListener<SignInResult>() {
-                    @Override
-                    public void onSuccess(SignInResult signInResult) {
-                        intent.putExtra("登录信息", "0");
-                        startActivity(intent);
-                        finish();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(Exception e) {
-                        hwButtonlogin.setClickable(true);
-                        if (e instanceof AGCAuthException) {
-                            AGCAuthException agcAuthException = (AGCAuthException) e;
-                            int errCode = agcAuthException.getCode();
-                            String message = agcAuthException.getMessage();
-                            Log.e("HUAWEI signin fail", "errorCode: " + errCode + ", message: " + message);
-                        }
+                            @Override
+                            public void onSuccess(SignInResult signInResult) {
+                                intent.putExtra("登录信息", "0");
+                                startActivity(intent);
+                                finish();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(Exception e) {
+                                hwButtonlogin.setClickable(true);
+                                if (e instanceof AGCAuthException) {
+                                    AGCAuthException agcAuthException = (AGCAuthException) e;
+                                    int errCode = agcAuthException.getCode();
+                                    String message = agcAuthException.getMessage();
+                                    Log.e("HUAWEI signin fail", "errorCode: " + errCode + ", message: " + message);
+                                }
 
-                        Toast toastcenter = Toast.makeText(getApplicationContext(), "认证失败请重试", Toast.LENGTH_SHORT);
-                        toastcenter.setGravity(Gravity.CENTER, 0, 0);
-                        toastcenter.show();
-                    }
-                });
+                                Toast toastcenter = Toast.makeText(getApplicationContext(), "认证失败请重试", Toast.LENGTH_SHORT);
+                                toastcenter.setGravity(Gravity.CENTER, 0, 0);
+                                toastcenter.show();
+                            }
+                        });
             }
         });
 
@@ -204,6 +207,7 @@ public class Main extends BaseActivity {
             finish();
         }
     }
+
     //传递跳转信息 0代表登陆后跳转，1代表已登录直接跳转，2代表跳过登录界面的跳转；
 
     @Override
@@ -226,7 +230,7 @@ public class Main extends BaseActivity {
                         @Override
                         public void sureClick() {
                             sharedPreferences.edit().putBoolean("First", false).commit();
-                            //进入app
+                            init();
                         }
 
                         @Override
@@ -238,6 +242,9 @@ public class Main extends BaseActivity {
 //                        startActivity((new Intent(MainActivity.this, TermActivity.class)));
                         }
                     }).create(this);
+        }
+        else {
+            init();
         }
     }
 }
