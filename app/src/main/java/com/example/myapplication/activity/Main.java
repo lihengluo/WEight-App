@@ -41,7 +41,7 @@ public class Main extends BaseActivity {
     private Button mybuttonhide;
     private HuaweiIdAuthButton hwButtonlogin;
 
-    PhoneAuth phoneAuth = new PhoneAuth();
+    PhoneAuth phoneAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +53,7 @@ public class Main extends BaseActivity {
 
     // 初始化Main activity
     private void init() {
+        phoneAuth = new PhoneAuth();
         //找到控件
         mybuttonlogin = findViewById(R.id.btn_login);
         myEtuser = findViewById(R.id.et_1);
