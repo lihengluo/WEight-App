@@ -17,7 +17,7 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "cn.edu.hust.weight"
+        applicationId "cn.hb.weight"
         minSdk 28
         targetSdk 32
         versionCode 1
