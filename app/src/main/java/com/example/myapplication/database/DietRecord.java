@@ -5,7 +5,6 @@
 package com.example.myapplication.database;
 
 import com.huawei.agconnect.cloud.database.annotations.DefaultValue;
-import com.huawei.agconnect.cloud.database.annotations.Indexes;
 import com.huawei.agconnect.cloud.database.annotations.PrimaryKeys;
 import com.huawei.agconnect.cloud.database.CloudDBZoneObject;
 import com.huawei.agconnect.cloud.database.Text;
@@ -15,10 +14,9 @@ import java.util.Date;
 /**
  * Definition of ObjectType DietRecord.
  *
- * @since 2022-09-22
+ * @since 2022-11-02
  */
 @PrimaryKeys({"uid", "date", "time"})
-@Indexes({"RD:uid,date,time"})
 public final class DietRecord extends CloudDBZoneObject {
     private String uid;
 
@@ -26,7 +24,7 @@ public final class DietRecord extends CloudDBZoneObject {
 
     private String time;
 
-    @DefaultValue(stringValue = "\"unknown\"")
+    @DefaultValue(stringValue = "\"unkown\"")
     private String foodname;
 
     @DefaultValue(floatValue = 0.0F)
@@ -49,7 +47,7 @@ public final class DietRecord extends CloudDBZoneObject {
 
     public DietRecord() {
         super(DietRecord.class);
-        this.foodname = "\"unknown\"";
+        this.foodname = "\"unkown\"";
         this.heat = 0.0F;
         this.fat = 0.0F;
         this.protein = 0.0F;
