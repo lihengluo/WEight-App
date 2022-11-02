@@ -238,7 +238,7 @@ public class Main extends BaseActivity {
 
                         @Override
                         public void termsClick() {
-                            final Uri uri= Uri.parse("https://beneficial-player-058.notion.site/WEight-9be6a1f7f5774195af96381373d486f8");
+                            final Uri uri= Uri.parse("http://weight.hb.cn/");
                             Intent intent=new Intent(Intent.ACTION_VIEW,uri);
                             startActivity(intent);
                             //跳转至隐私政策
