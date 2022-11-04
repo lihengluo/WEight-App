@@ -179,22 +179,20 @@ public class Main extends BaseActivity {
             }
         });
 
-        AGConnectOptionsBuilder builder = new AGConnectOptionsBuilder();
-        AGConnectInstance.initialize(this, builder);
-//        try {
-//            AGConnectOptionsBuilder builder = new AGConnectOptionsBuilder();
-//            InputStream in = getAssets().open("agconnect-services.json");    //如果使用了AGC插件，删除此行
-//            builder.setInputStream(in);
-//            builder.setClientId("981817313709805184");
-//            builder.setClientSecret("216C89C06BD713DC0F94A440D6ACDB4052B12B4468331D675F412EFFD60270DC");
-//            builder.setApiKey("DAEDAOdUgkjCnRD4/xfDwBnv3MOJzw6aUT0CQ0VxUgfSPe99ZDD0lmvHfffuffK4uHp4bTYpQeXRdWDm2EXsH7I2G/O/0EuFy5Tzcw==");
-//            builder.setCPId("420086000304642213");
-//            builder.setProductId("99536292102615511");
-//            builder.setAppId("107062115");
-//            AGConnectInstance.initialize(this, builder);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            AGConnectOptionsBuilder builder = new AGConnectOptionsBuilder();
+            InputStream in = getAssets().open("agconnect-services.json");    //如果使用了AGC插件，删除此行
+            builder.setInputStream(in);
+            builder.setClientId("1013786228048285184");
+            builder.setClientSecret("33CC0F811187DE6F94331A237E7BBAE6F82C726ED66B9661EA999FB3CB607A04");
+            builder.setApiKey("DAEDAN5u969uSRbCvWNMv8mIhLdm3yg4U7q1E8G1fnXv0rExU2oFzi0OnEkZwlISL9eGFWqbz2r78/UUpeOeyRRKAwu9kWBlH+bR0w==");
+            builder.setCPId("70086000030669687");
+            builder.setProductId("99536292102712188");
+            builder.setAppId("107299899");
+            AGConnectInstance.initialize(this, builder);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         // 发现已经有用户登录时立即跳转
         if (phoneAuth.isUserSignIn()) {
