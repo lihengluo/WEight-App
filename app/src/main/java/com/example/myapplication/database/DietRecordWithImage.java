@@ -12,19 +12,19 @@ import com.huawei.agconnect.cloud.database.Text;
 import java.util.Date;
 
 /**
- * Definition of ObjectType DietRecord.
+ * Definition of ObjectType DietRecordWithImage.
  *
- * @since 2022-11-02
+ * @since 2022-11-05
  */
 @PrimaryKeys({"uid", "date", "time"})
-public final class DietRecord extends CloudDBZoneObject {
+public final class DietRecordWithImage extends CloudDBZoneObject {
     private String uid;
 
     private String date;
 
     private String time;
 
-    @DefaultValue(stringValue = "\"unkown\"")
+    @DefaultValue(stringValue = "unkown")
     private String foodname;
 
     @DefaultValue(floatValue = 0.0F)
@@ -45,9 +45,11 @@ public final class DietRecord extends CloudDBZoneObject {
     @DefaultValue(floatValue = 0.0F)
     private Float fe;
 
-    public DietRecord() {
-        super(DietRecord.class);
-        this.foodname = "\"unkown\"";
+    private byte[] image;
+
+    public DietRecordWithImage() {
+        super(DietRecordWithImage.class);
+        this.foodname = "unkown";
         this.heat = 0.0F;
         this.fat = 0.0F;
         this.protein = 0.0F;
@@ -134,6 +136,14 @@ public final class DietRecord extends CloudDBZoneObject {
 
     public Float getFe() {
         return fe;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public byte[] getImage() {
+        return image;
     }
 
 }

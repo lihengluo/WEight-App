@@ -20,12 +20,14 @@ import com.example.myapplication.R;
 import com.example.myapplication.authservice.PhoneAuth;
 import com.example.myapplication.database.CloudDB;
 import com.example.myapplication.function.CloudFunction;
-import com.example.myapplication.storage.CloudStorage;
 import com.example.myapplication.util.FunctionUtils;
 
 import org.w3c.dom.Text;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintStream;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -123,20 +125,22 @@ public class Analyze extends AppCompatActivity {
 
         String uid = phoneAuth.getCurrentUserUid();
 
-        String cloudPath = uid+"/"+time[0]+"/"+time[1]+".jpg";
-
-        CloudStorage storage = CloudStorage.getStorage();
         CloudDB datebase = CloudDB.getDatabase(getApplicationContext());
 
-        if (!storage.uploadUserFile(cloudPath, imageFile)) {
-            return false;
-        }
+        try {
+            FileInputStream fis = new FileInputStream(imageFile);
+            byte[] image = new byte[(int) imageFile.length()];
+            fis.read(image);
+            fis.close();
 
-        if (!datebase.upsertUserDietRecord(uid, time[0], time[1], good)) {
-            // 上传失败时，将云存储上的图片删除
-            while (!storage.deleteUserFile(cloudPath));
-            return false;
+            if (datebase.upsertUserDietRecord(uid, time[0], time[1], good, image)) {
+                return true;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return true;
+        return false;
     }
 }

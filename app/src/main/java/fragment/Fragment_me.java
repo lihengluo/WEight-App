@@ -35,17 +35,19 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.myapplication.R;
 import com.example.myapplication.authservice.PhoneAuth;
 import com.example.myapplication.database.CloudDB;
-import com.example.myapplication.database.DietRecord;
-import com.example.myapplication.storage.CloudStorage;
+import com.example.myapplication.database.DietRecordWithImage;
 import com.example.myapplication.upload.UploadEngine;
-import com.huawei.agconnect.cloud.storage.core.StorageReference;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import fragment.bean.MainBean;
 import fragment.bean.MenuBean;
 import fragment.util.DateUtil;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -67,7 +69,7 @@ public class Fragment_me extends Fragment {
     private int c=0;
 
     private PhoneAuth phoneAuth;
-    private CloudStorage storage;
+//    private CloudStorage storage;
     private CloudDB database;
     private int flagsear;
 
@@ -259,32 +261,40 @@ public class Fragment_me extends Fragment {
         String date = year + "-" + month + "-" + day;
         phoneAuth = new PhoneAuth();
         database = CloudDB.getDatabase(getContext());
-        storage = CloudStorage.getStorage();
         if (!phoneAuth.isUserSignIn()) {
             flagsear = -1;//未登录
             return null;
         }
         String uid = phoneAuth.getCurrentUserUid();
-        List<StorageReference> referenceList = storage.getFileList(uid + "/" + date + "/");
-        List<DietRecord> dietRecordList = database.queryUserDietRecord(uid, date);
+        List<DietRecordWithImage> dietRecordList = database.queryUserDietRecord(uid, date);
 
-        if (dietRecordList == null || referenceList == null) {
+        if (dietRecordList == null) {
             flagsear = -2;//网络问题
             return null;
         }
-        if (dietRecordList.size()==0 || referenceList.size() == 0) {
+        if (dietRecordList.size()==0) {
             flagsear = -3;//当天没有记录
             return null;
 
         }
-        assert (referenceList.size() == dietRecordList.size());
 
 
-        for (int k = 0; k < referenceList.size(); k++){
-            DietRecord dietRecord = dietRecordList.get(k);
-            StorageReference reference = referenceList.get(k);
+        for (int k = 0; k < dietRecordList.size(); k++){
+            DietRecordWithImage dietRecord = dietRecordList.get(k);
+
             String createFileName = System.currentTimeMillis() + ".jpg";
-            storage.downloadUserFile(reference, new File(getActivity().getExternalCacheDir(), createFileName));
+            File file = new File(getActivity().getExternalCacheDir(), createFileName);
+            try {
+                FileOutputStream fos = new FileOutputStream(file);
+                fos.write(dietRecord.getImage(), 0, dietRecord.getImage().length);
+                fos.flush();
+                fos.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }  catch (IOException e) {
+                e.printStackTrace();
+            }
+
             mList.add(new MainBean(getActivity().getExternalCacheDir() + "/" + createFileName,
                     dietRecord.getFoodname(), String.valueOf(decimalTwo(dietRecord.getHeat())), String.valueOf(decimalTwo(dietRecord.getCarbohydrate())),
                     String.valueOf(decimalTwo(dietRecord.getProtein())), String.valueOf(decimalTwo(dietRecord.getFat())),
