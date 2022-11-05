@@ -97,7 +97,7 @@ public class Camera extends BaseActivity {
                 JSONObject result = (JSONObject) msg.obj;
                 int code = msg.arg1;
                 if (code == -1) {
-                    new SweetAlertDialog(cameraPicture.getContext(), SweetAlertDialog.WARNING_TYPE)
+                    SweetAlertDialog dialog = new SweetAlertDialog(cameraPicture.getContext(), SweetAlertDialog.WARNING_TYPE)
                             .setTitleText("未检测到容器！")
                             .setContentText("请重新选取图片，建议使用盘子或碗！")
                             .setConfirmText("确认")
@@ -106,10 +106,11 @@ public class Camera extends BaseActivity {
                                 public void onClick(SweetAlertDialog sDialog) {
                                     finish();
                                 }
-                            })
-                            .show();
+                            });
+                    dialog.setCancelable(false);
+                    dialog.show();
                 } else if (code == -2){
-                    new SweetAlertDialog(cameraPicture.getContext(), SweetAlertDialog.WARNING_TYPE)
+                    SweetAlertDialog dialog = new SweetAlertDialog(cameraPicture.getContext(), SweetAlertDialog.WARNING_TYPE)
                             .setTitleText("未检测到食物！")
                             .setContentText("请重新选取图片，建议选取中国菜！")
                             .setConfirmText("确认")
@@ -118,10 +119,11 @@ public class Camera extends BaseActivity {
                                 public void onClick(SweetAlertDialog sDialog) {
                                     finish();
                                 }
-                            })
-                            .show();
+                            });
+                    dialog.setCancelable(false);
+                    dialog.show();
                 } else if (code == -3) {
-                    new SweetAlertDialog(cameraPicture.getContext(), SweetAlertDialog.ERROR_TYPE)
+                    SweetAlertDialog dialog = new SweetAlertDialog(cameraPicture.getContext(), SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("无法连接服务器！")
                             .setContentText("请稍后再试！")
                             .setConfirmText("确认")
@@ -130,8 +132,9 @@ public class Camera extends BaseActivity {
                                 public void onClick(SweetAlertDialog sDialog) {
                                     finish();
                                 }
-                            })
-                            .show();
+                            });
+                    dialog.setCancelable(false);
+                    dialog.show();
                 } else {
                     if (top3Id != null)
                         top3Id.clear();
