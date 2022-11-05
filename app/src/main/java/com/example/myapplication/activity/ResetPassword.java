@@ -79,7 +79,7 @@ public class ResetPassword extends BaseActivity{
                         // startActivity(intent);
                         finish();
                     } else {
-                        Toast.makeText(getApplicationContext(), "重置失败，请重试", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "重置失败，请确保账户已注册且新旧密码不相同", Toast.LENGTH_SHORT).show();
                     }
 
                 }
