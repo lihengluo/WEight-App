@@ -78,7 +78,7 @@ public class Register extends BaseActivity {
                     Intent intent = new Intent(getApplicationContext(), Bottom_bar.class);
 
                     if (phoneAuth.createUser(username, verifycode, password)) {
-                        Toast.makeText(getApplicationContext(), "注册成功，正在跳转...", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "注册成功，正在返回登录界面", Toast.LENGTH_SHORT).show();
 //                        startActivity(intent);
                         PhoneAuth phoneAuth = new PhoneAuth();
                         phoneAuth.signOut();
