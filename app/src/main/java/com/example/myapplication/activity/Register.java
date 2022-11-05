@@ -84,7 +84,7 @@ public class Register extends BaseActivity {
                         phoneAuth.signOut();
                         finish();
                     } else {
-                        Toast.makeText(getApplicationContext(), "注册失败，账户已经注册或者密码强度过低", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "注册失败，账户可能已经注册，您可通过忘记密码找回密码", Toast.LENGTH_LONG).show();
                     }
 
                 }
@@ -145,6 +145,22 @@ public class Register extends BaseActivity {
         else if(password.length() < 8) {
             Toast.makeText(getApplicationContext(), "密码长度不能小于8", Toast.LENGTH_SHORT).show();
             return false;
+        }
+        else if(password.equals(username)) {
+            Toast.makeText(getApplicationContext(), "密码与手机号不能相同", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else {
+            int typeNum = 0;    // 统计包含的字符类型数目
+            if (password.matches(".*\\d+.*")) typeNum++;
+            if (password.matches(".*[A-Z]+.*")) typeNum++;
+            if (password.matches(".*[a-z]+.*")) typeNum++;
+            if (password.matches(".*[^\\da-zA-Z]+.*")) typeNum++;
+
+            if (typeNum < 2) {
+                Toast.makeText(getApplicationContext(), "密码强度不足，需至少需要包含2种字符类型（大写字母、小写字母、数字、符号）", Toast.LENGTH_LONG).show();
+                return false;
+            }
         }
 
         return true;

@@ -12,6 +12,8 @@ import android.widget.Toast;
 import com.example.myapplication.R;
 import com.example.myapplication.authservice.PhoneAuth;
 import com.example.myapplication.util.FunctionUtils;
+import com.huawei.hms.framework.common.StringUtils;
+import com.huawei.hms.utils.StringUtil;
 
 public class ResetPassword extends BaseActivity{
     private Button mybuttonregister2;
@@ -138,6 +140,22 @@ public class ResetPassword extends BaseActivity{
         else if(password.length() < 8) {
             Toast.makeText(getApplicationContext(), "密码长度不能小于8", Toast.LENGTH_SHORT).show();
             return false;
+        }
+        else if(password.equals(username)) {
+            Toast.makeText(getApplicationContext(), "密码与手机号不能相同", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else {
+            int typeNum = 0;    // 统计包含的字符类型数目
+            if (password.matches(".*\\d+.*")) typeNum++;
+            if (password.matches(".*[A-Z]+.*")) typeNum++;
+            if (password.matches(".*[a-z]+.*")) typeNum++;
+            if (password.matches(".*[^\\da-zA-Z]+.*")) typeNum++;
+
+            if (typeNum < 2) {
+                Toast.makeText(getApplicationContext(), "密码强度不足，需至少需要包含2种字符类型（大写字母、小写字母、数字、符号）", Toast.LENGTH_LONG).show();
+                return false;
+            }
         }
 
         return true;
