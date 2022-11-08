@@ -2,6 +2,7 @@ package com.example.myapplication.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,9 +25,12 @@ import com.example.myapplication.util.FunctionUtils;
 
 import org.w3c.dom.Text;
 
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 
@@ -95,7 +99,7 @@ public class Analyze extends AppCompatActivity {
                                 .setConfirmText("确认")
                                 .show();
                     } else {
-                        if (!uploadToCloud(new File(imgpath), new Goods(null, foodname, heats, fat, protein, Carbohydrates, Ca, Fe))) {
+                        if (!uploadToCloud(compressBmpFileToTargetSize(imgpath), new Goods(null, foodname, heats, fat, protein, Carbohydrates, Ca, Fe))) {
                             new SweetAlertDialog(view.getContext(), SweetAlertDialog.ERROR_TYPE)
                                     .setTitleText("上传失败！")
                                     .setContentText("请稍后重试！")
@@ -119,6 +123,30 @@ public class Analyze extends AppCompatActivity {
             }
         });
     }
+
+    private File compressBmpFileToTargetSize(String filePath) {
+        Bitmap bitmap=BitmapFactory.decodeFile(filePath);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        int options = 80;
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        while (baos.toByteArray().length / 1024 > 300) { //循环判断如果压缩后图片是否大于100kb,大于继续压缩
+            baos.reset();   //重置baos即清空baos
+            bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中
+            options -= 20;  //每次都减少10
+        }
+        File file = new File(this.getExternalCacheDir(), "upload.jpg");//将要保存图片的路径
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(baos.toByteArray());
+            fos.flush();
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return file;
+    }
+
 
     private boolean uploadToCloud(File imageFile, Goods good) {
         String[] time = CloudFunction.getFunction().getTime();
