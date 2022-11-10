@@ -2,6 +2,7 @@ package fragment;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
@@ -66,6 +68,7 @@ public class Fragment_me extends Fragment {
     private List<MainBean> mList;
     private LinearLayout lin_date;
     private TextView tv_Date;
+    private Button btn_1,btn_2;
     private int c=0;
 
     private PhoneAuth phoneAuth;
@@ -92,6 +95,8 @@ public class Fragment_me extends Fragment {
         re_can = getView().findViewById(R.id.re_can);
         re_lsit = getView().findViewById(R.id.re_list);
         lin_date = getView().findViewById(R.id.lin_date);
+        btn_1 = getView().findViewById(R.id.btn_1);
+        btn_2 = getView().findViewById(R.id.btn_2);
         con = getView().findViewById(R.id.con);
         con.setBackgroundResource(R.mipmap.bg);
         adapter = new MenuAdapter(R.layout.adapter_menu);
@@ -234,6 +239,18 @@ public class Fragment_me extends Fragment {
             }
         });
 
+        btn_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Fragment_me.this.getContext(),DayCountActivity.class));
+            }
+        });
+        btn_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Fragment_me.this.getContext(),HistoryCountActivity.class));
+            }
+        });
     }
 
 //    private void randomData(){

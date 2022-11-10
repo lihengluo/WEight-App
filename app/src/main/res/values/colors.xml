@@ -8,6 +8,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="color1">#F7B64C</color>
+    <color name="dateslot_theme">#19a0ff</color>
+    <color name="dateslot_text">#383838</color>
+    <color name="dateslot_line">#CCCCCC</color>
 
     <color name="ivory">#FFFFF0</color><!--象牙色 -->
 

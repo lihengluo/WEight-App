@@ -452,7 +452,7 @@ public class Albums extends BaseActivity {
             listItems[i] = entry.getValue();
             i++;
         }
-        listItems[i] = "以上均不是";
+        listItems[i] = "以上均不是，重新选择照片";
 
         // the function setSingleChoiceItems is the function which
         // builds the alert dialog with the single item selection
