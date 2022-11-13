@@ -48,7 +48,7 @@ public class DayCountActivity extends AppCompatActivity {
         fat.setText(String.format("%.1f %%", fatNum / 0.5));
 
         TextView recomm = findViewById(R.id.t8);
-        recomm.setText("数据参考：《中国居民膳食营养素参考摄入量》");
+        recomm.setText("数据参考自《中国居民膳食营养素参考摄入量》");
 
         final ImageView back = (ImageView) this.findViewById(R.id.back);
 

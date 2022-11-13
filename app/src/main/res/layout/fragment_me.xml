@@ -97,23 +97,23 @@
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginLeft="80dp"
+            android:layout_marginRight="80dp"
             android:layout_weight="1"
             android:background="@drawable/selector"
             android:text="当日饮食分析"
             android:textSize="20sp" />
 
-        <Button
-            android:id="@+id/btn_2"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/selector"
-            android:text="历史饮食统计"
-            android:textSize="20dp" />
+<!--        <Button-->
+<!--            android:id="@+id/btn_2"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="60dp"-->
+<!--            android:layout_gravity="center_vertical"-->
+<!--            android:layout_marginLeft="5dp"-->
+<!--            android:layout_marginRight="10dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:background="@drawable/selector"-->
+<!--            android:text="历史饮食统计"-->
+<!--            android:textSize="20dp" />-->
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

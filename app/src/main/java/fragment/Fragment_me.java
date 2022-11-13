@@ -98,7 +98,7 @@ public class Fragment_me extends Fragment {
         re_lsit = getView().findViewById(R.id.re_list);
         lin_date = getView().findViewById(R.id.lin_date);
         btn_1 = getView().findViewById(R.id.btn_1);
-        btn_2 = getView().findViewById(R.id.btn_2);
+//        btn_2 = getView().findViewById(R.id.btn_2);
         con = getView().findViewById(R.id.con);
         con.setBackgroundResource(R.mipmap.bg);
         adapter = new MenuAdapter(R.layout.adapter_menu);
@@ -277,12 +277,12 @@ public class Fragment_me extends Fragment {
                 }).start();
             }
         });
-        btn_2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(Fragment_me.this.getContext(),HistoryCountActivity.class));
-            }
-        });
+//        btn_2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(Fragment_me.this.getContext(),HistoryCountActivity.class));
+//            }
+//        });
     }
 
 //    private void randomData(){
