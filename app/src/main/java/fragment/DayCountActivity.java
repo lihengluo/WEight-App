@@ -38,6 +38,9 @@ public class DayCountActivity extends AppCompatActivity {
         TextView fat = findViewById(R.id.t6);
         fat.setText(String.format("%.1f %%", 85.0));
 
+        TextView recomm = findViewById(R.id.t8);
+        recomm.setText("根据《中国居民平衡膳食宝塔》，建议您今日补充更多的"+"蛋白质");
+
         final ImageView back = (ImageView) this.findViewById(R.id.back);
 
         back.setOnClickListener(new View.OnClickListener() {
