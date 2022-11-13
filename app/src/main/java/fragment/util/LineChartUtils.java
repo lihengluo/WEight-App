@@ -237,7 +237,7 @@ public class LineChartUtils {
             lineDataSet.setDrawCircles(true);
             // 是否显示坐标点的数据，折线上是否绘制数据
             lineDataSet.setDrawValues(true);
-            lineDataSet.setValueTextColor(Color.RED);//数据的字体颜色
+            lineDataSet.setValueTextColor(Color.rgb(100, 100, 100));//数据的字体颜色
             lineDataSet.setValueTextSize(8f);//设置显示数据的值的文字大小
 
             lineDataSet.setLineWidth(1f);//折线的宽度
@@ -247,9 +247,9 @@ public class LineChartUtils {
             lineDataSet.setHighlightEnabled(false);
             lineDataSet.enableDashedHighlightLine(10f, 5f, 0f);//点击后的高亮线的显示样式
             lineDataSet.setHighlightLineWidth(2f);//设置点击交点后显示高亮线宽
-            lineDataSet.setHighLightColor(Color.RED);//设置点击交点后显示交高亮线的颜色
+            lineDataSet.setHighLightColor(Color.rgb(100, 100, 100));//设置点击交点后显示交高亮线的颜色
 
-            lineDataSet.setCircleColor(Color.RED);
+            lineDataSet.setCircleColor(Color.rgb(150, 150, 150));
             lineDataSet.setDrawFilled(false);//是否对数据范围背景进行填充
             lineDataSet.setDrawCircleHole(false);// 数据点圆是否为空心圆
             final DecimalFormat format = new DecimalFormat("###,###,##0");

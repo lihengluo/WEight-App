@@ -60,17 +60,17 @@ public class HistoryCountActivity extends AppCompatActivity {
         xRangeMaximum = xLableCount - 1;
         LineChartUtils.setXAxis(chart1, xLableCount,36, xRangeMaximum);
         LineChartUtils.notifyDataSetChanged(chart1, lineList, stringList,R.drawable.gradient_1);
-        SetHeightLimit(chart1,100f,"预警",Color.rgb(255,0,0));
-        LineChartUtils.initChart(this,chart1, true, false, false);
+        SetHeightLimit(chart1,100f,"推荐摄入量",Color.rgb(65,105,225));
+        LineChartUtils.initChart(this,chart1, true, true, false);
 
         LineChartUtils.setXAxis(chart2, xLableCount,36, xRangeMaximum);
         LineChartUtils.notifyDataSetChanged(chart2, lineList2, stringList,R.drawable.gradient_2);
-        SetHeightLimit(chart2,100f,"预警",Color.rgb(255,0,0));
+        SetHeightLimit(chart2,100f,"推荐摄入量",Color.rgb(218,112,214));
         LineChartUtils.initChart(this,chart2, true, false, false);
 
         LineChartUtils.setXAxis(chart3, xLableCount,36, xRangeMaximum);
         LineChartUtils.notifyDataSetChanged(chart3, lineList3, stringList,R.drawable.gradient_3);
-        SetHeightLimit(chart3,100f,"预警",Color.rgb(255,0,0));
+        SetHeightLimit(chart3,100f,"推荐摄入量",Color.rgb(0,199,140));
         LineChartUtils.initChart(this,chart3, true, false, false);
 
         final ImageView back = (ImageView) this.findViewById(R.id.back);
