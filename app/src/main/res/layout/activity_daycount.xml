@@ -186,7 +186,7 @@
         android:id="@+id/l3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/r3"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="10dp"
@@ -196,10 +196,19 @@
             android:id="@+id/t8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="根据《中国居民平衡膳食宝塔》，建议您今日补充更多的蛋白质"
+            android:text="建议您今日优先补充蛋白质，例如肉、蛋、奶"
             android:layout_gravity="center"
             android:textColor="#333333"
             android:textSize="15dp"/>
+        <TextView
+            android:id="@+id/t9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="数据参考自《中国居民膳食营养素参考摄入量》"
+            android:layout_gravity="center"
+            android:textColor="#333333"
+            android:textSize="12dp"/>
     </LinearLayout>
 <!--    <androidx.appcompat.widget.AppCompatEditText-->
 <!--        android:layout_width="match_parent"-->
