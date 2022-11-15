@@ -437,7 +437,7 @@ public class Camera extends BaseActivity {
             listItems[i] = entry.getValue();
             i++;
         }
-        listItems[i] = "以上均不是";
+        listItems[i] = "以上均不是，重新拍照";
 
         // the function setSingleChoiceItems is the function which
         // builds the alert dialog with the single item selection
@@ -559,7 +559,7 @@ public class Camera extends BaseActivity {
         CountDownTimer mTimer = new CountDownTimer(5 * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                pestDection.setText(millisUntilFinished / 1000 + 1 + "秒后可再次点击");
+                pestDection.setText(millisUntilFinished / 1000 + 1 + "秒后可再次分析");
             }
 
             @Override

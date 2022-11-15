@@ -36,7 +36,7 @@
     <ImageView
         android:id="@+id/i1"
         android:layout_width="match_parent"
-        android:layout_height="420dp"
+        android:layout_height="410dp"
         app:layout_constraintTop_toBottomOf="@+id/re_top"
         android:background="@drawable/recommendations"/>
     <LinearLayout
@@ -83,7 +83,7 @@
             android:layout_toRightOf="@+id/t1" />
         <TextView
             android:id="@+id/t2"
-            android:layout_width="40dp"
+            android:layout_width="50dp"
             android:layout_marginRight="8dp"
             android:layout_height="wrap_content"
             android:text="82%"
@@ -120,7 +120,7 @@
             android:layout_marginRight="12dp"/>
         <TextView
             android:id="@+id/t4"
-            android:layout_width="40dp"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
             android:text="60%"
@@ -156,7 +156,7 @@
             android:layout_toRightOf="@+id/t5" />
         <TextView
             android:id="@+id/t6"
-            android:layout_width="40dp"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
             android:text="85%"
@@ -196,7 +196,7 @@
             android:id="@+id/t8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="建议您今日优先补充蛋白质，例如肉、蛋、奶"
+            android:text="建议您今日优先补充蛋白质，例如肉、蛋、奶等食物"
             android:layout_gravity="center"
             android:textColor="#333333"
             android:textSize="15dp"/>
