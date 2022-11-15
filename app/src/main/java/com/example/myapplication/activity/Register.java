@@ -168,7 +168,7 @@ public class Register extends BaseActivity {
 
     private void countDownTime() {
         //用安卓自带的CountDownTimer实现
-        CountDownTimer mTimer = new CountDownTimer(60 * 1000, 1000) {
+        CountDownTimer mTimer = new CountDownTimer(30 * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 myVerCode.setText(millisUntilFinished / 1000 + 1 + "秒后重发");
