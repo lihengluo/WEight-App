@@ -24,6 +24,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.os.Environment;
 import android.os.FileUtils;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,6 +60,8 @@ public class Fragment_main extends Fragment {
     Intent intent1, intent2;
     public static final int TAKE_PHOTO = 1;
     public static final int CHOOSE_PHOTO = 2;
+    public int camera_id = 0;
+    public int album_id = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -81,9 +84,6 @@ public class Fragment_main extends Fragment {
         intent2=new Intent(getActivity(), Camera.class);//创建跳转到Camera显示的窗口的Intent
 
 
-
-        CheckAndroidPermission();
-
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,16 +102,35 @@ public class Fragment_main extends Fragment {
 //                else {
 //                    Log.v("tag", "----未授权");
 //                }
-                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
-                        ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
-                            .setTitleText("未授权读取媒体文件权限！")
-                            .setContentText("请在设置中授权！")
-                            .setConfirmText("确认")
-                            .show();
-                } else {
-                    startActivity(intent1);//进入album的窗口界面
+                if(album_id == 0){
+                    CheckAlbumPermission();
                 }
+                if(album_id == 1){
+                    if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED ||
+                            ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED && album_id == 1){
+                        Log.v("tag", "1");
+                    }
+                    else{
+                        Log.v("tag", "0");
+                    }
+                    if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED ||
+                            ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED && album_id == 1) {
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                                .setTitleText("未授权读取媒体文件权限！")
+                                .setContentText("请在设置中授权！")
+                                .setConfirmText("确认")
+                                .show();
+                    } else {
+                        startActivity(intent1);//进入album的窗口界面
+                    }
+                }
+
+                album_id = 1;
             }
         });
 
@@ -119,26 +138,41 @@ public class Fragment_main extends Fragment {
         Button takePhoto = (Button) getView().findViewById(R.id.take_photo);
         picture = (ImageView) getView().findViewById(R.id.picture);
 
-        //同上，对相机权限进行检查
+        //第一次，只检查权限
+        //第二次开始，如果获得了权限就正常跳转，如果没有获得权限就弹出对话框
         takePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
-                            .setTitleText("未授权相机拍摄权限！")
-                            .setContentText("请在设置中授权！")
-                            .setConfirmText("确认")
-                            .show();
-                } else {
-                    //String foodname = myfoodname.getText().toString();
+                if(camera_id == 0){
+                    CheckCameraPermission();
+                }
+                if(camera_id == 1){
+                    if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED && camera_id==1) {
+                        if(camera_id == 1){
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                                    .setTitleText("未授权相机拍摄权限！")
+                                    .setContentText("请在设置中授权！")
+                                    .setConfirmText("确认")
+                                    .show();
+                        }
+
+                    } else {
+                        //String foodname = myfoodname.getText().toString();
 //                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
 //                    startActivity(intent2);//进入camera的窗口界面
 //                }
 //                else {
 //                    Log.v("tag", "----未授权");
 //                }
-                    startActivity(intent2);
+                        startActivity(intent2);
+                    }
                 }
+                camera_id = 1;
             }
         });
 
@@ -165,41 +199,6 @@ public class Fragment_main extends Fragment {
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
-//                        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.example1);
-//                        File appDir = new File(Environment.getExternalStorageDirectory(),"examples");
-//                        if (!appDir.exists()) {
-//                            appDir.mkdir();
-//                        }
-//                        String fileName = System.currentTimeMillis() + ".jpeg";
-//                        File file = new File(appDir, fileName);
-//                        try {
-//                            FileOutputStream fos = new FileOutputStream(file);
-//                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-//                            fos.flush();
-//                            fos.close();
-//                        } catch (FileNotFoundException e) {
-//                            e.printStackTrace();
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//
-//                        // 其次把文件插入到系统图库
-//                        try {
-//                            MediaStore.Images.Media.insertImage(getActivity().getContentResolver(),
-//                                    file.getAbsolutePath(), fileName, null);
-//                        } catch (FileNotFoundException e) {
-//                            e.printStackTrace();
-//                        }
-//
-//                        getActivity().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse(file.getAbsolutePath())));
-////                        Intent intent = new Intent("android.intent.action.CART_BROADCAST");
-////                        Uri uri = Uri.fromFile(file);
-////                        intent.setData(uri);
-////                        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(intent);
-//
-//                        Toast toast1 = Toast.makeText(getContext(), "保存示例成功，试用图片进行分析吧！", Toast.LENGTH_SHORT);
-//                        toast1.setGravity(Gravity.CENTER, 0, 0);
-//                        toast1.show();
                         sweetAlertDialog.dismiss();
                     }
                 });
@@ -283,6 +282,33 @@ public class Fragment_main extends Fragment {
         if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             permissionLists.add(Manifest.permission.CAMERA);
         }
+        if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            permissionLists.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+        if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            permissionLists.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
+        if(!permissionLists.isEmpty()){//说明肯定有拒绝的权限
+            ActivityCompat.requestPermissions(getActivity(), permissionLists.toArray(new String[permissionLists.size()]), 100);
+        }else{
+
+        }
+    }
+
+    private void CheckCameraPermission(){
+        List<String> permissionLists = new ArrayList<>();
+        if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            permissionLists.add(Manifest.permission.CAMERA);
+        }
+        if(!permissionLists.isEmpty()){//说明肯定有拒绝的权限
+            ActivityCompat.requestPermissions(getActivity(), permissionLists.toArray(new String[permissionLists.size()]), 100);
+        }else{
+
+        }
+    }
+
+    private void CheckAlbumPermission(){
+        List<String> permissionLists = new ArrayList<>();
         if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
             permissionLists.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
