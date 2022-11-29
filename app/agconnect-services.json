@@ -26,22 +26,22 @@
 		"SG_back":"connect-ws-dra.hispace.dbankcloud.com"
 	},
 	"client":{
-		"cp_id":"420086000304642213",
-		"product_id":"99536292102615511",
-		"client_id":"981817313709805184",
-		"client_secret":"216C89C06BD713DC0F94A440D6ACDB4052B12B4468331D675F412EFFD60270DC",
-		"project_id":"99536292102615511",
-		"app_id":"107062115",
-		"api_key":"DAEDAOdUgkjCnRD4/xfDwBnv3MOJzw6aUT0CQ0VxUgfSPe99ZDD0lmvHfffuffK4uHp4bTYpQeXRdWDm2EXsH7I2G/O/0EuFy5Tzcw==",
-		"package_name":"cn.edu.hust.weight"
+		"cp_id":"70086000030669687",
+		"product_id":"99536292102712188",
+		"client_id":"1013786228048285184",
+		"client_secret":"33CC0F811187DE6F94331A237E7BBAE6F82C726ED66B9661EA999FB3CB607A04",
+		"project_id":"99536292102712188",
+		"app_id":"107299899",
+		"api_key":"DAEDAN5u969uSRbCvWNMv8mIhLdm3yg4U7q1E8G1fnXv0rExU2oFzi0OnEkZwlISL9eGFWqbz2r78/UUpeOeyRRKAwu9kWBlH+bR0w==",
+		"package_name":"cn.hb.weight"
 	},
 	"oauth_client":{
-		"client_id":"107062115",
+		"client_id":"107299899",
 		"client_type":1
 	},
 	"app_info":{
-		"app_id":"107062115",
-		"package_name":"cn.edu.hust.weight"
+		"app_id":"107299899",
+		"package_name":"cn.hb.weight"
 	},
 	"service":{
 		"analytics":{
@@ -66,7 +66,7 @@
 			"storage_url_sg":"https://ops-dra.agcstorage.link",
 			"storage_url_cn_back":"https://agc-storage-drcn.cloud.huawei.com.cn",
 			"storage_url_cn":"https://agc-storage-drcn.platform.dbankcloud.cn",
-			"default_storage":"appsup2022-2kvxw"
+			"default_storage":"appsup2022-reamy"
 		},
 		"ml":{
 			"mlservice_url":"ml-api-drcn.ai.dbankcloud.com,ml-api-drcn.ai.dbankcloud.cn"
@@ -76,17 +76,17 @@
 	"configuration_version":"3.0",
 	"appInfos":[
 		{
-			"package_name":"cn.edu.hust.weight",
+			"package_name":"cn.hb.weight",
 			"client":{
-				"app_id":"107062115"
+				"app_id":"107299899"
 			},
 			"app_info":{
-				"package_name":"cn.edu.hust.weight",
-				"app_id":"107062115"
+				"package_name":"cn.hb.weight",
+				"app_id":"107299899"
 			},
 			"oauth_client":{
 				"client_type":1,
-				"client_id":"107062115"
+				"client_id":"107299899"
 			}
 		}
 	]

@@ -269,8 +269,8 @@ public class Fragment_History extends Fragment {
             @Override
             public void onClick(View view) {
                 new SweetAlertDialog(view.getContext(), SweetAlertDialog.CUSTOM_IMAGE_TYPE)
-                        .setTitleText("WEight是一款基于AI的食物营养检测应用!")
-                        .setContentText("Version 1.0")
+                        .setTitleText("WEight——健康生活，从了解食物开始")
+                        .setContentText("Version 1.1.1")
                         .setCustomImage(R.mipmap.ic_launcher_foreground)
                         .setConfirmText("确认")
                         .show();

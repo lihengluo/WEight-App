@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <dimen name="dateslot_radius" tools:ignore="MissingDefaultResource">5dp</dimen>
+    <dimen name="dateslot_padding_x" tools:ignore="MissingDefaultResource">20dp</dimen>
+    <dimen name="dateslot_padding_y" tools:ignore="MissingDefaultResource">20dp</dimen>
+    <dimen name="dateslot_space" tools:ignore="MissingDefaultResource">20dp</dimen>
+    <dimen name="dateslot_cell_height" tools:ignore="MissingDefaultResource">40dp</dimen>
+    <dimen name="dateslot_bt_height" tools:ignore="MissingDefaultResource">40dp</dimen>
+    <dimen name="dateslot_line_width" tools:ignore="MissingDefaultResource">50dp</dimen>
+    <dimen name="dateslot_line_height" tools:ignore="MissingDefaultResource">2dp</dimen>
+</resources>

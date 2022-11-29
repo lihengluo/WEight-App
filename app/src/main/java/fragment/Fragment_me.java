@@ -2,6 +2,7 @@ package fragment;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
@@ -35,17 +37,19 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.example.myapplication.R;
 import com.example.myapplication.authservice.PhoneAuth;
 import com.example.myapplication.database.CloudDB;
-import com.example.myapplication.database.DietRecord;
-import com.example.myapplication.storage.CloudStorage;
+import com.example.myapplication.database.DietRecordWithImage;
 import com.example.myapplication.upload.UploadEngine;
-import com.huawei.agconnect.cloud.storage.core.StorageReference;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import fragment.bean.MainBean;
 import fragment.bean.MenuBean;
 import fragment.util.DateUtil;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -64,12 +68,15 @@ public class Fragment_me extends Fragment {
     private List<MainBean> mList;
     private LinearLayout lin_date;
     private TextView tv_Date;
+    private Button btn_1,btn_2;
     private int c=0;
 
     private PhoneAuth phoneAuth;
-    private CloudStorage storage;
+//    private CloudStorage storage;
     private CloudDB database;
     private int flagsear;
+
+    private int currentPosition;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -90,6 +97,8 @@ public class Fragment_me extends Fragment {
         re_can = getView().findViewById(R.id.re_can);
         re_lsit = getView().findViewById(R.id.re_list);
         lin_date = getView().findViewById(R.id.lin_date);
+        btn_1 = getView().findViewById(R.id.btn_1);
+//        btn_2 = getView().findViewById(R.id.btn_2);
         con = getView().findViewById(R.id.con);
         con.setBackgroundResource(R.mipmap.bg);
         adapter = new MenuAdapter(R.layout.adapter_menu);
@@ -125,7 +134,16 @@ public class Fragment_me extends Fragment {
                         Toast toast4 = Toast.makeText(getContext(), "查询成功！", Toast.LENGTH_SHORT);
                         toast4.setGravity(Gravity.CENTER, 0, 0);
                         toast4.show();
-                        adapterMain.setNewData( (List<MainBean>) msg.obj);
+                        if (msg.what == 0)
+                            adapterMain.setNewData( (List<MainBean>) msg.obj);
+                        else if (msg.what == 1) {
+                            float[] data = (float[]) msg.obj;
+                            Intent intent = new Intent(Fragment_me.this.getContext(),DayCountActivity.class);
+                            intent.putExtra("carbohydrate", data[0]);
+                            intent.putExtra("protein", data[1]);
+                            intent.putExtra("fat", data[2]);
+                            startActivity(intent);
+                        }
                         break;
                 }
 
@@ -161,6 +179,8 @@ public class Fragment_me extends Fragment {
                 }).start();
                 // 将year，monthOfYear和dayOfMonth发送至云数据库进行查询
                 re_lsit.scrollToPosition(0);
+
+                currentPosition = position;
             }
         });
 
@@ -232,6 +252,37 @@ public class Fragment_me extends Fragment {
             }
         });
 
+        btn_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SweetAlertDialog pDialog = new SweetAlertDialog(view.getContext(), SweetAlertDialog.PROGRESS_TYPE);
+                pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                pDialog.setTitleText("请稍后！");
+                pDialog.setContentText("正在查询记录！");
+                pDialog.setCancelable(false);
+                pDialog.show();
+
+                int dayOfMonth = ((MenuBean)adapter.getData().get(currentPosition)).getDay();
+                int year = ((MenuBean)adapter.getData().get(currentPosition)).getYear();
+                int monthOfYear = ((MenuBean)adapter.getData().get(currentPosition)).getMonth();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Message message = new Message();
+                        message.what = 1;
+                        message.obj = sumData(String.valueOf(year), String.valueOf(monthOfYear), String.valueOf(dayOfMonth));
+                        mHandler.sendMessage(message);
+                        pDialog.dismiss();
+                    }
+                }).start();
+            }
+        });
+//        btn_2.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(Fragment_me.this.getContext(),HistoryCountActivity.class));
+//            }
+//        });
     }
 
 //    private void randomData(){
@@ -259,32 +310,40 @@ public class Fragment_me extends Fragment {
         String date = year + "-" + month + "-" + day;
         phoneAuth = new PhoneAuth();
         database = CloudDB.getDatabase(getContext());
-        storage = CloudStorage.getStorage();
         if (!phoneAuth.isUserSignIn()) {
             flagsear = -1;//未登录
             return null;
         }
         String uid = phoneAuth.getCurrentUserUid();
-        List<StorageReference> referenceList = storage.getFileList(uid + "/" + date + "/");
-        List<DietRecord> dietRecordList = database.queryUserDietRecord(uid, date);
+        List<DietRecordWithImage> dietRecordList = database.queryUserDietRecord(uid, date);
 
-        if (dietRecordList == null || referenceList == null) {
+        if (dietRecordList == null) {
             flagsear = -2;//网络问题
             return null;
         }
-        if (dietRecordList.size()==0 || referenceList.size() == 0) {
+        if (dietRecordList.size()==0) {
             flagsear = -3;//当天没有记录
             return null;
 
         }
-        assert (referenceList.size() == dietRecordList.size());
 
 
-        for (int k = 0; k < referenceList.size(); k++){
-            DietRecord dietRecord = dietRecordList.get(k);
-            StorageReference reference = referenceList.get(k);
+        for (int k = 0; k < dietRecordList.size(); k++){
+            DietRecordWithImage dietRecord = dietRecordList.get(k);
+
             String createFileName = System.currentTimeMillis() + ".jpg";
-            storage.downloadUserFile(reference, new File(getActivity().getExternalCacheDir(), createFileName));
+            File file = new File(getActivity().getExternalCacheDir(), createFileName);
+            try {
+                FileOutputStream fos = new FileOutputStream(file);
+                fos.write(dietRecord.getImage(), 0, dietRecord.getImage().length);
+                fos.flush();
+                fos.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }  catch (IOException e) {
+                e.printStackTrace();
+            }
+
             mList.add(new MainBean(getActivity().getExternalCacheDir() + "/" + createFileName,
                     dietRecord.getFoodname(), String.valueOf(decimalTwo(dietRecord.getHeat())), String.valueOf(decimalTwo(dietRecord.getCarbohydrate())),
                     String.valueOf(decimalTwo(dietRecord.getProtein())), String.valueOf(decimalTwo(dietRecord.getFat())),
@@ -292,6 +351,41 @@ public class Fragment_me extends Fragment {
         }
         flagsear = 0;
         return mList;
+    }
+
+    private float[] sumData(String year, String month, String day) {
+        month = month.length() < 2 ? "0" + month : month;
+        day = day.length() < 2 ? "0" + day : day;
+        String date = year + "-" + month + "-" + day;
+        phoneAuth = new PhoneAuth();
+        database = CloudDB.getDatabase(getContext());
+        if (!phoneAuth.isUserSignIn()) {
+            flagsear = -1;//未登录
+            return null;
+        }
+        String uid = phoneAuth.getCurrentUserUid();
+        List<DietRecordWithImage> dietRecordList = database.queryUserDietRecord(uid, date);
+
+        if (dietRecordList == null) {
+            flagsear = -2;//网络问题
+            return null;
+        }
+        if (dietRecordList.size() == 0) {
+            flagsear = -3;//当天没有记录
+            return null;
+
+        }
+        flagsear = 0;
+
+        float carbohydrate = 0.0f, protein = 0.0f, fat = 0.0f;
+        for (int k = 0; k < dietRecordList.size(); k++) {
+            DietRecordWithImage dietRecord = dietRecordList.get(k);
+            carbohydrate += dietRecord.getCarbohydrate();
+            protein += dietRecord.getProtein();
+            fat += dietRecord.getFat();
+        }
+
+        return new float[]{carbohydrate, protein, fat};
     }
 
     private void initDataNew(int cyear,int cmonth,int cday) {
@@ -320,7 +414,7 @@ public class Fragment_me extends Fragment {
                 menuList.add(new MenuBean(DateUtil.dateToWeek(year+"-"+month+"-"+i), year, i, month, false));
             }
         }
-
+        currentPosition = c - 1;
     }
 
     private void initData() {

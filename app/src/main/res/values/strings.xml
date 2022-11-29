@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">WEight</string>
     <string name="title">食物营养分析助手</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -16,6 +16,15 @@
     <string name="user_resetpassword">重\t\t置\t\t密\t\t码</string>
     <string name="user_verifycode">请输入验证码</string>
     <string name="suggestion">今日猪蹄摄入过多，请补充维生素！</string>
-
+    <string name="dateslot_cellsta_title" tools:ignore="ExtraTranslation">起始日期</string>
+    <string name="dateslot_cellsta_hint" tools:ignore="ExtraTranslation">选择起始日期</string>
+    <string name="dateslot_cellend_title" tools:ignore="ExtraTranslation">结束日期</string>
+    <string name="dateslot_cellend_hint" tools:ignore="ExtraTranslation">选择结束日期</string>
+    <string name="dateslot_bt_ent" tools:ignore="ExtraTranslation">确认</string>
+    <array name="time">
+        <item>一周</item>
+        <item>一月</item>
+        <item>三月</item>
+    </array>
 
 </resources>

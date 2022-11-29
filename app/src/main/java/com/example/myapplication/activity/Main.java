@@ -41,7 +41,7 @@ public class Main extends BaseActivity {
     private Button mybuttonhide;
     private HuaweiIdAuthButton hwButtonlogin;
 
-    PhoneAuth phoneAuth = new PhoneAuth();
+    PhoneAuth phoneAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +49,11 @@ public class Main extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         firstRun();
+    }
 
+    // 初始化Main activity
+    private void init() {
+        phoneAuth = new PhoneAuth();
         //找到控件
         mybuttonlogin = findViewById(R.id.btn_login);
         myEtuser = findViewById(R.id.et_1);
@@ -100,7 +104,7 @@ public class Main extends BaseActivity {
                 if (!FunctionUtils.isFastDoubleClick()) {
                     Intent intent2 = new Intent(getApplicationContext(), Register.class);
                     startActivity(intent2);
-                    finish();
+//                    finish();
                 }
             }
         });
@@ -111,7 +115,7 @@ public class Main extends BaseActivity {
                 if (!FunctionUtils.isFastDoubleClick()) {
                     Intent intent2 = new Intent(getApplicationContext(), ResetPassword.class);
                     startActivity(intent2);
-                    finish();
+//                    finish();
                 }
             }
         });
@@ -149,29 +153,29 @@ public class Main extends BaseActivity {
                 hwButtonlogin.setClickable(false);
                 Intent intent = new Intent(getApplicationContext(), Bottom_bar.class);
                 AGConnectAuth.getInstance().signIn(Main.this, AGConnectAuthCredential.HMS_Provider).addOnSuccessListener(new OnSuccessListener<SignInResult>() {
-                    @Override
-                    public void onSuccess(SignInResult signInResult) {
-                        intent.putExtra("登录信息", "0");
-                        startActivity(intent);
-                        finish();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(Exception e) {
-                        hwButtonlogin.setClickable(true);
-                        if (e instanceof AGCAuthException) {
-                            AGCAuthException agcAuthException = (AGCAuthException) e;
-                            int errCode = agcAuthException.getCode();
-                            String message = agcAuthException.getMessage();
-                            Log.e("HUAWEI signin fail", "errorCode: " + errCode + ", message: " + message);
-                        }
+                            @Override
+                            public void onSuccess(SignInResult signInResult) {
+                                intent.putExtra("登录信息", "0");
+                                startActivity(intent);
+                                finish();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(Exception e) {
+                                hwButtonlogin.setClickable(true);
+                                if (e instanceof AGCAuthException) {
+                                    AGCAuthException agcAuthException = (AGCAuthException) e;
+                                    int errCode = agcAuthException.getCode();
+                                    String message = agcAuthException.getMessage();
+                                    Log.e("HUAWEI signin fail", "errorCode: " + errCode + ", message: " + message);
+                                }
 
-                        Toast toastcenter = Toast.makeText(getApplicationContext(), "认证失败请重试", Toast.LENGTH_SHORT);
-                        toastcenter.setGravity(Gravity.CENTER, 0, 0);
-                        toastcenter.show();
-                    }
-                });
+                                Toast toastcenter = Toast.makeText(getApplicationContext(), "认证失败请重试", Toast.LENGTH_SHORT);
+                                toastcenter.setGravity(Gravity.CENTER, 0, 0);
+                                toastcenter.show();
+                            }
+                        });
             }
         });
 
@@ -179,12 +183,12 @@ public class Main extends BaseActivity {
             AGConnectOptionsBuilder builder = new AGConnectOptionsBuilder();
             InputStream in = getAssets().open("agconnect-services.json");    //如果使用了AGC插件，删除此行
             builder.setInputStream(in);
-            builder.setClientId("981817313709805184");
-            builder.setClientSecret("216C89C06BD713DC0F94A440D6ACDB4052B12B4468331D675F412EFFD60270DC");
-            builder.setApiKey("DAEDAOdUgkjCnRD4/xfDwBnv3MOJzw6aUT0CQ0VxUgfSPe99ZDD0lmvHfffuffK4uHp4bTYpQeXRdWDm2EXsH7I2G/O/0EuFy5Tzcw==");
-            builder.setCPId("420086000304642213");
-            builder.setProductId("99536292102615511");
-            builder.setAppId("107062115");
+            builder.setClientId("1013786228048285184");
+            builder.setClientSecret("33CC0F811187DE6F94331A237E7BBAE6F82C726ED66B9661EA999FB3CB607A04");
+            builder.setApiKey("DAEDAN5u969uSRbCvWNMv8mIhLdm3yg4U7q1E8G1fnXv0rExU2oFzi0OnEkZwlISL9eGFWqbz2r78/UUpeOeyRRKAwu9kWBlH+bR0w==");
+            builder.setCPId("70086000030669687");
+            builder.setProductId("99536292102712188");
+            builder.setAppId("107299899");
             AGConnectInstance.initialize(this, builder);
         } catch (IOException e) {
             e.printStackTrace();
@@ -204,6 +208,7 @@ public class Main extends BaseActivity {
             finish();
         }
     }
+
     //传递跳转信息 0代表登陆后跳转，1代表已登录直接跳转，2代表跳过登录界面的跳转；
 
     @Override
@@ -226,18 +231,21 @@ public class Main extends BaseActivity {
                         @Override
                         public void sureClick() {
                             sharedPreferences.edit().putBoolean("First", false).commit();
-                            //进入app
+                            init();
                         }
 
                         @Override
                         public void termsClick() {
-                            final Uri uri= Uri.parse("https://beneficial-player-058.notion.site/WEight-9be6a1f7f5774195af96381373d486f8");
+                            final Uri uri= Uri.parse("http://weight.hb.cn/");
                             Intent intent=new Intent(Intent.ACTION_VIEW,uri);
                             startActivity(intent);
                             //跳转至隐私政策
 //                        startActivity((new Intent(MainActivity.this, TermActivity.class)));
                         }
                     }).create(this);
+        }
+        else {
+            init();
         }
     }
 }

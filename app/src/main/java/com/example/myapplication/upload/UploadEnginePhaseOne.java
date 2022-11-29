@@ -1,12 +1,9 @@
 package com.example.myapplication.upload;
 
-import static android.content.ContentValues.TAG;
-
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
-import android.view.View;
 
 import com.example.myapplication.Goods;
 import com.huawei.hms.network.file.api.GlobalRequestConfig;
@@ -36,16 +33,17 @@ import java.util.Map;
  *
  * @since: 2021/01/21
  */
-public class UploadEngine extends AUpDownloadEngine {
+public class UploadEnginePhaseOne extends AUpDownloadEngine {
     private static final String TAG = "UploadEngine";
     UploadManager upManager;
     BodyRequest request;
     FileUploadCallback callback;
     public boolean flag;
-    public Goods Good;
     public int code;
 
-    public UploadEngine(Context context) {
+    public JSONObject result;
+
+    public UploadEnginePhaseOne(Context context) {
         super(context);
     }
 
@@ -86,20 +84,16 @@ public class UploadEngine extends AUpDownloadEngine {
                 //listener.onSuccess("timeused:" + (System.currentTimeMillis() - startTime));
                 try {
                     JSONObject result_json = new JSONObject(response.getContent());
+
                     if (result_json.getInt("isfood") == -1) {
                         code = -1;
-                        Good = null;
                     }
                     else if (result_json.getInt("isfood") == -2) {
                         code = -2;
-                        Good = null;
                     }
                     else {
                         code = 0;
-                        Good = new Goods(result_json.getString("food_id"), result_json.getString("food_label"),
-                                (float) result_json.getDouble("energy"), (float) result_json.getDouble("fat"),
-                                (float) result_json.getDouble("protein"), (float) result_json.getDouble("carbohydrates"),
-                                (float) result_json.getDouble("ca"), (float) result_json.getDouble("fe"));
+                        result = result_json;
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -157,7 +151,17 @@ public class UploadEngine extends AUpDownloadEngine {
         checkResult(result);
     }
 
-    public void uploadToDetect(String img_path, double focal_d, double plate_d, double obj2cam_d){
+    @Override
+    void uploadForPut() {
+
+    }
+
+    @Override
+    public void uploadForPost() {
+
+    }
+
+    public void uploadToClass(String img_path){
             try {
                 Map<String, String> httpHeader = new HashMap<>();
                 httpHeader.put("header1", "value1");
@@ -168,26 +172,13 @@ public class UploadEngine extends AUpDownloadEngine {
                 httpParams.put("param2", "value2");
 
                 // replace the url for upload
-                // final String normalUrl = "http://192.168.1.29:5000/upload";
+                // final String normalUrl = "http://192.168.1.29:5000/uploadone";
                 // final String normalUrl = "http://124.71.153.95:5000/upload";
-                final String normalUrl = "http:///weight.hb.cn:5000/upload";
-                // upload file for http post
-                // replace the file path
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("fd", focal_d);
-                jsonObject.put("pd", plate_d);
-                jsonObject.put("od", obj2cam_d);
-                String jsonString = jsonObject.toString();
-                String tmp_path =  context.getExternalCacheDir() + "/tmp.txt";
-                File f = new File(tmp_path);
-                FileWriter fw=new FileWriter(f);
-                fw.write(jsonString);
-                fw.close();
+                final String normalUrl = "http://weight.hb.cn:5000/uploadone";
 
                 request = UploadManager.newPostRequestBuilder()
                         .url(normalUrl)
                         .fileParams("file1", new FileEntity(Uri.fromFile(new File(img_path))))
-                        .fileParams("file2", new FileEntity(Uri.fromFile(new File(tmp_path))))
                         .params(httpParams)
                         .headers(httpHeader)
                         .build();
@@ -203,76 +194,5 @@ public class UploadEngine extends AUpDownloadEngine {
             } catch (Exception e) {
                 Log.e(TAG, "exception:" + e.getMessage());
             }
-    }
-
-    @Override
-    void uploadForPut() {
-        testUpload(true);
-    }
-
-    @Override
-    public void uploadForPost() {
-        testUpload(false);
-    }
-
-    public void testUpload(boolean usePut) {
-        try {
-            Map<String, String> httpHeader = new HashMap<>();
-            httpHeader.put("header1", "value1");
-            httpHeader.put("header2", "value2");
-
-            Map<String, String> httpParams = new HashMap<>();
-            httpParams.put("param1", "value1");
-            httpParams.put("param2", "value2");
-
-            // replace the url for upload
-            final String normalUrl = "http://192.168.1.29:5000/upload";
-            if (usePut) {
-                // upload file for http put
-                List<FileEntity> fileList = new ArrayList<>();
-                // replace the file path
-                String filePath1 = Environment.getExternalStorageDirectory().getAbsolutePath() + "/1.png";
-                fileList.add(new FileEntity(Uri.fromFile(new File(filePath1))));
-
-                request = UploadManager.newPutRequestBuilder()
-                        .url(normalUrl)
-                        .fileParams(fileList)
-                        .params(httpParams)
-                        .headers(httpHeader)
-                        .build();
-            } else {
-                // upload file for http post
-                // replace the file path
-                String filePath1 = Environment.getExternalStorageDirectory() + "/Pictures/3.jpg";
-                String filePath2 = Environment.getExternalStorageDirectory() + "/2.png";
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("fd", 24);
-                jsonObject.put("pd", 0.32);
-                jsonObject.put("od", 0.6);
-                String jsonString = jsonObject.toString();
-                File f = new File(Environment.getExternalStorageDirectory() + "/tmp.txt");
-                FileWriter fw=new FileWriter(f);
-                fw.write(jsonString);
-                fw.close();
-
-                request = UploadManager.newPostRequestBuilder()
-                        .url(normalUrl)
-                        .fileParams("file1", new FileEntity(Uri.fromFile(new File(filePath1))))
-                        .fileParams("file2", new FileEntity(Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/tmp.txt"))))
-                        .params(httpParams)
-                        .headers(httpHeader)
-                        .build();
-            }
-
-            if (upManager == null) {
-                Log.e(TAG, "nothing to cancel");
-                return;
-            }
-
-            Result result = upManager.start(request, callback);
-            checkResult(result);
-        } catch (Exception e) {
-            Log.e(TAG, "exception:" + e.getMessage());
-        }
     }
 }

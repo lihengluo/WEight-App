@@ -86,12 +86,12 @@ public class CloudDB {
      * @param query 构造的查询对象
      * @return 查询结果：饮食记录列表
      */
-    private List<DietRecord> queryDietRecord(CloudDBZoneQuery<DietRecord> query) {
+    private List<DietRecordWithImage> queryDietRecord(CloudDBZoneQuery<DietRecordWithImage> query) {
         if (mCloudDBZone == null) {
             Log.w("CloudDB queryDietRecord", "CloudDBZone is null, try re-open it");
             return null;
         }
-        Task<CloudDBZoneSnapshot<DietRecord>> queryTask = mCloudDBZone.executeQuery(query,
+        Task<CloudDBZoneSnapshot<DietRecordWithImage>> queryTask = mCloudDBZone.executeQuery(query,
                 CloudDBZoneQuery.CloudDBZoneQueryPolicy.POLICY_QUERY_DEFAULT);
         while (!queryTask.isComplete());
 
@@ -105,11 +105,11 @@ public class CloudDB {
             }
         }
 
-        CloudDBZoneObjectList<DietRecord> dietRecordCursor = queryTask.getResult().getSnapshotObjects();
-        List<DietRecord> dietRecordList = new ArrayList<>();
+        CloudDBZoneObjectList<DietRecordWithImage> dietRecordCursor = queryTask.getResult().getSnapshotObjects();
+        List<DietRecordWithImage> dietRecordList = new ArrayList<>();
         try {
             while (dietRecordCursor.hasNext()) {
-                DietRecord dietRecord = dietRecordCursor.next();
+                DietRecordWithImage dietRecord = dietRecordCursor.next();
                 dietRecordList.add(dietRecord);
             }
         } catch (AGConnectCloudDBException e) {
@@ -124,7 +124,7 @@ public class CloudDB {
      * @param dietRecord 饮食记录对象
      * @return 是否写入成功
      */
-    private boolean upsertDietRecord(DietRecord dietRecord) {
+    private boolean upsertDietRecord(DietRecordWithImage dietRecord) {
         if (mCloudDBZone == null) {
             Log.w("CloudDB upsertDietRecord", "CloudDBZone is null, try re-open it");
             return false;
@@ -160,8 +160,8 @@ public class CloudDB {
           return database;
     }
 
-    public boolean upsertUserDietRecord(String uid, String date, String time, Goods foodInfo) {
-        DietRecord dietRecord = new DietRecord();
+    public boolean upsertUserDietRecord(String uid, String date, String time, Goods foodInfo, byte[] image) {
+        DietRecordWithImage dietRecord = new DietRecordWithImage();
         // 设置dietRecord对象值
         dietRecord.setUid(uid);
         dietRecord.setDate(date);
@@ -174,6 +174,8 @@ public class CloudDB {
         dietRecord.setCa(foodInfo.getCa());
         dietRecord.setFe(foodInfo.getFe());
 
+        dietRecord.setImage(image);
+
         return upsertDietRecord(dietRecord);
     }
 
@@ -183,8 +185,8 @@ public class CloudDB {
      * @param date 日期
      * @return 饮食记录列表
      */
-    public List<DietRecord> queryUserDietRecord(String uid, String date) {
-        CloudDBZoneQuery<DietRecord> query = CloudDBZoneQuery.where(DietRecord.class).equalTo(
+    public List<DietRecordWithImage> queryUserDietRecord(String uid, String date) {
+        CloudDBZoneQuery<DietRecordWithImage> query = CloudDBZoneQuery.where(DietRecordWithImage.class).equalTo(
                 "uid", uid).equalTo("date", date);
         return queryDietRecord(query);
     }

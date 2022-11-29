@@ -23,6 +23,7 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
+        android:name="fragment.MApplication"
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
@@ -49,7 +50,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="cn.edu.hust.weight.fileprovider"
+            android:authorities="cn.hb.weight.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -58,10 +59,12 @@
         </provider>
 
         <activity android:name=".activity.Camera" />
+        <activity android:name="fragment.DayCountActivity"/>
+        <activity android:name="fragment.HistoryCountActivity"/>
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="cn.edu.hust.weight.fileprovider"
+            android:authorities="cn.hb.weight.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -73,7 +76,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="cn.edu.hust.weight.fileprovider"
+            android:authorities="cn.hb.weight.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

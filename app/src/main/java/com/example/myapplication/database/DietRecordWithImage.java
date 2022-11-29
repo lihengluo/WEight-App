@@ -5,7 +5,6 @@
 package com.example.myapplication.database;
 
 import com.huawei.agconnect.cloud.database.annotations.DefaultValue;
-import com.huawei.agconnect.cloud.database.annotations.Indexes;
 import com.huawei.agconnect.cloud.database.annotations.PrimaryKeys;
 import com.huawei.agconnect.cloud.database.CloudDBZoneObject;
 import com.huawei.agconnect.cloud.database.Text;
@@ -13,20 +12,19 @@ import com.huawei.agconnect.cloud.database.Text;
 import java.util.Date;
 
 /**
- * Definition of ObjectType DietRecord.
+ * Definition of ObjectType DietRecordWithImage.
  *
- * @since 2022-09-22
+ * @since 2022-11-05
  */
 @PrimaryKeys({"uid", "date", "time"})
-@Indexes({"RD:uid,date,time"})
-public final class DietRecord extends CloudDBZoneObject {
+public final class DietRecordWithImage extends CloudDBZoneObject {
     private String uid;
 
     private String date;
 
     private String time;
 
-    @DefaultValue(stringValue = "\"unknown\"")
+    @DefaultValue(stringValue = "unkown")
     private String foodname;
 
     @DefaultValue(floatValue = 0.0F)
@@ -47,9 +45,11 @@ public final class DietRecord extends CloudDBZoneObject {
     @DefaultValue(floatValue = 0.0F)
     private Float fe;
 
-    public DietRecord() {
-        super(DietRecord.class);
-        this.foodname = "\"unknown\"";
+    private byte[] image;
+
+    public DietRecordWithImage() {
+        super(DietRecordWithImage.class);
+        this.foodname = "unkown";
         this.heat = 0.0F;
         this.fat = 0.0F;
         this.protein = 0.0F;
@@ -136,6 +136,14 @@ public final class DietRecord extends CloudDBZoneObject {
 
     public Float getFe() {
         return fe;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public byte[] getImage() {
+        return image;
     }
 
 }

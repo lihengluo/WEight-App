@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Definition of ObjectType Helper.
  *
- * @since 2022-09-22
+ * @since 2022-11-05
  */
 public final class ObjectTypeInfoHelper {
     private static final int FORMAT_VERSION = 2;
@@ -26,7 +26,7 @@ public final class ObjectTypeInfoHelper {
         objectTypeInfo.setFormatVersion(FORMAT_VERSION);
         objectTypeInfo.setObjectTypeVersion(OBJECT_TYPE_VERSION);
         List<Class<? extends CloudDBZoneObject>> objectTypeList = new ArrayList<>();
-        Collections.addAll(objectTypeList, DietRecord.class);
+        Collections.addAll(objectTypeList, DietRecordWithImage.class);
         objectTypeInfo.setObjectTypes(objectTypeList);
         return objectTypeInfo;
     }

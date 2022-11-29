@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="210dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +16,7 @@
             android:gravity="center"
             android:text="温馨提示"
             android:textColor="@color/black"
-            android:textSize="17sp" />
+            android:textSize="20sp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -34,10 +34,10 @@
                     android:id="@+id/tv_sava_dialog_message"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="欢迎使用WEight！使用前，请您认真阅读《隐私政策》，以了解我们如何收集和使用您的相关个人信息"
+                    android:text="欢迎使用WEight！使用前，请您认真阅读《隐私政策》，以了解我们如何收集和使用您的相关个人信息。"
                     android:textColor="@color/black"
                     android:layout_marginBottom="18dp"
-                    android:textSize="15sp" />
+                    android:textSize="18sp" />
             </LinearLayout>
         </RelativeLayout>
 
@@ -52,30 +52,33 @@
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_weight="1"
-                android:background="@color/lightgrey"
+                android:background="@drawable/drawable_round_edgebutton2"
                 android:clickable="true"
                 android:foreground="?android:selectableItemBackground"
                 android:gravity="center"
                 android:text="退出应用"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textColor="@color/white"
+                android:textSize="18sp" />
 
 
             <TextView
                 android:id="@+id/tv_sava_dialog_confirg"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="1dp"
                 android:layout_marginTop="1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_weight="1"
-                android:background="@color/lightblue"
+                android:background="@drawable/drawable_round_edgebutton"
                 android:clickable="true"
                 android:foreground="?android:selectableItemBackground"
                 android:gravity="center"
                 android:text="同意并继续"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textColor="@color/white"
+                android:textSize="18sp" />
 
         </LinearLayout>
     </LinearLayout>

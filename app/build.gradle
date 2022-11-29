@@ -17,11 +17,11 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "cn.edu.hust.weight"
+        applicationId "cn.hb.weight"
         minSdk 28
         targetSdk 32
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -29,7 +29,7 @@ android {
     buildTypes {
         // 允许debug时使用正式的应用签名，否则无法使用华为账号
         release {
-            debuggable true
+            debuggable false
             minifyEnabled false
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -63,11 +63,11 @@ dependencies {
     implementation 'com.huawei.agconnect:agconnect-auth-huawei:1.7.1.300'
     implementation 'com.huawei.agconnect:agconnect-core:1.7.1.300'
     implementation 'com.huawei.agconnect:agconnect-function:1.7.1.300'
-    implementation 'com.huawei.agconnect:agconnect-storage:1.5.0.100'
     implementation 'com.huawei.agconnect:agconnect-cloud-database:1.5.4.300'
     implementation 'com.github.d-max:spots-dialog:0.7@aar'
     implementation 'com.github.JessYanCoding:AndroidAutoSize:v1.2.1' //自适应布局
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.49-androidx'
     implementation 'com.google.code.gson:gson:2.9.1'
     implementation 'com.github.f0ris.sweetalert:library:1.6.2'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }
