@@ -106,20 +106,14 @@ public class Fragment_main extends Fragment {
                     CheckAlbumPermission();
                 }
                 if(album_id == 1){
-                    if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED ||
-                            ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED && album_id == 1){
-                        Log.v("tag", "1");
-                    }
-                    else{
-                        Log.v("tag", "0");
-                    }
+
                     if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED ||
                             ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED && album_id == 1) {
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+//                        try {
+//                            Thread.sleep(1000);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
                         new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
                                 .setTitleText("未授权读取媒体文件权限！")
                                 .setContentText("请在设置中授权！")
@@ -149,11 +143,11 @@ public class Fragment_main extends Fragment {
                 if(camera_id == 1){
                     if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED && camera_id==1) {
                         if(camera_id == 1){
-                            try {
-                                Thread.sleep(1000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
+//                            try {
+//                                Thread.sleep(1000);
+//                            } catch (InterruptedException e) {
+//                                e.printStackTrace();
+//                            }
                             new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
                                     .setTitleText("未授权相机拍摄权限！")
                                     .setContentText("请在设置中授权！")
